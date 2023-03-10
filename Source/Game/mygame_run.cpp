@@ -36,8 +36,8 @@ void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 
 
 	for (int i = 0; i < 3; i++) {
-		if (character.Left() > door[i].Left() - door[i].Width() / 2 && character.Left() < door[i].Left() + door[i].Width() / 2) {
-			if (character.Top() > door[i].Top() - door[i].Height() / 2 && character.Top() < door[i].Top() + door[i].Height() / 2) {
+		if (character.Left() > (door[i].Left() - door[i].Width() / 2) && character.Left() < (door[i].Left() + door[i].Width() / 2)) {
+			if (character.Top() > (door[i].Top() - door[i].Height() / 2) && character.Top() < (door[i].Top() + door[i].Height() / 2)) {
 				door[i].SelectShowBitmap(1);
 			}
 		}
@@ -121,6 +121,9 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			}
 			else if (sub_phase == 2) {
 				sub_phase = 1;
+				for (int i = 0; i < 3; i++) {
+					door[i].SelectShowBitmap(0);
+				}
 				phase += 1;
 			}
 		}else if (phase == 5) {
