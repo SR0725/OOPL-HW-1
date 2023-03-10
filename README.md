@@ -1,234 +1,314 @@
-## 遊戲名稱
+# Leistungsstarkes Game Framework
 
-生存大冒險 OOPL 作業
+LGF (Leistungsstarkes Game Framework) 是一款基於陳偉凱老師的 Game Framework 加上些許功能的 Powerful Game Framework。
 
-# 遊戲
+專案不保證長期維護，有任何問題或者任何其他想要的 feature，請丟 issue，祝使用愉快 :D
 
-這是一款 2D 平面遊戲
-遊戲中會有白天與黑夜
-白天 2 分鐘，晚上 2 分鐘
-遊戲目標是撐過 3 個夜晚
 
-## 物品
 
-**可以被玩家拿著的東西**
+## Installation
 
-### 資源
+1. 將此專案 clone 下來
+2. 替換原有的 Game Framework / 直接使用這個 Game Framework.
 
-- 木頭
-  - 獲取方式：打木頭
-- 石頭
-  - 獲取方式：打石頭
-- 腐爛液體
-  - 獲取方式：擊殺怪物
+（基本上是相容於舊框架的，因為是基於舊框架新增更多的 feature 以及修正 bug）
 
-### 工具
 
-- 木镐
-  - 獲取方式：在合成介面中合成
-  - 成本：木頭 x8 蘑菇 x1
-  - 對石頭傷害提升 100(打五下石頭即可破壞)
-- 石镐
-  - 獲取方式：在合成介面中合成
-  - 成本：木镐 x1 石頭 x8 蜂蜜 x1
-  - 對石頭傷害提升 200(打兩下石頭即可破壞)
-- 木斧
-  - 獲取方式：在合成介面中合成
-  - 成本：木頭 x4 蘑菇 x1
-  - 對木頭傷害提升 2(打兩下木頭即可破壞)
-- 石斧
-  - 獲取方式：在合成介面中合成
-  - 成本：木斧 x1 石頭 x4 蜂蜜 x1
-  - 對木頭傷害提升 4(打一下木頭即可破壞)
-- 木劍
-  - 獲取方式：在合成介面中合成
-  - 成本：木頭 x3 蘑菇 x1
-  - 對敵對實體傷害提升 3
-- 石劍
-  - 獲取方式：在合成介面中合成
-  - 成本：木頭 x1 石頭 x6 蜂蜜 x1
-  - 對敵對實體傷害提升 6
-- 精煉石劍
-  - 獲取方式：在合成介面中合成
-  - 成本：石劍 x1 腐爛液體 x9
-  - 對敵對實體傷害提升 16
 
-### 裝備
+## Feature
 
-- 普通裝甲
-  - 獲取方式：在合成介面中合成
-  - 成本：石頭 x4 木頭 x4
-  - 對敵對實體傷害降低 30%
-- 重型裝甲
-  - 獲取方式：在合成介面中合成
-  - 成本：普通裝甲 x1 石頭 x8 蜂蜜 x1
-  - 對敵對實體傷害降低 60%
-- 鑄魔裝甲
-  - 獲取方式：在合成介面中合成
-  - 成本：重型裝甲 x1 腐爛液體 x9
-  - 對敵對實體傷害降低 90%
+### 2022-03-06
 
-### 食物
+- 修正了 `CInteger` 的 Bug，現在可以正常呈現。
+- **半修正**了 `CMovingBitmap.showBitmap(double factor)` 的 Bug，當 `factor` 等於 `0` 時視為隱藏圖片。
+- 可以隱藏 `CMovingBitmap` 的圖片。
+- 可以讀入多個 `CMovingBitmap` 的圖片，並且選擇欲呈現的圖片。
+- 可以讀入多個 `CMovingBitmap` 的圖片，並且利用 `SetAnimation(int delay, bool once)` 來製作動畫。
+- 廢棄 `CAnimation` 的作法。
 
-- 蘑菇
-  - 獲取方式：破壞建築 蘑菇
-  - 手持時，右鍵可回復 1 點飢餓度
-- 莓果
-  - 獲取方式：破壞建築 莓果
-  - 手持時，右鍵可回復 2 點飢餓度，1 點血量
-- 南瓜
-  - 獲取方式：破壞建築 南瓜
-  - 手持時，右鍵可回復 3 點飢餓度
-- 白蘿蔔
-  - 獲取方式：破壞建築 白蘿蔔
-  - 手持時，右鍵可回復 3 點飢餓度
-- 紅蘿蔔
-  - 獲取方式：破壞建築 紅蘿蔔
-  - 手持時，右鍵可回復 3 點飢餓度，2 點血量
-- 蜂蜜
-  - 獲取方式：破壞建築 蜂巢 or 擊殺實體 蜜蜂
-  - 手持時，右鍵可回復 3 點飢餓度
+### 2022-03-11
 
-### 藥水
+- 讓 `CInteger` 可以自由顯示是否要顯示前導零。
 
-- 生命藥水
-  - 獲取方式：在合成介面中合成
-  - 成本：莓果 x2 紅蘿蔔 x2
-  - 手持時，右鍵可回復 10 點生命值
-- 狂暴藥水
-  - 獲取方式：在合成介面中合成
-  - 成本：南瓜 x3 白蘿蔔 x6 腐爛液體 x9
-  - 手持時，右鍵可永久提升 1 點基礎攻擊力
-- 速度藥水
-  - 獲取方式：在合成介面中合成
-  - 成本：南瓜 x3 蜂蜜 x6 腐爛液體 x9
-  - 手持時，右鍵可永久提升 0.2 點基礎速度力
 
-### 建築
 
-- 木頭磚
-  - 獲取方式：在合成介面中合成
-  - 成本：木頭 x2
-- 石頭磚
-  - 獲取方式：在合成介面中合成
-  - 成本：石頭 x2
-- 門
-  - 獲取方式：在合成介面中合成
-  - 成本：木頭 x1 石頭 x1
+### 2022-06-17
 
-## 實體
+- 【New Feature】修正了全螢幕時的黑邊問題，並且會將遊戲視窗絕對置中。
+- 【New Feature】將動畫每幀的延遲加上精準時間。
+- 【New Feature】支援以 `vector<string>` 讀取每幀的畫面。
+- 【New Feature】新增了 `CTextDraw` 類別，**畫上文字時請使用這個類別的函式，全螢幕的字位移才會正確**
+- 【Bug】修正了 CMovngBitmap 在執行動畫時會出現的小 bug。
 
-- 玩家
 
-  - 初始生命值 10 點
-  - 初始飢餓度 10 點
-  - 基礎攻擊力 1
-  - 基礎速度 1
 
-- 蝙蝠
-  - 第一天出現
-  - 初始生命值 5 點
-  - 基礎攻擊力 2
-  - 基礎速度 1
-  - 掉落物：腐爛藥水 x1
-- 鬼魂
-  - 第二天出現
-  - 初始生命值 10 點
-  - 基礎攻擊力 4
-  - 基礎速度 1
-  - 掉落物：腐爛藥水 x1
-- 邪惡法師
-  - 第二天出現
-  - 初始生命值 10 點
-  - 基礎攻擊力 4
-  - 基礎速度 1
-  - 掉落物：腐爛藥水 x2
-- 蜘蛛
-  - 第三天出現
-  - 初始生命值 20 點
-  - 基礎攻擊力 8
-  - 基礎速度 1.5
-  - 掉落物：腐爛藥水 x2
+### 2023-02-22
 
-## 地板
+- 創立了純淨版（Purified）的 Leistungsstarkes Game Framework 專案，可直接建置方案並執行。
+- 修改了檔案架構，從原先將所有的 `.cpp` 放入 `Source` 資料夾，改為在 `Source` 建立一個資料夾架構來存放 `.cpp` 檔案。
+- 修改了檔案架構，將 `/RES` 重新命名為 `Resources` 來釐清名稱。
+- 創立 `GAME_TITLE` 的定義（`#define`），使框架使用者能夠變更遊戲標題。
+- 將 `mygame.cpp` 分割成三個不同的檔案，分別實作 `GameStateInit`、`GameStateRun` 與 `GameStateOver` 的類別。
+- 重構了部分的 code 使得重複的 code 出現的次數減少。
+- 抽離遊戲設定參數至 `config.cpp`，讓使用者不須也不應更改 `/Library` 與 `/Core` 的程式碼。
 
-- 草地 0
-- 草地 1
 
-## 建築
 
-### 天然
+## Documents
 
-- 木頭
-  - 生命值 5
-  - 掉落物 木頭
-- 石頭
-  - 生命值 500
-  - 掉落物 石頭
-- 蘑菇
-  - 生命值 1
-  - 掉落物 蘑菇
-- 莓果
-  - 生命值 1
-  - 掉落物 莓果
-- 南瓜
-  - 生命值 1
-  - 掉落物 南瓜
-- 白蘿蔔
-  - 生命值 1
-  - 掉落物 白蘿蔔
-- 紅蘿蔔
-  - 生命值 1
-  - 掉落物 紅蘿蔔
-- 蜂巢
-  - 生命值 1
-  - 掉落物 蜂蜜
-  - 破壞副作用：產生實體 蜜蜂
+### void CMovingBitmap::LoadBitmap(char* , COLORREF)
 
-### 人造
+讀取一張圖片。
 
-- 木頭磚
-  - 掉落物 木頭 x1
-  - 生命值 50
-- 石頭磚
-  - 掉落物 石頭 x1
-  - 生命值 500
-- 門
-  - 掉落物 無
-  - 生命值 100
+```c++
+CMovingBitmap bitmap;
+bitmap.LoadBitmap("RES/bitmap.bmp", RGB(255, 255, 255));
+bitmap.SetLeftRight(0, 0);
 
-# 開發
+# -- on show --
 
-### 介面
+bitmap.ShowBitmap();
+```
 
-- 開始介面 未完成
-  - 開始按鈕 未完成
-  - 說明介面 未完成
-- 遊戲介面 未完成
-  - 生命值條 未完成
-  - 飢餓度條 未完成
-  - 手持物品 未完成
-  - 背包 未完成
-  - 合成介面 未完成
-  - 提示 未完成
-- 遊戲結束 未完成
-  - 勝利 未完成
-  - 死亡 未完成
 
-### 遊戲流程
 
-- 實體系統
-  - 物件
-    - health
-    - speed
-    - spoild
-  - 生成
-  - 顯示
-- 地板
-  - 顯示
-- 飢餓度系統
-- 物品系統
-- 背包系統
-- 合成系統
+### void  CMovingBitmap::LoadBitmap(vector<char*>, COLORREF = CLR_INVALID);
 
-###
+讀取多張圖片，索引值從 `0` 開始。
+
+```cpp
+CMovingBitmap bitmap;
+bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"}, RGB(255, 255, 255));
+bitmap.SetLeftRight(0, 0);
+
+# -- on show --
+
+bitmap.ShowBitmap(); // 預設呈現第一張 (index = 0)。
+```
+
+
+
+### void CMovingBitmap::UnshowBitmap()
+
+隱藏當前的 `CMovingBitmap`。
+
+```cpp
+CMovingBitmap bitmap;
+bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
+bitmap.setLeftRight(0, 0);
+
+# -- on show --
+bitmap.showBitmap(); // 預設呈現第一張 (index = 0)。
+
+/* Do something... */
+
+bitmap.UnShowBitmap(); // 隱藏圖片。
+```
+
+
+
+### void  CMovingBitmap::SelectShowBitmap(int select)
+
+選擇要呈現的 `CMovingBitmap`。
+
+```cpp
+CMovingBitmap bitmap;
+bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
+bitmap.SetLeftRight(0, 0);
+bitmap.SelectShowBitmap(1); // 設定呈現第二張圖片
+
+# -- on show --
+
+bitmap.showBitmap(); // 呈現第二張圖片
+```
+
+
+
+### void CMovingBitmap::SetAnimation(int delay, bool once)
+
+設定當前的 `CMovingBitmap` 為一個動畫。
+
+```cpp
+CMovingBitmap bitmap;
+bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
+bitmap.SetLeftRight(0, 0);
+bitmap.SelectShowBitmap(1); // 設定呈現第二張圖片
+bitmap.SetAnimation(5, false); // 無限循環呈現
+
+# -- on show --
+
+bitmap.showBitmap(); // 呈現第二張圖片
+```
+
+
+
+### void CInteger::ShowBitmap(bool leadingZero)
+
+顯示 `CInteger` 是否出現前導零。
+
+```cpp
+CInteger health = CInteger(4); //設定最大長度為 4，預設為 5。
+health.SetInteger(1000);
+health.SetTopLeft(312, 373);
+
+# -- on show --
+health.showBitmap(false); // 不顯示前導零
+```
+
+
+
+### void CMovingBitmap::LoadBitmapByString(vector\<string> filename, COLORREF color)
+
+利用 `vector<string>` 讀取多張圖片，索引值從 `0` 開始。
+
+```cpp
+CMovingBitmap bitmap;
+bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
+bitmap.setLeftRight(0, 0);
+
+# -- on show --
+bitmap.showBitmap(); // 預設呈現第一張 (index = 0)。
+
+/* Do something... */
+
+bitmap.UnShowBitmap(); // 隱藏圖片。
+```
+
+
+
+### int CMovingBitmap::GetSelectShowBitmap()
+
+獲得目前呈現的圖片索引值。
+
+
+
+### bool CMovingBitmap::IsAnimationDone()
+
+確認動畫是否正在執行，僅限於動畫正在執行 `ToggleAnimation()`。
+
+
+
+### void  CMovingBitmap::ToggleAnimation()
+
+運行動畫一次，並且使得 `IsAnimationDone()` 可用。
+
+
+
+### int CMovingBitmap::GetMovingBitmapFrame()
+
+確認這個 `CMovingBitmap` 物件有多少幀動畫。
+
+
+
+### void CTextDraw::ChangeFontLog(CDC *pDC, int size, string fontName, int weight)
+
+更改文字的樣式、文字與粗體。
+
+```cpp
+CDC *pDC = CDDraw::GetBackCDC();
+CFont *fp;
+
+pDC->SetBkMode(TRANSPARENT);
+pDC->SetTextColor(RGB(255, 255, 255));
+
+/* 變更字體，weight = 800 為粗體，500 為一般 */
+CTextDraw::ChangeFontLog(pDC, fp, 40, "Noto Sans TC", 800);
+CTextDraw::Print(pDC, 50, 50, "Hello World!");
+```
+
+
+
+### void CTextDraw::Print(CDC *pDC, int x, int y, string str)
+
+將文字呈現在指定的座標上。
+
+```cpp
+CDC *pDC = CDDraw::GetBackCDC();
+CFont *fp;
+
+pDC->SetBkMode(TRANSPARENT);
+pDC->SetTextColor(RGB(255, 255, 255));
+
+/* 變更字體 */
+CTextDraw::ChangeFontLog(pDC, fp, 40, "Noto Sans TC");
+CTextDraw::Print(pDC, 50, 50, "Hello World!");
+```
+
+
+
+
+
+
+
+## Example
+
+### 讓一個物件不停的動畫循環
+
+```cpp
+CMovingBitmap bitmap;
+
+# -- onInit --
+bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
+bitmap.SetTopLeft(0, 0);
+bitmap.SetAnimation(5, false);
+
+# -- onShow --
+
+bitmap.showBitmap();
+```
+
+
+
+### 碰到一個物件之後執行動畫
+
+```cpp
+CMovingBitmap bitmap;
+
+# -- onInit --
+
+bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
+bitmap.SetTopLeft(0, 0);
+bitmap.SetAnimation(200, false);
+
+# -- onEvent --
+bitmap.ToggleAnimation(1);
+
+# -- onShow --
+
+if(bitmap.IsAnimationDone()){
+    if (hidden_code[current_stage][i][j] == 0) {
+		bitmap.showBitmap();
+    }
+}else{
+    bitmap.showBitmap();
+}
+```
+
+
+
+### 同一個物件呈現不同圖片
+
+```cpp
+CMovingBitmap bitmap;
+
+# -- onInit --
+
+bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
+bitmap.SetTopLeft(0, 0);
+
+# -- onMove --
+bitmap.SelectShowBitmap(1)
+
+# -- onShow --
+bitmap.showBitmap();
+```
+
+
+
+
+
+## 銘謝
+
+謝謝 國立臺北科技大學 陳偉凱教授 開發了這個遊戲框架
+
+並且謝謝 國立臺北科技大學 陳碩漢教授 同意這個框架能夠公開使用。

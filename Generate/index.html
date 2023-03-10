@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Random Square Image Generator</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        // 定義三張圖片
+        var squares = [
+            "grass0.png",
+            "grass0.png",
+            "grass0.png",
+            "grass0.png",
+            "grass0.png",
+            "grass0.png",
+            "grass0.png",
+            "grass0.png",
+            "grass1.png",
+            "grass1.png",
+            "grass1.png",
+            "grass1.png",
+            "grass2.png"
+        ];
+
+        // 獲取Canvas元素
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+
+        // 設置Canvas大小
+        canvas.width = 500;
+        canvas.height = 500;
+
+        // 加載所有圖片
+        var images = [];
+        var loadedImages = 0;
+        for (var i = 0; i < squares.length; i++) {
+            images[i] = new Image();
+            images[i].src = squares[i];
+            images[i].onload = function () {
+                loadedImages++;
+                if (loadedImages === squares.length) {
+                    drawRandomImage(images);
+                }
+            };
+        }
+
+        // 繪製大小
+        const width_number = 64
+        const per_single_width = 16
+        const height_number = 64
+        const per_single_height = 16
+
+
+        // 在Canvas上繪製隨機圖片
+        function drawRandomImage(images) {
+            canvas.width = width_number * per_single_width;
+            canvas.height = height_number * per_single_height;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let x = 0; x < width_number; x++) {
+                for (let y = 0; y < height_number; y++) {
+                    ctx.drawImage(images[Math.floor(Math.random() * images.length)], x * per_single_width, y * per_single_height, per_single_width, per_single_height);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
