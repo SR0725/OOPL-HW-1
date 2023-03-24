@@ -24,7 +24,7 @@ CGameStateRun::~CGameStateRun()
 void CGameStateRun::OnInit()
 {
 	background.LoadBitmapByString({"resources/terrian.bmp"});
-	background.SetTopLeft(character_x + 320 - character.Width() / 2, character_y + 240 - character.Height() / 2);
+	background.SetTopLeft(320, 240);
 
 	character.Init({"resources/character.bmp"}, 0, 0, 1.0f);
 }
