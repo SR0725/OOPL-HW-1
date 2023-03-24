@@ -69,12 +69,12 @@ float GameObject::GetY()
 
 float GameObject::GetWidth()
 {
-    return bitmap.Width();
+    return float(bitmap.Width());
 }
 
 float GameObject::GetHeight()
 {
-    return bitmap.Height();
+    return float(bitmap.Height());
 }
 
 void GameObject::onKeyDown(string isKeyPressed, string isKeyDown, string isKeyReleased)
@@ -126,6 +126,6 @@ void GameObject::Render(GameObject *mainObject)
 {
     float renderX = mainObject->GetX() + 320.0f - mainObject->GetWidth() / 2.0f + x;
     float renderY = mainObject->GetY() + 240.0f - mainObject->GetHeight() / 2.0f + y;
-    bitmap.SetTopLeft(renderX, renderY);
+    bitmap.SetTopLeft(int(renderX), int(renderY));
     bitmap.ShowBitmap();
 }

@@ -26,7 +26,7 @@ void CGameStateRun::OnInit()
 	background.LoadBitmapByString({"resources/terrian.bmp"});
 	background.SetTopLeft(320, 240);
 
-	character.Init({"resources/character.bmp"}, 0, 0, 1.0f);
+	character.Init({"resources/player_0.bmp"}, 0, 0, 1.0f);
 }
 
 void CGameStateRun::OnBeginState()
@@ -75,7 +75,7 @@ void CGameStateRun::OnMove() // ���ʹC������
 void CGameStateRun::OnShow()
 {
 	background.ShowBitmap();
-	background.SetTopLeft(character.GetX() + 320.0f - character.GetWidth() / 2.0f, character.GetY() + 240.0f - character.GetHeight() / 2.0f);
+	background.SetTopLeft(int(character.GetX() + 320.0f - character.GetWidth() / 2.0f), int(character.GetY() + 240.0f - character.GetHeight() / 2.0f));
 	character.Render(&character);
 }
 
