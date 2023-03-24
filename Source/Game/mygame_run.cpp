@@ -23,9 +23,7 @@ CGameStateRun::~CGameStateRun()
 
 void CGameStateRun::OnInit()
 {
-	background.LoadBitmapByString({"resources/terrian.bmp"});
-	background.SetTopLeft(320, 240);
-
+	background.Init({"resources/terrian.bmp"}, 0, 0, 1.0f);
 	character.Init({"resources/player_0.bmp"}, 0, 0, 1.0f);
 }
 
@@ -35,48 +33,13 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove() // ���ʹC������
 {
-	// WASD ����
-	if (on_key_w_down)
-	{
-		character.GoTop();
-	}
-	if (on_key_s_down)
-	{
-		character.GoBottom();
-	}
-	if (on_key_a_down)
-	{
-		character.GoLeft();
-	}
-	if (on_key_d_down)
-	{
-		character.GoRight();
-	}
-
-	// // ��ɧP�_
-	// if (character_x > 0)
-	// {
-	// 	character_x = 0;
-	// }
-	// if (character_x < -background.Width() + character.Width())
-	// {
-	// 	character_x = -background.Width() + character.Width();
-	// }
-	// if (character_y > 0)
-	// {
-	// 	character_y = 0;
-	// }
-	// if (character_y < -background.Height() + character.Height())
-	// {
-	// 	character_y = -background.Height() + character.Height();
-	// }
+	character.onUpdate(pressedKeys);
 }
 
 void CGameStateRun::OnShow()
 {
-	background.ShowBitmap();
-	background.SetTopLeft(int(character.GetX() + 320.0f - character.GetWidth() / 2.0f), int(character.GetY() + 240.0f - character.GetHeight() / 2.0f));
 	character.Render(&character);
+	background.Render(&character);
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -84,22 +47,22 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	// W
 	if (nChar == 0x57)
 	{
-		on_key_w_down = true;
+		pressedKeys += "W";
 	}
 	// s
 	if (nChar == 0x53)
 	{
-		on_key_s_down = true;
+		pressedKeys += "S";
 	}
 	// a
 	if (nChar == 0x41)
 	{
-		on_key_a_down = true;
+		pressedKeys += "A";
 	}
 	// d
 	if (nChar == 0x44)
 	{
-		on_key_d_down = true;
+		pressedKeys += "D";
 	}
 }
 
@@ -108,22 +71,54 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	// W
 	if (nChar == 0x57)
 	{
-		on_key_w_down = false;
+		string::iterator it;
+		for (it = str.begin(); it < str.end(); it++)
+		{
+			if (*it == 'W')
+			{
+				str.erase(it);
+				it--;
+			}
+		}
 	}
 	// s
 	if (nChar == 0x53)
 	{
-		on_key_s_down = false;
+		string::iterator it;
+		for (it = str.begin(); it < str.end(); it++)
+		{
+			if (*it == 'S')
+			{
+				str.erase(it);
+				it--;
+			}
+		}
 	}
 	// a
 	if (nChar == 0x41)
 	{
-		on_key_a_down = false;
+		string::iterator it;
+		for (it = str.begin(); it < str.end(); it++)
+		{
+			if (*it == 'A')
+			{
+				str.erase(it);
+				it--;
+			}
+		}
 	}
 	// d
 	if (nChar == 0x44)
 	{
-		on_key_d_down = false;
+		string::iterator it;
+		for (it = str.begin(); it < str.end(); it++)
+		{
+			if (*it == 'D')
+			{
+				str.erase(it);
+				it--;
+			}
+		}
 	}
 }
 

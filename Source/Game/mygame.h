@@ -96,13 +96,9 @@ namespace game_framework
 		void OnMove(); // ���ʹC������
 		void OnShow(); // ��ܳo�Ӫ��A���C���e��
 	private:
-		bool on_key_w_down = false;
-		bool on_key_a_down = false;
-		bool on_key_s_down = false;
-		bool on_key_d_down = false;
-		CMovingBitmap background;
+		string pressedKeys;
+		GameObject background;
 		GameObject character;
-		void RenderUI();
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

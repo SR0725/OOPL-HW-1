@@ -7,7 +7,18 @@
 #include "../Library/gamecore.h"
 #include "mygame.h"
 #include "gameObject.h"
+#include <string>
+
 using namespace game_framework;
+
+bool keyFind(string keys, string targetKey)
+{
+    if (keys.find(targetKey) != string::npos)
+    {
+        return true;
+    }
+    return false;
+}
 
 InventoryBox::InventoryBox()
 {
@@ -77,21 +88,21 @@ float GameObject::GetHeight()
     return float(bitmap.Height());
 }
 
-void GameObject::onKeyDown(string isKeyPressed, string isKeyDown, string isKeyReleased)
+void GameObject::onUpdate(string pressedKeys)
 {
-    if (isKeyPressed == "W")
+    if (keyFind(pressedKeys, "W"))
     {
         GoTop();
     }
-    else if (isKeyPressed == "S")
+    else if (keyFind(pressedKeys, "S"))
     {
         GoBottom();
     }
-    else if (isKeyPressed == "A")
+    else if (keyFind(pressedKeys, "A"))
     {
         GoLeft();
     }
-    else if (isKeyPressed == "D")
+    else if (keyFind(isKeyPressed, "D"))
     {
         GoRight();
     }
@@ -124,8 +135,8 @@ bool GameObject::isCollideWith(GameObject *obj)
 
 void GameObject::Render(GameObject *mainObject)
 {
-    float renderX = mainObject->GetX() + 320.0f - mainObject->GetWidth() / 2.0f + x;
-    float renderY = mainObject->GetY() + 240.0f - mainObject->GetHeight() / 2.0f + y;
+    float renderX = 320.0f - mainObject->GetX() - mainObject->GetWidth() / 2.0f + x;
+    float renderY = 240.0f - mainObject->GetY() - mainObject->GetHeight() / 2.0f + y;
     bitmap.SetTopLeft(int(renderX), int(renderY));
     bitmap.ShowBitmap();
 }
