@@ -76,7 +76,7 @@ void CGameStateRun::OnShow()
 {
 	background.ShowBitmap();
 	background.SetTopLeft(character.GetX() + 320 - character.GetWidth() / 2, character.GetY() + 240 - character.GetHeight() / 2);
-	character.Render();
+	character.Render(&character);
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)

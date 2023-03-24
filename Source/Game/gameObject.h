@@ -15,7 +15,7 @@ namespace game_framework
     {
     public:
         GameObject();
-        void Init(vector<string> filename, int _x, int _y, float _speed = 0);
+        void Init(vector<string> filename, float _x, float _y, float _speed = 0);
         void SetActive(bool _active = true);
         void SetSpeed(float _speed);
         void GoTop();
@@ -32,8 +32,8 @@ namespace game_framework
         void Render();
 
     private:
-        int x;
-        int y;
+        float x;
+        float y;
         float speed;
         bool active;
         bool isCollider;

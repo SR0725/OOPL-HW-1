@@ -17,7 +17,7 @@ GameObject::GameObject()
 {
 }
 
-void GameObject::Init(vector<string> _filename, int _x, int _y, float _speed)
+void GameObject::Init(vector<string> _filename, float _x, float _y, float _speed)
 {
     bitmap.LoadBitmapByString(_filename, RGB(255, 255, 255));
     x = _x;
