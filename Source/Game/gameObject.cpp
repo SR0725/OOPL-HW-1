@@ -57,12 +57,12 @@ void GameObject::GoLeft()
     x -= speed;
 }
 
-int GameObject::GetX()
+float GameObject::GetX()
 {
     return x;
 }
 
-int GameObject::GetY()
+float GameObject::GetY()
 {
     return y;
 }
@@ -124,8 +124,8 @@ bool GameObject::isCollideWith(GameObject *obj)
 
 void GameObject::Render(GameObject *mainObject)
 {
-    int renderX = mainObject->GetX() + 320 - mainObject.GetWidth() / 2 + x;
-    int renderY = mainObject->GetY() + 240 - mainObject.GetHeight() / 2 + y;
+    float renderX = mainObject->GetX() + 320.0f - mainObject.GetWidth() / 2.0f + x;
+    float renderY = mainObject->GetY() + 240.0f - mainObject.GetHeight() / 2.0f + y;
     bitmap.SetTopLeft(renderX, renderY);
     bitmap.ShowBitmap();
 }

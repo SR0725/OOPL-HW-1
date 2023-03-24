@@ -25,11 +25,11 @@ namespace game_framework
         void onKeyDown(string isKeyPressed, string isKeyDown, string isKeyReleased);
         bool isCollideWith(GameObject *obj);
         bool GetIsCollider();
-        int GetX();
-        int GetY();
+        float GetX();
+        float GetY();
         int GetWidth();
         int GetHeight();
-        void Render();
+        void Render(GameObject *mainObject);
 
     private:
         float x;
