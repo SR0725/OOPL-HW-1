@@ -22,6 +22,13 @@ namespace game_framework
         void GoBottom();
         void GoRight();
         void GoLeft();
+        void onKeyDown(string isKeyPressed, string isKeyDown, string isKeyReleased);
+        bool isCollideWith(GameObject *obj);
+        bool GetIsCollider();
+        int GetX();
+        int GetY();
+        int GetWidth();
+        int GetHeight();
         void Render();
 
     private:
@@ -29,10 +36,11 @@ namespace game_framework
         int y;
         float speed;
         bool active;
+        bool isCollider;
         CMovingBitmap bitmap;
     };
 
-    class UIObject : public GameObject
+    class MainCharacter : public GameObject
     {
     };
 };

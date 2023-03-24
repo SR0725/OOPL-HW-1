@@ -57,8 +57,75 @@ void GameObject::GoLeft()
     x -= speed;
 }
 
-void GameObject::Render()
+int GameObject::GetX()
 {
-    bitmap.SetTopLeft(x, y);
+    return x;
+}
+
+int GameObject::GetY()
+{
+    return y;
+}
+
+int GameObject::GetWidth()
+{
+    return bitmap.Width();
+}
+
+int GameObject::GetHeight()
+{
+    return bitmap.Height();
+}
+
+void GameObject::onKeyDown(string isKeyPressed, string isKeyDown, string isKeyReleased)
+{
+    if (isKeyPressed == "W")
+    {
+        GoTop();
+    }
+    else if (isKeyPressed == "S")
+    {
+        GoBottom();
+    }
+    else if (isKeyPressed == "A")
+    {
+        GoLeft();
+    }
+    else if (isKeyPressed == "D")
+    {
+        GoRight();
+    }
+}
+
+bool GameObject::GetIsCollider()
+{
+    return isCollider;
+}
+
+bool GameObject::isCollideWith(GameObject *obj)
+{
+    if (!isCollider || !obj->GetIsCollider())
+    {
+        return false;
+    }
+
+    if (x + bitmap.Width() < obj->x || x > obj->x + obj->bitmap.Width())
+    {
+        return false;
+    }
+
+    if (y + bitmap.Height() < obj->y || y > obj->y + obj->bitmap.Height())
+    {
+        return false;
+    }
+
+    return true;
+}
+
+void GameObject::Render(GameObject *mainObject)
+{
+    int renderX = mainObject->GetX() + 320 - mainObject.GetWidth() / 2 + x;
+    int renderY = mainObject->GetY() + 240 - mainObject.GetHeight() / 2 + y;
+    bitmap.SetTopLeft(renderX, renderY);
     bitmap.ShowBitmap();
 }

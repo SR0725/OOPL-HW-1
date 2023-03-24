@@ -46,7 +46,7 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 
 	enum AUDIO_ID
-	{							// �w�q�U�ح��Ī��s��
+	{				// �w�q�U�ح��Ī��s��
 		AUDIO_DING, // 0
 		AUDIO_LAKE, // 1
 		AUDIO_NTUT	// 2
@@ -61,9 +61,9 @@ namespace game_framework
 	{
 	public:
 		CGameStateInit(CGame *g);
-		void OnInit();																 // �C������Ȥιϧγ]�w
-		void OnBeginState();													 // �]�w�C�������һݪ��ܼ�
-		void OnKeyUp(UINT, UINT, UINT);								 // �B�z��LUp���ʧ@
+		void OnInit();								   // �C������Ȥιϧγ]�w
+		void OnBeginState();						   // �]�w�C�������һݪ��ܼ�
+		void OnKeyUp(UINT, UINT, UINT);				   // �B�z��LUp���ʧ@
 		void OnLButtonDown(UINT nFlags, CPoint point); // �B�z�ƹ����ʧ@
 	protected:
 		void OnShow(); // ��ܳo�Ӫ��A���C���e��
@@ -84,28 +84,24 @@ namespace game_framework
 		CGameStateRun(CGame *g);
 		~CGameStateRun();
 		void OnBeginState(); // �]�w�C�������һݪ��ܼ�
-		void OnInit();			 // �C������Ȥιϧγ]�w
+		void OnInit();		 // �C������Ȥιϧγ]�w
 		void OnKeyDown(UINT, UINT, UINT);
 		void OnKeyUp(UINT, UINT, UINT);
 		void OnLButtonDown(UINT nFlags, CPoint point); // �B�z�ƹ����ʧ@
-		void OnLButtonUp(UINT nFlags, CPoint point);	 // �B�z�ƹ����ʧ@
-		void OnMouseMove(UINT nFlags, CPoint point);	 // �B�z�ƹ����ʧ@
+		void OnLButtonUp(UINT nFlags, CPoint point);   // �B�z�ƹ����ʧ@
+		void OnMouseMove(UINT nFlags, CPoint point);   // �B�z�ƹ����ʧ@
 		void OnRButtonDown(UINT nFlags, CPoint point); // �B�z�ƹ����ʧ@
-		void OnRButtonUp(UINT nFlags, CPoint point);	 // �B�z�ƹ����ʧ@
+		void OnRButtonUp(UINT nFlags, CPoint point);   // �B�z�ƹ����ʧ@
 	protected:
 		void OnMove(); // ���ʹC������
 		void OnShow(); // ��ܳo�Ӫ��A���C���e��
 	private:
-		int character_x = 0;
-		int character_y = 0;
-		int character_health = 10;
 		bool on_key_w_down = false;
 		bool on_key_a_down = false;
 		bool on_key_s_down = false;
 		bool on_key_d_down = false;
 		CMovingBitmap background;
-		CMovingBitmap character;
-		CMovingBitmap ui_health[10];
+		GameObject character;
 		void RenderUI();
 	};
 

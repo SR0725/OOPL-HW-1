@@ -10,7 +10,7 @@
 using namespace game_framework;
 
 /////////////////////////////////////////////////////////////////////////////
-// ³o­Óclass¬°¹CÀ¸ªº¹CÀ¸°õ¦æª«¥ó¡A¥D­nªº¹CÀ¸µ{¦¡³£¦b³o¸Ì
+// ï¿½oï¿½ï¿½classï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½æª«ï¿½ï¿½Aï¿½Dï¿½nï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½bï¿½oï¿½ï¿½
 /////////////////////////////////////////////////////////////////////////////
 
 CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
@@ -21,88 +21,62 @@ CGameStateRun::~CGameStateRun()
 {
 }
 
-void CGameStateRun::OnInit() // ¹CÀ¸ªºªì­È¤Î¹Ï§Î³]©w
+void CGameStateRun::OnInit()
 {
 	background.LoadBitmapByString({"resources/terrian.bmp"});
-	character.LoadBitmapByString({"resources/player_0.bmp"}, RGB(255, 255, 255));
-	character_x = 0;
-	character_y = 0;
-	character.SetTopLeft(320 - character.Width() / 2, 240 - character.Height() / 2);
 	background.SetTopLeft(character_x + 320 - character.Width() / 2, character_y + 240 - character.Height() / 2);
 
-	// ui
-	for (int i = 0; i < 10; i++)
-	{
-		ui_health[i].LoadBitmapByString({"resources/health_full.bmp", "resources/health_empty.bmp"}, RGB(255, 255, 255));
-	}
+	character.Init({"resources/character.bmp"}, 0, 0, 1.0f);
 }
 
 void CGameStateRun::OnBeginState()
 {
 }
 
-void CGameStateRun::OnMove() // ²¾°Ê¹CÀ¸¤¸¯À
+void CGameStateRun::OnMove() // ï¿½ï¿½ï¿½Ê¹Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 {
-	// WASD ²¾°Ê
+	// WASD ï¿½ï¿½ï¿½ï¿½
 	if (on_key_w_down)
 	{
-		character_y += 10;
+		character.GoTop();
 	}
 	if (on_key_s_down)
 	{
-		character_y -= 10;
+		character.GoBottom();
 	}
 	if (on_key_a_down)
 	{
-		character_x += 10;
+		character.GoLeft();
 	}
 	if (on_key_d_down)
 	{
-		character_x -= 10;
+		character.GoRight();
 	}
 
-	// Ãä¬É§PÂ_
-	if (character_x > 0)
-	{
-		character_x = 0;
-	}
-	if (character_x < -background.Width() + character.Width())
-	{
-		character_x = -background.Width() + character.Width();
-	}
-	if (character_y > 0)
-	{
-		character_y = 0;
-	}
-	if (character_y < -background.Height() + character.Height())
-	{
-		character_y = -background.Height() + character.Height();
-	}
+	// // ï¿½ï¿½É§Pï¿½_
+	// if (character_x > 0)
+	// {
+	// 	character_x = 0;
+	// }
+	// if (character_x < -background.Width() + character.Width())
+	// {
+	// 	character_x = -background.Width() + character.Width();
+	// }
+	// if (character_y > 0)
+	// {
+	// 	character_y = 0;
+	// }
+	// if (character_y < -background.Height() + character.Height())
+	// {
+	// 	character_y = -background.Height() + character.Height();
+	// }
 }
 
 void CGameStateRun::OnShow()
 {
 	background.ShowBitmap();
-	character.ShowBitmap();
-	background.SetTopLeft(character_x + 320 - character.Width() / 2, character_y + 240 - character.Height() / 2);
-	RenderUI();
-}
-
-void CGameStateRun::RenderUI()
-{
-	for (int i = 0; i < 10; i++)
-	{
-		ui_health[i].ShowBitmap();
-		ui_health[i].SetTopLeft(i * (ui_health[i].Width() + 4), 0);
-		if (character_health > i)
-		{
-			ui_health[i].SelectShowBitmap(0);
-		}
-		else
-		{
-			ui_health[i].SelectShowBitmap(1);
-		}
-	}
+	background.SetTopLeft(character.GetX() + 320 - character.GetWidth() / 2, character.GetY + 240 - character.GetHeight() / 2);
+	character.Render();
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -153,22 +127,22 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 }
 
-void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point) // ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point) // ï¿½Bï¿½zï¿½Æ¹ï¿½ï¿½ï¿½ï¿½Ê§@
 {
 }
 
-void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point) // ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point) // ï¿½Bï¿½zï¿½Æ¹ï¿½ï¿½ï¿½ï¿½Ê§@
 {
 }
 
-void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point) // ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point) // ï¿½Bï¿½zï¿½Æ¹ï¿½ï¿½ï¿½ï¿½Ê§@
 {
 }
 
-void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point) // ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point) // ï¿½Bï¿½zï¿½Æ¹ï¿½ï¿½ï¿½ï¿½Ê§@
 {
 }
 
-void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point) // ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point) // ï¿½Bï¿½zï¿½Æ¹ï¿½ï¿½ï¿½ï¿½Ê§@
 {
 }
