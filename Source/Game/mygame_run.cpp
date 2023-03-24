@@ -72,11 +72,11 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == 0x57)
 	{
 		string::iterator it;
-		for (it = str.begin(); it < str.end(); it++)
+		for (it = pressedKeys.begin(); it < pressedKeys.end(); it++)
 		{
 			if (*it == 'W')
 			{
-				str.erase(it);
+				pressedKeys.erase(it);
 				it--;
 			}
 		}
@@ -85,11 +85,11 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == 0x53)
 	{
 		string::iterator it;
-		for (it = str.begin(); it < str.end(); it++)
+		for (it = pressedKeys.begin(); it < pressedKeys.end(); it++)
 		{
 			if (*it == 'S')
 			{
-				str.erase(it);
+				pressedKeys.erase(it);
 				it--;
 			}
 		}
@@ -98,11 +98,11 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == 0x41)
 	{
 		string::iterator it;
-		for (it = str.begin(); it < str.end(); it++)
+		for (it = pressedKeys.begin(); it < pressedKeys.end(); it++)
 		{
 			if (*it == 'A')
 			{
-				str.erase(it);
+				pressedKeys.erase(it);
 				it--;
 			}
 		}
@@ -110,12 +110,12 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	// d
 	if (nChar == 0x44)
 	{
-		string::iterator it;
-		for (it = str.begin(); it < str.end(); it++)
+		pressedKeysing::iterator it;
+		for (it = pressedKeys.begin(); it < pressedKeys.end(); it++)
 		{
 			if (*it == 'D')
 			{
-				str.erase(it);
+				pressedKeys.erase(it);
 				it--;
 			}
 		}

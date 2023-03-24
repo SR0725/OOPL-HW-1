@@ -37,6 +37,7 @@ namespace game_framework
         float speed;
         bool active;
         bool isCollider;
+        string pressedKeys;
         CMovingBitmap bitmap;
     };
 
