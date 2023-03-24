@@ -17,15 +17,15 @@ GameObject::GameObject()
 {
 }
 
-void GameObject::Init(vector<string> filename, int _x, int _y, float _speed = 0)
+void GameObject::Init(vector<string> _filename, int _x, int _y, float _speed)
 {
-    bitmap.LoadBitmapByString(filename, RGB(255, 255, 255));
+    bitmap.LoadBitmapByString(_filename, RGB(255, 255, 255));
     x = _x;
     y = _y;
     speed = _speed;
 }
 
-void GameObject::SetActive(bool _active = true)
+void GameObject::SetActive(bool _active)
 {
     active = _active;
     if (active)
