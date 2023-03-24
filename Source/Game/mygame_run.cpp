@@ -24,7 +24,6 @@ CGameStateRun::~CGameStateRun()
 void CGameStateRun::OnInit() // 遊戲的初值及圖形設定
 {
 	background.LoadBitmapByString({"resources/terrian.bmp"});
-
 	character.LoadBitmapByString({"resources/player_0.bmp"}, RGB(255, 255, 255));
 	character_x = 0;
 	character_y = 0;

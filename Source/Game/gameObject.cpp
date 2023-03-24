@@ -9,86 +9,56 @@
 #include "gameObject.h"
 using namespace game_framework;
 
-GameObject::GameObject(string bitmapSrc, int x, int y, int hungry, int health, int speed, int damage, bool isActive)
+InventoryBox::InventoryBox()
 {
-    this->bitmap.LoadBitmap(bitmapSrc.c_str(), RGB(255, 255, 255));
-    this->x = x;
-    this->y = y;
-    this->hungry = hungry;
-    this->health = health;
-    this->speed = speed;
-    this->damage = damage;
-    this->isActive = isActive;
 }
 
-void GameObject::setActive(bool active)
+GameObject::GameObject()
 {
-    this->isActive = active;
 }
 
-void GameObject::goTop()
+void GameObject::Init(vector<string> filename, int _x, int _y, float _speed = 0)
 {
-    this->y -= this->speed;
+    bitmap.LoadBitmapByString(filename, RGB(255, 255, 255));
+    x = _x;
+    y = _y;
+    speed = _speed;
 }
 
-void GameObject::goDown()
+void GameObject::SetActive(bool _active = true)
 {
-    this->y += this->speed;
+    active = _active;
+    if (active)
+        bitmap.ShowBitmap();
 }
 
-void GameObject::goLeft()
+void GameObject::SetSpeed(float _speed)
 {
-    this->x -= this->speed;
+    speed = _speed;
 }
 
-void GameObject::goRight()
+void GameObject::GoTop()
 {
-    this->x += this->speed;
+    y -= speed;
 }
 
-void GameObject::attack(GameObject *target)
+void GameObject::GoBottom()
 {
-    target->OnAttacken(this->damage);
+    y += speed;
 }
 
-void GameObject::OnAttacken(int damage)
+void GameObject::GoRight()
 {
-    this->health -= damage;
-    if (this->health <= 0)
-    {
-        this->die();
-    }
+    x += speed;
 }
 
-void GameObject::addInventory(int id, int amount, string name, string description)
+void GameObject::GoLeft()
 {
-    for (int i = 0; i < 10; i++)
-    {
-        if (this->inventories[i].id == 0)
-        {
-            this->inventories[i].id = id;
-            this->inventories[i].amount = amount;
-            this->inventories[i].name = name;
-            this->inventories[i].description = description;
-            break;
-        }
-    }
+    x -= speed;
 }
 
-InventoryBox *GameObject::getInventories()
+void GameObject::Render()
 {
-    return this->inventories;
-}
-
-void GameObject::OnUpdate()
-{
-    if (this->isActive)
-    {
-        this->bitmap.SetTopLeft(this->x, this->y);
-    }
-}
-
-void GameObject::die()
-{
-    this->isActive = false;
+    bitmap.SetTopLeft(x, y);
+    bitmap.ShowBitmap();
 }

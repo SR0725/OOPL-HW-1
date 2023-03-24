@@ -1,39 +1,38 @@
+#pragma once
 namespace game_framework
 {
-    class InventoryBox : public CGameState
+    class InventoryBox
     {
     public:
+        InventoryBox();
         int id;
         int amount;
         string name;
         string description;
-    }
+    };
 
-    class GameObject : public CGameState
+    class GameObject
     {
     public:
-        GameObject(string bitmapSrc, int x, int y, int hungry, int health, int speed, int damage, bool isActive));
-        void setActive(bool active);
-        void goTop();
-        void goDown();
-        void goLeft();
-        void goRight();
-        void attack(GameObject *target);
-        void OnAttacken(int damage);
-        void addInventory(int id, int amount, string name, string description);
-        InventoryBox *getInventories();
-        void OnUpdate();
+        GameObject();
+        void Init(vector<string> filename, int _x, int _y, float _speed = 0);
+        void SetActive(bool _active = true);
+        void SetSpeed(float _speed);
+        void GoTop();
+        void GoBottom();
+        void GoRight();
+        void GoLeft();
+        void Render();
 
     private:
-        CMovingBitmap bitmap;
-        InventoryBox inventories[10];
         int x;
         int y;
-        int hungry;
-        int health;
-        int speed;
-        int damage;
-        bool isActive;
-        void die();
+        float speed;
+        bool active;
+        CMovingBitmap bitmap;
     };
-}
+
+    class UIObject : public GameObject
+    {
+    };
+};
