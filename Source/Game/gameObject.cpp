@@ -88,7 +88,7 @@ float GameObject::GetHeight()
     return float(bitmap.Height());
 }
 
-void GameObject::onUpdate(string pressedKeys)
+void GameObject::OnUpdate(string pressedKeys)
 {
     if (keyFind(pressedKeys, "W"))
     {
@@ -102,7 +102,7 @@ void GameObject::onUpdate(string pressedKeys)
     {
         GoLeft();
     }
-    else if (keyFind(isKeyPressed, "D"))
+    else if (keyFind(pressedKeys, "D"))
     {
         GoRight();
     }

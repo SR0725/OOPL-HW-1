@@ -99,6 +99,7 @@ namespace game_framework
 		string pressedKeys;
 		GameObject background;
 		GameObject character;
+		void debug_text();
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

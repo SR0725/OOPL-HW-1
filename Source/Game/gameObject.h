@@ -22,7 +22,7 @@ namespace game_framework
         void GoBottom();
         void GoRight();
         void GoLeft();
-        void onUpdate(string pressedKeys);
+        void OnUpdate(string pressedKeys);
         bool isCollideWith(GameObject *obj);
         bool GetIsCollider();
         float GetX();

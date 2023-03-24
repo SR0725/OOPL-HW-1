@@ -6,6 +6,7 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
+#include <algorithm>
 
 using namespace game_framework;
 
@@ -33,13 +34,15 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove() // ���ʹC������
 {
-	character.onUpdate(pressedKeys);
+	background.OnUpdate(pressedKeys);
+	character.OnUpdate(pressedKeys);
 }
 
 void CGameStateRun::OnShow()
 {
-	character.Render(&character);
 	background.Render(&character);
+	character.Render(&character);
+	debug_text();
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -47,78 +50,51 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	// W
 	if (nChar == 0x57)
 	{
-		pressedKeys += "W";
+		pressedKeys.append("W");
 	}
 	// s
 	if (nChar == 0x53)
 	{
-		pressedKeys += "S";
+		pressedKeys.append("S");
 	}
 	// a
 	if (nChar == 0x41)
 	{
-		pressedKeys += "A";
+		pressedKeys.append("A");
 	}
 	// d
 	if (nChar == 0x44)
 	{
-		pressedKeys += "D";
+		pressedKeys.append("D");
 	}
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
+
+	string::iterator it;
 	// W
 	if (nChar == 0x57)
 	{
-		string::iterator it;
-		for (it = pressedKeys.begin(); it < pressedKeys.end(); it++)
-		{
-			if (*it == 'W')
-			{
-				pressedKeys.erase(it);
-				it--;
-			}
-		}
+		pressedKeys.erase(std::remove(pressedKeys.begin(), pressedKeys.end(), 'W'), pressedKeys.end());
 	}
 	// s
 	if (nChar == 0x53)
 	{
-		string::iterator it;
-		for (it = pressedKeys.begin(); it < pressedKeys.end(); it++)
-		{
-			if (*it == 'S')
-			{
-				pressedKeys.erase(it);
-				it--;
-			}
-		}
+		pressedKeys.erase(std::remove(pressedKeys.begin(), pressedKeys.end(), 'S'), pressedKeys.end());
+
 	}
 	// a
 	if (nChar == 0x41)
 	{
-		string::iterator it;
-		for (it = pressedKeys.begin(); it < pressedKeys.end(); it++)
-		{
-			if (*it == 'A')
-			{
-				pressedKeys.erase(it);
-				it--;
-			}
-		}
+		pressedKeys.erase(std::remove(pressedKeys.begin(), pressedKeys.end(), 'A'), pressedKeys.end());
+
 	}
 	// d
 	if (nChar == 0x44)
 	{
-		pressedKeysing::iterator it;
-		for (it = pressedKeys.begin(); it < pressedKeys.end(); it++)
-		{
-			if (*it == 'D')
-			{
-				pressedKeys.erase(it);
-				it--;
-			}
-		}
+		pressedKeys.erase(std::remove(pressedKeys.begin(), pressedKeys.end(), 'D'), pressedKeys.end());
+
 	}
 }
 
@@ -140,4 +116,14 @@ void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point) // �B�z�ƹ�
 
 void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point) // �B�z�ƹ����ʧ@
 {
+}
+
+void CGameStateRun::debug_text() {
+	CDC *pDC = CDDraw::GetBackCDC();
+	CFont* fp;
+
+	/* Print info */
+	CTextDraw::Print(pDC, 0, 0, "awddwwd");
+
+	CDDraw::ReleaseBackCDC();
 }
