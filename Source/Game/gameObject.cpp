@@ -124,8 +124,8 @@ bool GameObject::isCollideWith(GameObject *obj)
 
 void GameObject::Render(GameObject *mainObject)
 {
-    float renderX = mainObject->GetX() + 320.0f - mainObject.GetWidth() / 2.0f + x;
-    float renderY = mainObject->GetY() + 240.0f - mainObject.GetHeight() / 2.0f + y;
+    float renderX = mainObject->GetX() + 320.0f - mainObject->GetWidth() / 2.0f + x;
+    float renderY = mainObject->GetY() + 240.0f - mainObject->GetHeight() / 2.0f + y;
     bitmap.SetTopLeft(renderX, renderY);
     bitmap.ShowBitmap();
 }

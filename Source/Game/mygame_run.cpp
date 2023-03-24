@@ -75,7 +75,7 @@ void CGameStateRun::OnMove() // ���ʹC������
 void CGameStateRun::OnShow()
 {
 	background.ShowBitmap();
-	background.SetTopLeft(character.GetX() + 320 - character.GetWidth() / 2, character.GetY() + 240 - character.GetHeight() / 2);
+	background.SetTopLeft(character.GetX() + 320f - character.GetWidth() / 2f, character.GetY() + 240f - character.GetHeight() / 2f);
 	character.Render(&character);
 }
 
