@@ -27,8 +27,8 @@ namespace game_framework
         bool GetIsCollider();
         float GetX();
         float GetY();
-        int GetWidth();
-        int GetHeight();
+        float GetWidth();
+        float GetHeight();
         void Render(GameObject *mainObject);
 
     private:

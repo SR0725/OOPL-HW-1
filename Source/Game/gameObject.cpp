@@ -67,12 +67,12 @@ float GameObject::GetY()
     return y;
 }
 
-int GameObject::GetWidth()
+float GameObject::GetWidth()
 {
     return bitmap.Width();
 }
 
-int GameObject::GetHeight()
+float GameObject::GetHeight()
 {
     return bitmap.Height();
 }
