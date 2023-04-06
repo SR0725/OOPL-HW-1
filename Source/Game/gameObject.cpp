@@ -130,12 +130,12 @@ void GameObject::SetY(float _y)
 
 float GameObject::GetWidth()
 {
-    return float(bitmap.Width());
+    return float(bitmap.GetWidth());
 }
 
 float GameObject::GetHeight()
 {
-    return float(bitmap.Height());
+    return float(bitmap.GetHeight());
 }
 
 bool GameObject::GetIsCollider()
@@ -155,12 +155,12 @@ bool GameObject::isCollideWith(GameObject *obj)
         return false;
     }
 
-    if (x + bitmap.Width() < obj->x || x > obj->x + obj->bitmap.Width())
+    if (x + bitmap.GetWidth() < obj->x || x > obj->x + obj->bitmap.GetWidth())
     {
         return false;
     }
 
-    if (y + bitmap.Height() < obj->y || y > obj->y + obj->bitmap.Height())
+    if (y + bitmap.GetHeight() < obj->y || y > obj->y + obj->bitmap.GetHeight())
     {
         return false;
     }
@@ -175,12 +175,12 @@ bool GameObject::isTriggerWith(GameObject *obj)
         return false;
     }
 
-    if (x + bitmap.Width() < obj->x || x > obj->x + obj->bitmap.Width())
+    if (x + bitmap.GetWidth() < obj->x || x > obj->x + obj->bitmap.GetWidth())
     {
         return false;
     }
 
-    if (y + bitmap.Height() < obj->y || y > obj->y + obj->bitmap.Height())
+    if (y + bitmap.GetHeight() < obj->y || y > obj->y + obj->bitmap.GetHeight())
     {
         return false;
     }
