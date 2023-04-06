@@ -38,6 +38,12 @@
  *      3. Use ShowInitProgress(percent) to display loading progress.
  */
 #include "gameObject.h"
+#include "MainCharacter.h"
+#include "BackGround.h"
+#include "MainCharacter.h"
+#include "Tree.h"
+#include "Item.h"
+#include "InventoryUI.h"
 
 namespace game_framework
 {
@@ -46,7 +52,7 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 
 	enum AUDIO_ID
-	{				// �w�q�U�ح��Ī��s��
+	{							// �w�q�U�ح��Ī��s��
 		AUDIO_DING, // 0
 		AUDIO_LAKE, // 1
 		AUDIO_NTUT	// 2
@@ -61,9 +67,9 @@ namespace game_framework
 	{
 	public:
 		CGameStateInit(CGame *g);
-		void OnInit();								   // �C������Ȥιϧγ]�w
-		void OnBeginState();						   // �]�w�C�������һݪ��ܼ�
-		void OnKeyUp(UINT, UINT, UINT);				   // �B�z��LUp���ʧ@
+		void OnInit();																 // �C������?�ιϧγ]�w
+		void OnBeginState();													 // �]�w�C�������һݪ��ܼ�
+		void OnKeyUp(UINT, UINT, UINT);								 // �B�z��LUp���ʧ@
 		void OnLButtonDown(UINT nFlags, CPoint point); // �B�z�ƹ����ʧ@
 	protected:
 		void OnShow(); // ��ܳo�Ӫ��A���C���e��
@@ -84,21 +90,25 @@ namespace game_framework
 		CGameStateRun(CGame *g);
 		~CGameStateRun();
 		void OnBeginState(); // �]�w�C�������һݪ��ܼ�
-		void OnInit();		 // �C������Ȥιϧγ]�w
+		void OnInit();			 // �C������?�ιϧγ]�w
 		void OnKeyDown(UINT, UINT, UINT);
 		void OnKeyUp(UINT, UINT, UINT);
 		void OnLButtonDown(UINT nFlags, CPoint point); // �B�z�ƹ����ʧ@
-		void OnLButtonUp(UINT nFlags, CPoint point);   // �B�z�ƹ����ʧ@
-		void OnMouseMove(UINT nFlags, CPoint point);   // �B�z�ƹ����ʧ@
+		void OnLButtonUp(UINT nFlags, CPoint point);	 // �B�z�ƹ����ʧ@
+		void OnMouseMove(UINT nFlags, CPoint point);	 // �B�z�ƹ����ʧ@
 		void OnRButtonDown(UINT nFlags, CPoint point); // �B�z�ƹ����ʧ@
-		void OnRButtonUp(UINT nFlags, CPoint point);   // �B�z�ƹ����ʧ@
+		void OnRButtonUp(UINT nFlags, CPoint point);	 // �B�z�ƹ����ʧ@
 	protected:
 		void OnMove(); // ���ʹC������
 		void OnShow(); // ��ܳo�Ӫ��A���C���e��
 	private:
 		string pressedKeys;
-		GameObject background;
-		GameObject character;
+		BackGround background;
+		MainCharacter character;
+		Tree tree;
+		InventoriesUI inventoryUI;
+		vector<GameObject *>
+				gameObjects;
 		void debug_text();
 	};
 

@@ -73,4 +73,5 @@ void CGameStateInit::draw_text() {
 	CTextDraw::Print(pDC, 182, 431, "Press any key to start");
 
 	CDDraw::ReleaseBackCDC();
+
 }

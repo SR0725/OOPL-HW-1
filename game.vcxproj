@@ -243,9 +243,15 @@
     <ClCompile Include="Source\Game\mygame_over.cpp" />
     <ClCompile Include="Source\Game\mygame_run.cpp" />
     <ClCompile Include="Source\Game\gameObject.cpp" />
+    <ClCompile Include="Source\Game\BackGround.cpp" />
+    <ClCompile Include="Source\Game\MainCharacter.cpp" />
+    <ClCompile Include="Source\Game\InventoryUI.cpp" />
+    <ClCompile Include="Source\Game\Tree.cpp" />
+    <ClCompile Include="Source\Game\Item.cpp" />
     <ClCompile Include="Source\Library\audio.cpp" />
     <ClCompile Include="Source\Library\gamecore.cpp" />
     <ClCompile Include="Source\Library\gameutil.cpp" />
+    <ClCompile Include="Source\Library\tool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Game.h" />
@@ -257,9 +263,15 @@
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\mygame.h" />
     <ClInclude Include="Source\Game\gameObject.h" />
+    <ClInclude Include="Source\Game\BackGround.h" />
+    <ClInclude Include="Source\Game\MainCharacter.h" />
+    <ClInclude Include="Source\Game\InventoryUI.h" />
+    <ClInclude Include="Source\Game\Tree.h" />
+    <ClInclude Include="Source\Game\Item.h" />
     <ClInclude Include="Source\Library\audio.h" />
     <ClInclude Include="Source\Library\gamecore.h" />
     <ClInclude Include="Source\Library\gameutil.h" />
+    <ClInclude Include="Source\Library\tool.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\Core\game.rc" />
