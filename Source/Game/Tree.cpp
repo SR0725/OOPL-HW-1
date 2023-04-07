@@ -54,7 +54,7 @@ void Tree::OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects)
   }
 }
 
-void Tree::OnAttacked(GameObject &gameObject)
+void Tree::OnAttacked(GameObject *gameObject)
 {
   if (onAttackedTick <= 0)
   {

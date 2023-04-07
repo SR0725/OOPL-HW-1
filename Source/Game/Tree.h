@@ -7,7 +7,7 @@ namespace game_framework
     public:
         Tree();
         void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects) override;
-        void OnAttacked(GameObject &gameObject);
+        void OnAttacked(GameObject *gameObject);
 
     private:
         float onAttackedTick = 0;
