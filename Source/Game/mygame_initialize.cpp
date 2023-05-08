@@ -9,40 +9,31 @@
 
 using namespace game_framework;
 /////////////////////////////////////////////////////////////////////////////
-// ³o­Óclass¬°¹CÀ¸ªº¹CÀ¸¶}ÀYµe­±ª«¥ó
+// é€™å€‹classç‚ºéŠæˆ²çš„éŠæˆ²é–‹é ­ç•«é¢ç‰©ä»¶
 /////////////////////////////////////////////////////////////////////////////
 
 CGameStateInit::CGameStateInit(CGame *g) : CGameState(g)
 {
-	
 }
 
 void CGameStateInit::OnInit()
 {
-	//
-	// ·í¹Ï«Ü¦h®É¡AOnInit¸ü¤J©Ò¦³ªº¹Ï­nªá«Ü¦h®É¶¡¡C¬°Á×§Kª±¹CÀ¸ªº¤H
-	//     µ¥ªº¤£­@·Ğ¡A¹CÀ¸·|¥X²{¡uLoading ...¡v¡AÅã¥ÜLoadingªº¶i«×¡C
-	//
-	ShowInitProgress(0, "Start Initialize...");	// ¤@¶}©lªºloading¶i«×¬°0%
+	ShowInitProgress(0, "Start Initialize...");
 	Sleep(200);
 
 	load_background();
 
 	ShowInitProgress(66, "Initialize...");
 	Sleep(200);
-	//
-	// ¦¹OnInit°Ê§@·|±µ¨ìCGameStaterRun::OnInit()¡A©Ò¥H¶i«×ÁÙ¨S¨ì100%
-	//
 }
 
 void CGameStateInit::OnBeginState()
 {
-	
 }
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	GotoGameState(GAME_STATE_RUN);		// ¤Á´«¦ÜGAME_STATE_RUN
+	GotoGameState(GAME_STATE_RUN);
 }
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
@@ -55,23 +46,23 @@ void CGameStateInit::OnShow()
 	draw_text();
 }
 
-void CGameStateInit::load_background() {
-	background.LoadBitmapByString({ "resources/terrian.bmp" });
+void CGameStateInit::load_background()
+{
+	background.LoadBitmapByString({"resources/terrian.bmp"});
 	background.SetTopLeft(0, 0);
 }
 
-void CGameStateInit::draw_text() {
+void CGameStateInit::draw_text()
+{
 	CDC *pDC = CDDraw::GetBackCDC();
-	CFont* fp;
 
 	/* Print title */
-	CTextDraw::ChangeFontLog(pDC, fp, 36, "·L³n¥¿¶ÂÅé", RGB(255, 255, 255));
-	CTextDraw::Print(pDC, 79, 228, "Game Framework Practice");
+	CTextDraw::ChangeFontLog(pDC, 36, "å¾®è»Ÿæ­£é»‘é«”", RGB(255, 255, 255));
+	CTextDraw::Print(pDC, 79, 228, "Game Demo");
 
 	/* Print info */
-	CTextDraw::ChangeFontLog(pDC, fp, 24, "·L³n¥¿¶ÂÅé", RGB(255, 255, 255));
+	CTextDraw::ChangeFontLog(pDC, 24, "å¾®è»Ÿæ­£é»‘é«”", RGB(255, 255, 255));
 	CTextDraw::Print(pDC, 182, 431, "Press any key to start");
 
 	CDDraw::ReleaseBackCDC();
-
 }

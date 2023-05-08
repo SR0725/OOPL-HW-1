@@ -1,5 +1,5 @@
 /*
- * mygame.h: ���ɮ��x�C��������class��interface
+ * mygame.h: 本檔案儲遊戲本身的class的interface
  * Copyright (C) 2002-2008 Woei-Kae Chen <wkc@csie.ntut.edu.tw>
  *
  * This file is part of game, a free game development framework for windows.
@@ -38,12 +38,14 @@
  *      3. Use ShowInitProgress(percent) to display loading progress.
  */
 #include "gameObject.h"
+#include "Item.h"
 #include "MainCharacter.h"
 #include "BackGround.h"
 #include "MainCharacter.h"
 #include "Tree.h"
-#include "Item.h"
 #include "InventoryUI.h"
+#include "InventoryCraftUI.h"
+#include "Enemy.h"
 
 namespace game_framework
 {
@@ -52,85 +54,86 @@ namespace game_framework
 	/////////////////////////////////////////////////////////////////////////////
 
 	enum AUDIO_ID
-	{							// �w�q�U�ح��Ī��s��
+	{							// 定義各種音效的編號
 		AUDIO_DING, // 0
 		AUDIO_LAKE, // 1
 		AUDIO_NTUT	// 2
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
-	// �o��class���C�����C���}�Y�e������
-	// �C��Member function��Implementation���n����
+	// 這個class為遊戲的遊戲開頭畫面物件
+	// 每個Member function的Implementation都要弄懂
 	/////////////////////////////////////////////////////////////////////////////
 
 	class CGameStateInit : public CGameState
 	{
 	public:
 		CGameStateInit(CGame *g);
-		void OnInit();																 // �C������?�ιϧγ]�w
-		void OnBeginState();													 // �]�w�C�������һݪ��ܼ�
-		void OnKeyUp(UINT, UINT, UINT);								 // �B�z��LUp���ʧ@
-		void OnLButtonDown(UINT nFlags, CPoint point); // �B�z�ƹ����ʧ@
+		void OnInit();
+		void OnBeginState();
+		void OnKeyUp(UINT, UINT, UINT);
+		void OnLButtonDown(UINT nFlags, CPoint point);
+
 	protected:
-		void OnShow(); // ��ܳo�Ӫ��A���C���e��
+		void OnShow();
+
 	private:
 		void load_background();
 		void draw_text();
 		CMovingBitmap background;
 	};
 
-	/////////////////////////////////////////////////////////////////////////////
-	// �o��class���C�����C�����檫��A�D�n���C���{�����b�o��
-	// �C��Member function��Implementation���n����
-	/////////////////////////////////////////////////////////////////////////////
-
 	class CGameStateRun : public CGameState
 	{
 	public:
 		CGameStateRun(CGame *g);
 		~CGameStateRun();
-		void OnBeginState(); // �]�w�C�������һݪ��ܼ�
-		void OnInit();			 // �C������?�ιϧγ]�w
+		void OnBeginState();
+		void OnInit();
 		void OnKeyDown(UINT, UINT, UINT);
 		void OnKeyUp(UINT, UINT, UINT);
-		void OnLButtonDown(UINT nFlags, CPoint point); // �B�z�ƹ����ʧ@
-		void OnLButtonUp(UINT nFlags, CPoint point);	 // �B�z�ƹ����ʧ@
-		void OnMouseMove(UINT nFlags, CPoint point);	 // �B�z�ƹ����ʧ@
-		void OnRButtonDown(UINT nFlags, CPoint point); // �B�z�ƹ����ʧ@
-		void OnRButtonUp(UINT nFlags, CPoint point);	 // �B�z�ƹ����ʧ@
+		void OnLButtonDown(UINT nFlags, CPoint point);
+		void OnLButtonUp(UINT nFlags, CPoint point);
+		void OnMouseMove(UINT nFlags, CPoint point);
+		void OnRButtonDown(UINT nFlags, CPoint point);
+		void OnRButtonUp(UINT nFlags, CPoint point);
+
 	protected:
-		void OnMove(); // ���ʹC������
-		void OnShow(); // ��ܳo�Ӫ��A���C���e��
+		void OnMove();
+		void OnShow();
+
 	private:
 		string pressedKeys;
+		int mouseX, mouseY;
 		BackGround background;
 		MainCharacter character;
 		Tree tree;
 		InventoriesUI inventoryUI;
+		InventoryCraftUI craftTable_CraftTableUI = *new InventoryCraftUI(false, "craft_table", 1, "log", 6);
 		vector<GameObject *>
 				gameObjects;
+		vector<GameObject *>
+				uiObjects;
 		void debug_text();
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
-	// �o��class���C�����������A(Game Over)
-	// �C��Member function��Implementation���n����
+	// 這個class為遊戲的結束狀態(Game Over)
+	// 每個Member function的Implementation都要弄懂
 	/////////////////////////////////////////////////////////////////////////////
 
 	class CGameStateOver : public CGameState
 	{
 	public:
 		CGameStateOver(CGame *g);
-		void OnBeginState(); // �]�w�C�������һݪ��ܼ�
+		void OnBeginState(); // 設定每次重玩所需的變數
 		void OnInit();
-		void OnKeyDown(UINT, UINT, UINT);
 
 	protected:
-		void OnMove(); // ���ʹC������
-		void OnShow(); // ��ܳo�Ӫ��A���C���e��
+		void OnMove(); // 移動遊戲元素
+		void OnShow(); // 顯示這個狀態的遊戲畫面
 	private:
-		CMovingBitmap background;
-		void load_background();
+		int counter; // 倒數之計數器
 	};
 
 }

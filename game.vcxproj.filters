@@ -54,26 +54,32 @@
     <ClCompile Include="Source\Game\mygame_run.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\gameObject.cpp">
+    <ClCompile Include="Source\Game\Tree.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\BackGround.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\MainCharacter.cpp">
+    <ClCompile Include="Source\Game\gameObject.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\InventoryUI.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Tree.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Item.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\MainCharacter.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Library\tool.cpp">
-      <Filter>GameLibrary</Filter>
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\InventoryCraftUI.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy.cpp">
+      <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,9 +90,6 @@
       <Filter>GameLibrary</Filter>
     </ClInclude>
     <ClInclude Include="Source\Library\gameutil.h">
-      <Filter>GameLibrary</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\tool.h">
       <Filter>GameLibrary</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Game.h">
@@ -113,22 +116,31 @@
     <ClInclude Include="Source\Game\config.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\gameObject.h">
+    <ClInclude Include="Source\Game\Tree.h">
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\BackGround.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\MainCharacter.h">
+    <ClInclude Include="Source\Game\gameObject.h">
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\InventoryUI.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Tree.h">
+    <ClInclude Include="Source\Game\Item.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Item.h">
+    <ClInclude Include="Source\Game\MainCharacter.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\tool.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\InventoryCraftUI.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>

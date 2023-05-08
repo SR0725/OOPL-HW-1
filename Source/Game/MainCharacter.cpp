@@ -5,15 +5,23 @@
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include "mygame.h"
 #include "gameObject.h"
 #include "MainCharacter.h"
+#include "Enemy.h"
 #include "Tree.h"
 #include "Item.h"
 #include <string>
 #include "../Library/tool.h"
 
 using namespace game_framework;
+
+Inventory::Inventory()
+{
+    this->id = "";
+    this->name = "";
+    this->description = "";
+    this->amount = 0;
+}
 
 Inventory::Inventory(string id, string name, string description, int amount)
 {
@@ -31,11 +39,25 @@ Inventory::Inventory(string id, string name, string description)
     this->amount = 1;
 }
 
+MainCharacter::MainCharacter()
+{
+    for (unsigned int i = 0; i < 24; i++)
+    {
+        inventories[i] = Inventory();
+    }
+}
+
+void MainCharacter::Init(vector<string> filename, float _x, float _y, float _speed)
+{
+    GameObject::Init(filename, _x, _y, _speed);
+}
+
 void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects)
 {
     GameObject::OnUpdate(pressedKeys, gameObjects);
     OnAttack(pressedKeys, gameObjects);
     OnMove(pressedKeys, gameObjects);
+    OnHurt(pressedKeys, gameObjects);
 }
 
 void MainCharacter::OnMove(string pressedKeys, vector<GameObject *> &gameObjects)
@@ -176,24 +198,76 @@ void MainCharacter::OnAttack(string pressedKeys, vector<GameObject *> &gameObjec
     }
 }
 
+void MainCharacter::OnHurt(string pressedKeys, vector<GameObject *> &gameObjects)
+{
+    if (onAttackedTick > 0)
+    {
+        onAttackedTick -= 1.0f;
+        this->SetX(centerX + sin(onAttackedTick) * 4.0f);
+        this->SetY(centerY + sin(onAttackedTick) * 4.0f);
+
+        if (onAttackedTick <= 0)
+        {
+            this->SetX(centerX);
+            this->SetY(centerY);
+        }
+    }
+}
+
 void MainCharacter::Attack(GameObject *gameObject)
 {
     if (dynamic_cast<Tree *>(gameObject))
     {
-        dynamic_cast<Tree *>(gameObject)->OnAttacked(*this);
+        dynamic_cast<Tree *>(gameObject)->OnAttacked(this);
     }
+    else if (dynamic_cast<Enemy *>(gameObject))
+    {
+        dynamic_cast<Enemy *>(gameObject)->OnAttacked(this);
+    }
+}
+
+void MainCharacter::OnAttacked(GameObject *gameObject)
+{
+
+    if (onAttackedTick <= 0)
+    {
+        hp -= 5;
+        onAttackedTick = 15.0f; // 0.25 second
+        centerX = this->GetX();
+        centerY = this->GetY();
+    }
+}
+
+float MainCharacter::GetHp()
+{
+    return hp;
 }
 
 void MainCharacter::addItemToInventory(Item *item)
 {
-    for (unsigned int i = 0; i < inventories.size(); i++)
+    for (unsigned int i = 0; i < 24; i++)
     {
-        if (inventories[i].id == item->GetId())
+        if (inventories[i].id == item->GetId() && inventories[i].amount < 99)
         {
             inventories[i].amount++;
             return;
         }
     }
 
-    inventories.push_back(Inventory(item->GetId(), item->GetId(), item->GetId()));
+    for (unsigned int i = 0; i < 24; i++)
+    {
+        if (inventories[i].id == "")
+        {
+            inventories[i].id = item->GetId();
+            inventories[i].name = item->GetId();
+            inventories[i].description = item->GetId();
+            inventories[i].amount = 1;
+            return;
+        }
+    }
+}
+
+Inventory *MainCharacter::GetInventory(int i)
+{
+    return &inventories[i];
 }

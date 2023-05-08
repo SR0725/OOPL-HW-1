@@ -5,11 +5,10 @@
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include "mygame.h"
+#include "../Library/tool.h"
 #include "gameObject.h"
 #include "BackGround.h"
 #include <string>
-#include "../Library/tool.h"
 
 using namespace game_framework;
 

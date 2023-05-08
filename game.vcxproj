@@ -85,6 +85,9 @@
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files\Microsoft DirectX SDK %28February 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files\Microsoft DirectX SDK %28February 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)\Source\Core;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -111,6 +114,7 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -243,14 +247,18 @@
     <ClCompile Include="Source\Game\mygame_over.cpp" />
     <ClCompile Include="Source\Game\mygame_run.cpp" />
     <ClCompile Include="Source\Game\gameObject.cpp" />
-    <ClCompile Include="Source\Game\BackGround.cpp" />
-    <ClCompile Include="Source\Game\MainCharacter.cpp" />
-    <ClCompile Include="Source\Game\InventoryUI.cpp" />
-    <ClCompile Include="Source\Game\Tree.cpp" />
     <ClCompile Include="Source\Game\Item.cpp" />
+    <ClCompile Include="Source\Game\BackGround.cpp" />
+    <ClCompile Include="Source\Game\Enemy.cpp" />
+    <ClCompile Include="Source\Game\InventoryCraftUI.cpp" />
+    <ClCompile Include="Source\Game\InventoryUI.cpp" />
+    <ClCompile Include="Source\Game\MainCharacter.cpp" />
+    <ClCompile Include="Source\Game\Tree.cpp" />
     <ClCompile Include="Source\Library\audio.cpp" />
     <ClCompile Include="Source\Library\gamecore.cpp" />
-    <ClCompile Include="Source\Library\gameutil.cpp" />
+    <ClCompile Include="Source\Library\gameutil.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
     <ClCompile Include="Source\Library\tool.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -263,11 +271,13 @@
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\mygame.h" />
     <ClInclude Include="Source\Game\gameObject.h" />
-    <ClInclude Include="Source\Game\BackGround.h" />
-    <ClInclude Include="Source\Game\MainCharacter.h" />
-    <ClInclude Include="Source\Game\InventoryUI.h" />
-    <ClInclude Include="Source\Game\Tree.h" />
     <ClInclude Include="Source\Game\Item.h" />
+    <ClInclude Include="Source\Game\BackGround.h" />
+    <ClInclude Include="Source\Game\Enemy.h" />
+    <ClInclude Include="Source\Game\InventoryCraftUI.h" />
+    <ClInclude Include="Source\Game\InventoryUI.h" />
+    <ClInclude Include="Source\Game\MainCharacter.h" />
+    <ClInclude Include="Source\Game\Tree.h" />
     <ClInclude Include="Source\Library\audio.h" />
     <ClInclude Include="Source\Library\gamecore.h" />
     <ClInclude Include="Source\Library\gameutil.h" />

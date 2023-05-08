@@ -1,0 +1,203 @@
+#include "stdafx.h"
+#include "../Core/Resource.h"
+#include <mmsystem.h>
+#include <ddraw.h>
+#include "../Library/audio.h"
+#include "../Library/gameutil.h"
+#include "../Library/gamecore.h"
+#include "gameObject.h"
+#include "Enemy.h"
+#include "MainCharacter.h"
+#include <string>
+#include "../Library/tool.h"
+
+using namespace game_framework;
+
+void Enemy::Init(vector<string> filename, float _x, float _y, float _speed)
+{
+  GameObject::Init(filename, _x, _y, _speed);
+  hp = 20;
+  attack = 10;
+  defense = 10;
+}
+
+void Enemy::OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects)
+{
+  GameObject::OnUpdate(pressedKeys, gameObjects);
+  OnMove(pressedKeys, gameObjects);
+  OnAttack(pressedKeys, gameObjects);
+  OnHurt(pressedKeys, gameObjects);
+}
+
+void Enemy::OnHurt(string pressedKeys, vector<GameObject *> &gameObjects)
+{
+  if (hp <= 0)
+  {
+    this->Destroy(gameObjects);
+    return;
+  }
+  if (onAttackedTick > 0)
+  {
+    onAttackedTick -= 1.0f;
+  }
+}
+
+void Enemy::OnMove(string pressedKeys, vector<GameObject *> &gameObjects)
+{
+  if (onAttackedTick > 0)
+  {
+    return;
+  }
+
+  MainCharacter *mainCharacter;
+
+  for (unsigned int i = 0; i < gameObjects.size(); i++)
+  {
+    if (gameObjects[i]->GetId() == "MainCharacter")
+    {
+      mainCharacter = (MainCharacter *)gameObjects[i];
+      break;
+    }
+  }
+
+  if (motionX > 0.01f || motionX < -0.01f)
+  {
+    motionX *= 0.8f;
+  }
+  else
+  {
+    motionX = 0;
+  }
+
+  if (motionY > 0.01f || motionY < -0.01f)
+  {
+    motionY *= 0.8f;
+  }
+  else
+  {
+    motionY = 0;
+  }
+
+  bool colliderFlag = false;
+  for (unsigned int i = 0; i < gameObjects.size(); i++)
+  {
+    if (gameObjects[i] == this)
+    {
+      continue;
+    }
+
+    if (gameObjects[i]->isCollideWith(this))
+    {
+
+      float overlapX = ((gameObjects[i]->GetX() + gameObjects[i]->GetWidth() / 2) - (this->GetX() + this->GetWidth() / 2)) / (gameObjects[i]->GetWidth() / 2 + this->GetWidth() / 2);
+      float overlapY = ((gameObjects[i]->GetY() + gameObjects[i]->GetHeight() / 2) - (this->GetY() + this->GetHeight() / 2)) / (gameObjects[i]->GetHeight() / 2 + this->GetHeight() / 2);
+
+      if (overlapX < 0.5)
+      {
+        motionX = -overlapX;
+      }
+      else if (overlapX < 0.5)
+      {
+        motionX *= 0.8f;
+        motionX -= ((1 - abs(overlapY)) * overlapX);
+      }
+      else
+      {
+        motionX -= ((1 - abs(overlapY)) * overlapX);
+      }
+
+      if (motionY < 0.5)
+      {
+        motionY = -overlapY;
+      }
+      else if (motionY < 0.5)
+      {
+        motionY *= 0.8f;
+        motionY -= ((1 - abs(overlapX)) * overlapY);
+      }
+      else
+      {
+        motionY -= ((1 - abs(overlapX)) * overlapY) * 0.01f;
+      }
+      colliderFlag = true;
+      continue;
+    }
+  }
+
+  if (colliderFlag)
+  {
+    return;
+  }
+
+  if (mainCharacter->GetX() > GetX())
+  {
+    GoRight();
+  }
+  else
+  {
+    GoLeft();
+  }
+
+  if (mainCharacter->GetY() > GetY())
+  {
+    GoBottom();
+  }
+  else
+  {
+    GoTop();
+  }
+}
+
+void Enemy::OnAttack(string pressedKeys, vector<GameObject *> &gameObjects)
+{
+  if (onAttackedTick > 0)
+  {
+    return;
+  }
+
+  MainCharacter *mainCharacter;
+
+  for (unsigned int i = 0; i < gameObjects.size(); i++)
+  {
+    if (gameObjects[i]->GetId() == "MainCharacter")
+    {
+      mainCharacter = (MainCharacter *)gameObjects[i];
+      break;
+    }
+  }
+  if (mainCharacter->GetX() + mainCharacter->GetWidth() < GetX() || mainCharacter->GetX() > GetX() + GetWidth())
+  {
+    return;
+  }
+
+  if (mainCharacter->GetY() + mainCharacter->GetHeight() < GetY() || mainCharacter->GetY() > GetY() + GetHeight())
+  {
+    return;
+  }
+  Attack(mainCharacter);
+}
+
+void Enemy::Attack(GameObject *gameObject)
+{
+  if (dynamic_cast<MainCharacter *>(gameObject))
+  {
+    dynamic_cast<MainCharacter *>(gameObject)->OnAttacked(this);
+  }
+}
+
+void Enemy::OnAttacked(GameObject *gameObject)
+{
+  if (onAttackedTick <= 0)
+  {
+    hp -= 4;
+    onAttackedTick = 8.0f; // 0.3 second
+
+    motionY = -((gameObject->GetY() + gameObject->GetHeight() / 2) - (GetY() + GetHeight() / 2)) / (gameObject->GetHeight() + 32.0f) * 6.0f;
+    motionX = -((gameObject->GetX() + gameObject->GetWidth() / 2) - (GetX() + GetWidth() / 2)) / (gameObject->GetWidth() + 32.0f) * 6.0f;
+  }
+}
+
+float Enemy::GetHp()
+{
+  return hp;
+}
