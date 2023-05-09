@@ -36,7 +36,7 @@ ItemsTable::ItemsTable()
 		new ItemTable("craft_table", "resources/craft_table.bmp", 0, 9),
 		});
 	this->inventoryItems = new vector<ItemTable*>({
-		new ItemTable("empty", "resources/empty.bmp", 0, 0),
+		new ItemTable("empty", "resources/empty_inventory.bmp", 0, 0),
 		new ItemTable("log", "resources/log_inventory.bmp", 0, 1),
 		new ItemTable("stone", "resources/stone_inventory.bmp", 0, 2),
 		new ItemTable("coal", "resources/coal_inventory.bmp", 0, 3),
@@ -62,7 +62,7 @@ ItemsTable::ItemsTable()
 	}
 }
 
-ItemTable* game_framework::ItemsTable::GetItemById(string id)
+ItemTable* ItemsTable::GetItemById(string id)
 {
 	for (unsigned int i = 0; i < this->items->size(); i++)
 	{
@@ -71,10 +71,10 @@ ItemTable* game_framework::ItemsTable::GetItemById(string id)
 			return this->inventoryItems->at(i);
 		}
 	}
-	return NULL;
+	return new ItemTable("empty", "resources/empty", 0, 0);
 }
 
-ItemTable* game_framework::ItemsTable::GetInventoryItemById(string id)
+ItemTable* ItemsTable::GetInventoryItemById(string id)
 {
 	for (unsigned int i = 0; i < this->inventoryItems->size(); i++)
 	{
@@ -83,7 +83,17 @@ ItemTable* game_framework::ItemsTable::GetInventoryItemById(string id)
 			return this->inventoryItems->at(i);
 		}
 	}
-	return NULL;
+	return new ItemTable("empty", "resources/empty_inventory.bmp", 0, 0);
+}
+
+vector<string> ItemsTable::GetInventoryItemsPath()
+{
+	vector<string> result;
+	for (unsigned int i = 0; i < this->inventoryItems->size(); i++)
+	{
+		result.push_back(this->inventoryItems->at(i)->path);
+	}
+	return result;
 }
 
 

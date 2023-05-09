@@ -20,7 +20,7 @@ namespace game_framework
 
         ItemTable* GetItemById(string id);
         ItemTable* GetInventoryItemById(string id);
-
+        vector<string> GetInventoryItemsPath();
     };
 
 
