@@ -15,11 +15,12 @@ namespace game_framework
     class ItemsTable {
     public:
         vector<ItemTable*>* items = new vector<ItemTable*>();
-        vector<ItemTable*>* inventoryItems;
+        vector<ItemTable*>* inventoryItems = new vector<ItemTable*>();
         ItemsTable();
 
-        ItemsTable* GetItemById(string id);
-        ItemsTable* GetInventoryItemById(string id);
+        ItemTable* GetItemById(string id);
+        ItemTable* GetInventoryItemById(string id);
+
     };
 
 

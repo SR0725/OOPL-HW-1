@@ -52,27 +52,35 @@ ItemsTable::ItemsTable()
 	{
 		throw "Items Table is not same with inventoryItems Table";
 	}
+
+	for (unsigned int i = 0; i < this->items->size(); i++)
+	{
+		if (this->items->at(i)->id != this->inventoryItems->at(i)->id)
+		{
+			throw "Items Table is not same with inventoryItems Table";
+		}
+	}
 }
 
-ItemsTable* game_framework::ItemsTable::GetItemById(string id)
+ItemTable* game_framework::ItemsTable::GetItemById(string id)
 {
 	for (unsigned int i = 0; i < this->items->size(); i++)
 	{
 		if (this->items->at(i)->id == id)
 		{
-			return this;
+			return this->inventoryItems->at(i);
 		}
 	}
 	return NULL;
 }
 
-ItemsTable* game_framework::ItemsTable::GetInventoryItemById(string id)
+ItemTable* game_framework::ItemsTable::GetInventoryItemById(string id)
 {
 	for (unsigned int i = 0; i < this->inventoryItems->size(); i++)
 	{
 		if (this->inventoryItems->at(i)->id == id)
 		{
-			return this;
+			return this->inventoryItems->at(i);
 		}
 	}
 	return NULL;
