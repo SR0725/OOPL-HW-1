@@ -5,31 +5,33 @@ namespace game_framework
     {
     public:
         GameObject();
-        void Init(vector<string> filename, float _x, float _y, float _speed);
+		GameObject* Init(vector<string> filename);
         void Destroy(vector<GameObject *> &gameObjects);
-        void SetUI(bool);
-        void SetCollider(bool);
-        void SetTrigger(bool);
-        void SetActive(bool _active = true);
-        void SetSpeed(float _speed);
-        void GoTop();
-        void GoBottom();
-        void GoRight();
-        void GoLeft();
-        virtual void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects) = 0;
-        bool isCollideWith(GameObject *obj);
-        bool isTriggerWith(GameObject *obj);
+        GameObject* SetUI(bool);
+        GameObject* SetCollider(bool);
+        GameObject* SetTrigger(bool);
+        GameObject* SetActive(bool _active = true);
+        GameObject* SetSpeed(float _speed);
+        GameObject* SetPosition(float _x, float _y);
+        GameObject* SetX(float _x);
+        GameObject* SetY(float _y);
+        GameObject* SetId(string _id);
+        string GetId();
+        bool isCollideWith(GameObject* obj);
+        bool isTriggerWith(GameObject* obj);
         bool GetIsCollider();
         bool GetIsTrigger();
         float GetX();
         float GetY();
-        void SetX(float _x);
-        void SetY(float _y);
         float GetWidth();
         float GetHeight();
         void Render(GameObject *mainObject);
-        void SetId(string _id);
-        string GetId();
+        void GoTop();
+        void GoBottom();
+        void GoRight();
+        void GoLeft();
+        virtual void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects);
+        virtual void OnClick(vector<GameObject*>& gameObjects);
 
     protected:
         float x = 0.0f;

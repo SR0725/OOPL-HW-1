@@ -5,7 +5,7 @@
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include "../Library/tool.h"
+#include "tool.h"
 #include "gameObject.h"
 #include "BackGround.h"
 #include <string>

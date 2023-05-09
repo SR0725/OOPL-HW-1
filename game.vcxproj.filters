@@ -5,14 +5,20 @@
       <UniqueIdentifier>{1a913106-0be0-4476-b0ce-2aa855072614}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;cnt;rtf;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="MFC">
-      <UniqueIdentifier>{da904ee8-7f59-4a6c-b3ff-b91b6fb6d0ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameLibrary">
       <UniqueIdentifier>{df7aa532-3fdf-46a0-b3fc-8f5922e8d9e4}</UniqueIdentifier>
     </Filter>
     <Filter Include="MyGame">
       <UniqueIdentifier>{0c798913-b7d2-4e26-8241-0f83266cd626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyGame\GameObject">
+      <UniqueIdentifier>{da29cd9a-4a57-47db-ad17-93bc533a0d04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC">
+      <UniqueIdentifier>{da904ee8-7f59-4a6c-b3ff-b91b6fb6d0ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyGame\UI">
+      <UniqueIdentifier>{52daa7a2-61b1-4467-b1f1-cbc85d7e1e60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,32 +60,32 @@
     <ClCompile Include="Source\Game\mygame_run.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Tree.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\BackGround.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\gameObject.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\InventoryUI.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Item.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\MainCharacter.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Library\tool.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\InventoryCraftUI.cpp">
-      <Filter>MyGame</Filter>
+    <ClCompile Include="Source\Game\BackGround.cpp">
+      <Filter>MyGame\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy.cpp">
+      <Filter>MyGame\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MainCharacter.cpp">
+      <Filter>MyGame\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\tool.cpp">
+      <Filter>MyGame\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Block.cpp">
       <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\InventoryUI.cpp">
+      <Filter>MyGame\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\craftItem.cpp">
+      <Filter>MyGame\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,32 +122,32 @@
     <ClInclude Include="Source\Game\config.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Tree.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\BackGround.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\gameObject.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\InventoryUI.h">
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Item.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\MainCharacter.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Library\tool.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\InventoryCraftUI.h">
-      <Filter>MyGame</Filter>
+    <ClInclude Include="Source\Game\BackGround.h">
+      <Filter>MyGame\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Enemy.h">
+      <Filter>MyGame\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MainCharacter.h">
+      <Filter>MyGame\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\tool.h">
+      <Filter>MyGame\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Block.h">
       <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\InventoryUI.h">
+      <Filter>MyGame\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\craftItem.h">
+      <Filter>MyGame\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

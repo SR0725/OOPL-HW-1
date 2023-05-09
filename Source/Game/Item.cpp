@@ -9,9 +9,17 @@
 #include "gameObject.h"
 #include "Item.h"
 #include <string>
-#include "../Library/tool.h"
+#include "tool.h"
 
 using namespace game_framework;
+ItemTable::ItemTable(string _id, string _path, float _rate, int _number) {
+    id = _id;
+    path = _path;
+    rate = _rate;
+    number = _number;
+}
+
+
 Item::Item()
 {
 }
@@ -29,3 +37,4 @@ void Item::OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects)
   tick = tick + 10.0f;
   this->SetY(centerY + cos(tick / 120.0f) * 10.0f);
 }
+

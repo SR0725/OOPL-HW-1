@@ -25,12 +25,10 @@ GameObject::GameObject()
     id = "";
 }
 
-void GameObject::Init(vector<string> _filename, float _x, float _y, float _speed)
+GameObject* GameObject::Init(vector<string> _filename)
 {
     bitmap.LoadBitmapByString(_filename, RGB(255, 255, 255));
-    x = _x;
-    y = _y;
-    speed = _speed;
+	return this;
 }
 
 void GameObject::Destroy(vector<GameObject *> &gameObjects)
@@ -45,43 +43,63 @@ void GameObject::Destroy(vector<GameObject *> &gameObjects)
     }
 }
 
-void GameObject::SetUI(bool _isUI)
+GameObject* GameObject::SetUI(bool _isUI)
 {
     isUI = _isUI;
+    return this;
 }
 
-void GameObject::SetCollider(bool _isCollider)
+GameObject* GameObject::SetCollider(bool _isCollider)
 {
     isCollider = _isCollider;
+    return this;
 }
 
-void GameObject::SetTrigger(bool _isTrigger)
+GameObject* GameObject::SetTrigger(bool _isTrigger)
 {
     isTrigger = _isTrigger;
+    return this;
 }
 
-void GameObject::SetActive(bool _active)
+GameObject* GameObject::SetActive(bool _active)
 {
     active = _active;
     if (active)
         bitmap.ShowBitmap();
+    return this;
 }
 
-void GameObject::SetSpeed(float _speed)
+GameObject* GameObject::SetSpeed(float _speed)
 {
     speed = _speed;
+    return this;
 }
 
-void GameObject::OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects)
+GameObject* GameObject::SetPosition(float _x, float _y)
 {
-    x += motionX;
-    y += motionY;
+	x = _x;
+	y = _y;
+	return this;
 }
 
-void GameObject::SetId(string _id)
+GameObject* GameObject::SetX(float _x)
+{
+    x = _x;
+    return this;
+}
+
+GameObject* GameObject::SetY(float _y)
+{
+    y = _y;
+    return this;
+}
+
+GameObject* GameObject::SetId(string _id)
 {
     id = _id;
+    return this;
 }
+
 
 string GameObject::GetId()
 {
@@ -118,15 +136,6 @@ float GameObject::GetY()
     return y;
 }
 
-void GameObject::SetX(float _x)
-{
-    x = _x;
-}
-
-void GameObject::SetY(float _y)
-{
-    y = _y;
-}
 
 float GameObject::GetWidth()
 {
@@ -188,6 +197,18 @@ bool GameObject::isTriggerWith(GameObject *obj)
     return true;
 }
 
+
+
+void GameObject::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects)
+{
+    x += motionX;
+    y += motionY;
+}
+
+void GameObject::OnClick(vector<GameObject*>& gameObjects)
+{
+}
+
 void GameObject::Render(GameObject *mainObject)
 {
     if (!active)
@@ -205,3 +226,4 @@ void GameObject::Render(GameObject *mainObject)
     float renderY = 240.0f - mainObject->GetY() - mainObject->GetHeight() / 2.0f + y;
     bitmap.SetTopLeft(int(renderX), int(renderY));
 }
+

@@ -8,19 +8,16 @@ namespace game_framework
     {
     public:
         Inventory();
-        Inventory(string id, string name, string description, int amount);
-        Inventory(string id, string name, string description);
         string id;
-        string name;
-        string description;
-        int amount;
+        int textureIndex;
+        int number;
     };
 
     class MainCharacter : public GameObject
     {
     public:
         MainCharacter();
-        void Init(vector<string> filename, float _x, float _y, float _speed);
+        MainCharacter* Init(vector<string> filename);
         void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects);
         void OnMove(string pressedKeys, vector<GameObject *> &gameObjects);
         void OnHurt(string pressedKeys, vector<GameObject *> &gameObjects);
@@ -29,8 +26,7 @@ namespace game_framework
         void Attack(GameObject *gameObject);
         void OnAttacked(GameObject *gameObject);
         float GetHp();
-        Inventory *
-        GetInventory(int);
+        Inventory * GetInventory(int);
 
     private:
         Inventory inventories[24];

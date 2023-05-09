@@ -38,14 +38,6 @@
  *      3. Use ShowInitProgress(percent) to display loading progress.
  */
 #include "gameObject.h"
-#include "Item.h"
-#include "MainCharacter.h"
-#include "BackGround.h"
-#include "MainCharacter.h"
-#include "Tree.h"
-#include "InventoryUI.h"
-#include "InventoryCraftUI.h"
-#include "Enemy.h"
 
 namespace game_framework
 {
@@ -105,15 +97,13 @@ namespace game_framework
 	private:
 		string pressedKeys;
 		int mouseX, mouseY;
-		BackGround background;
-		MainCharacter character;
-		Tree tree;
-		InventoriesUI inventoryUI;
-		InventoryCraftUI craftTable_CraftTableUI = *new InventoryCraftUI(false, "craft_table", 1, "log", 6);
 		vector<GameObject *>
 				gameObjects;
 		vector<GameObject *>
 				uiObjects;
+		void MountedGameObject();
+		void MountedTerrian();
+		void MountedUIObject();
 		void debug_text();
 	};
 

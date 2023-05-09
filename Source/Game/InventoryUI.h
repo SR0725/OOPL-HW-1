@@ -9,11 +9,11 @@ namespace game_framework
     class InventoryUI : public GameObject
     {
     public:
-        void SetInventory(Inventory *inventory);
+        InventoryUI* SetInventory(Inventory *inventory);
+        InventoryUI* SetBag(bool);
         void showAmount();
-        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects) override;
+        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects);
         void Render(GameObject *mainObject);
-        void SetBag(bool);
 
     private:
         Inventory *inventory;
@@ -24,7 +24,7 @@ namespace game_framework
     class InventoriesUI : public GameObject
     {
     public:
-        void Init(MainCharacter *mainCharacter, vector<GameObject *> &gameObjects);
+        InventoriesUI* Init(MainCharacter *mainCharacter, vector<GameObject *> &gameObjects);
         void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects);
 
     private:
