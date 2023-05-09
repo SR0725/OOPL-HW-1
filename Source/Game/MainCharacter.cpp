@@ -230,6 +230,7 @@ float MainCharacter::GetHp()
 
 void MainCharacter::addItemToInventory(Item* item)
 {
+	ItemsTable* itemsTable = new ItemsTable();
 	for (unsigned int i = 0; i < 24; i++)
 	{
 		if (inventories[i].id == item->GetId() && inventories[i].number < 99)

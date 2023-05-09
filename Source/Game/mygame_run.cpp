@@ -76,19 +76,111 @@ void CGameStateRun::MountedGameObject()
 
 void CGameStateRun::MountedTerrian()
 {
-	for (int i = 0; i < 64; i++)
+	// 建立大樹
+	for (int i = 0; i < 24; i++)
 	{
 		Block* tempTree = new Block();
 		tempTree
-			->Init({ "resources/tree.bmp" })
+			->Init({ "resources/tree_block.bmp" })
 			->SetDropItems(
 				vector<ItemTable*>({
-					new ItemTable("log", "resources/log.bmp", 1, 10),
+					new ItemTable("log", "resources/log.bmp", 1, 4),
 					})
 					)
 			->SetPosition((float)floor(random(0, 1024)), (float)floor((int)random(0, 1024)))
 			->SetCollider(true)
-			->SetId("tree")
+			->SetId("tree_block")
+			->SetActive(true);
+		gameObjects.push_back(tempTree);
+	}
+
+	// 建立小樹
+	for (int i = 0; i < 8; i++)
+	{
+		Block* tempTree = new Block();
+		tempTree
+			->Init({ "resources/tree_apple_small_block.bmp" })
+			->SetDropItems(
+				vector<ItemTable*>({
+					new ItemTable("log", "resources/log.bmp", 1, 2),
+					})
+					)
+			->SetPosition((float)floor(random(0, 1000)), (float)floor((int)random(0, 1000)))
+			->SetCollider(true)
+			->SetId("tree_apple_small_block")
+			->SetActive(true);
+		gameObjects.push_back(tempTree);
+	}
+
+	// 建立石頭
+	for (int i = 0; i < 8; i++)
+	{
+		Block* tempTree = new Block();
+		tempTree
+			->Init({ "resources/stone_block.bmp" })
+			->SetDropItems(
+				vector<ItemTable*>({
+					new ItemTable("log", "resources/stone.bmp", 1, 4),
+					})
+					)
+			->SetPosition((float)floor(random(0, 1024)), (float)floor((int)random(0, 1024)))
+			->SetCollider(true)
+			->SetId("stone_block")
+			->SetActive(true);
+		gameObjects.push_back(tempTree);
+	}
+
+	// 建立煤炭
+	for (int i = 0; i < 4; i++)
+	{
+		Block* tempTree = new Block();
+		tempTree
+			->Init({ "resources/coal_block.bmp" })
+			->SetDropItems(
+				vector<ItemTable*>({
+					new ItemTable("log", "resources/stone.bmp", 1, 2),
+					new ItemTable("log", "resources/coal.bmp", 1, 4),
+					})
+					)
+			->SetPosition((float)floor(random(0, 1024)), (float)floor((int)random(0, 1024)))
+			->SetCollider(true)
+			->SetId("coal_block")
+			->SetActive(true);
+		gameObjects.push_back(tempTree);
+	}
+
+	// 建立鐵礦
+	for (int i = 0; i < 4; i++)
+	{
+		Block* tempTree = new Block();
+		tempTree
+			->Init({ "resources/iron_block.bmp" })
+			->SetDropItems(
+				vector<ItemTable*>({
+					new ItemTable("log", "resources/iron.bmp", 1, 4),
+					})
+					)
+			->SetPosition((float)floor(random(0, 1024)), (float)floor((int)random(0, 1024)))
+			->SetCollider(true)
+			->SetId("iron_block")
+			->SetActive(true);
+		gameObjects.push_back(tempTree);
+	}
+
+	// 建立銀礦
+	for (int i = 0; i < 2; i++)
+	{
+		Block* tempTree = new Block();
+		tempTree
+			->Init({ "resources/slive_block.bmp" })
+			->SetDropItems(
+				vector<ItemTable*>({
+					new ItemTable("log", "resources/slive.bmp", 1, 4),
+					})
+					)
+			->SetPosition((float)floor(random(0, 1024)), (float)floor((int)random(0, 1024)))
+			->SetCollider(true)
+			->SetId("slive_block")
 			->SetActive(true);
 		gameObjects.push_back(tempTree);
 	}

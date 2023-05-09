@@ -12,6 +12,17 @@ namespace game_framework
     };
 
 
+    class ItemsTable {
+    public:
+        vector<ItemTable*>* items = new vector<ItemTable*>();
+        vector<ItemTable*>* inventoryItems;
+        ItemsTable();
+
+        ItemsTable* GetItemById(string id);
+        ItemsTable* GetInventoryItemById(string id);
+    };
+
+
     class Item : public GameObject
     {
     public:
