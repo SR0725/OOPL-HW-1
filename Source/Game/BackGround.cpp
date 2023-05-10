@@ -12,6 +12,6 @@
 
 using namespace game_framework;
 
-void BackGround::OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects)
+void BackGround::OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, int mouseX, int mouseY)
 {
 }

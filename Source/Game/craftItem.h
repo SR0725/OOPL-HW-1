@@ -14,7 +14,7 @@ namespace game_framework
         CraftItem* Init(vector<string> filename);
         CraftItem* SetRawMaterials(vector<ItemTable*>&);
         CraftItem* SetProducts(vector<ItemTable*>&);
-        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects);
+        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, int mouseX, int mouseY);
         void Render(GameObject *mainObject);
         void OnClick(vector<GameObject *> &gameObjects);
 

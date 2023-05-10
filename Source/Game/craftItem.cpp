@@ -43,7 +43,7 @@ CraftItem* CraftItem::SetProducts(vector<ItemTable*>& _products)
 	return this;
 }
 
-void CraftItem::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects)
+void CraftItem::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
 {
 	if (keyFind(pressedKeys, "E"))
 	{
@@ -72,6 +72,7 @@ void CraftItem::Render(GameObject* mainObject)
 
 void CraftItem::OnClick(vector<GameObject*>& gameObjects) {
 	MainCharacter* character = dynamic_cast<MainCharacter*>(gameObjects[1]);
+	ItemsTable* itemsTable = new ItemsTable();
 
 
 	// check raw material
@@ -105,15 +106,13 @@ void CraftItem::OnClick(vector<GameObject*>& gameObjects) {
 			if (inventory->id == rawMaterial->id) {
 				if (inventory->number - rawMaterial->number + alreadyRemoveMaterialNumber > 0) {
 					inventory->number -= (rawMaterial->number - alreadyRemoveMaterialNumber);
-					if (inventory->number == 0) {
-						inventory->id = "empty";
-					}
 					alreadyRemoveMaterialNumber = rawMaterial->number;
 				}
 				else {
 					alreadyRemoveMaterialNumber += inventory->number;
 					inventory->id = "empty";
 					inventory->number = 0;
+					inventory->textureIndex = 0;
 				}
 			}
 		}
@@ -147,13 +146,7 @@ void CraftItem::OnClick(vector<GameObject*>& gameObjects) {
 			if (inventory->id == "empty")
 			{
 				inventory->id = product.id;
-				if (product.id == "log")
-				{
-					inventory->textureIndex = 1;
-				}
-				else {
-					inventory->textureIndex = 2;
-				}
+				inventory->textureIndex = itemsTable->GetInventoryItemById(product.id)->number;
 				inventory->number = remainNumber;
 				return;
 			}

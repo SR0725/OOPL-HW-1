@@ -102,7 +102,7 @@ Item::Item()
 {
 }
 
-void Item::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects)
+void Item::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
 {
 
 	if (centerX == -9999 || centerY == -9999)

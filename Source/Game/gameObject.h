@@ -21,6 +21,7 @@ namespace game_framework
         bool isTriggerWith(GameObject* obj);
         bool GetIsCollider();
         bool GetIsTrigger();
+        vector<string> GetFilename();
         float GetX();
         float GetY();
         float GetWidth();
@@ -30,10 +31,11 @@ namespace game_framework
         void GoBottom();
         void GoRight();
         void GoLeft();
-        virtual void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects);
+        virtual void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY);
         virtual void OnClick(vector<GameObject*>& gameObjects);
 
     protected:
+        vector<string> filename;
         float x = 0.0f;
         float y = 0.0f;
         float motionX = 0.0f;

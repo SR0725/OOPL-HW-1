@@ -1,5 +1,6 @@
 #pragma once
 #include "Item.h"
+#include "Block.h"
 
 namespace game_framework
 {
@@ -18,19 +19,23 @@ namespace game_framework
     public:
         MainCharacter();
         MainCharacter* Init(vector<string> filename);
-        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects);
+        int GetMainHandSelectedIndex();
+        MainCharacter* SetMainHandSelectedIndex(int);
+        MainCharacter* SetTerrian(Terrian*);
+        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, int mouseX, int mouseY);
         void OnMove(string pressedKeys, vector<GameObject *> &gameObjects);
         void OnHurt(string pressedKeys, vector<GameObject *> &gameObjects);
         void OnAttack(string pressedKeys, vector<GameObject *> &gameObjects);
-        void OnGetItem(Item *item, vector<GameObject *> &gameObjects);
+        void OnBuild(vector<GameObject*>& gameObjects);
         void Attack(GameObject *gameObject);
         void OnAttacked(GameObject *gameObject);
         float GetHp();
         Inventory * GetInventory(int);
 
     private:
+        Terrian* terrian;
         Inventory inventories[24];
-        int inventoryIndex = 0;
+        int mainHandSelectedIndex = 0;
         void addItemToInventory(Item *item);
         float onAttackedTick = 0;
         float centerX = -9999;

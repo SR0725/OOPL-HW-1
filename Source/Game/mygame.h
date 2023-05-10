@@ -38,6 +38,8 @@
  *      3. Use ShowInitProgress(percent) to display loading progress.
  */
 #include "gameObject.h"
+#include "Item.h"
+#include "Block.h"
 
 namespace game_framework
 {
@@ -101,6 +103,7 @@ namespace game_framework
 				gameObjects;
 		vector<GameObject *>
 				uiObjects;
+		Terrian* terrian = nullptr;
 		void MountedGameObject();
 		void MountedTerrian();
 		void MountedUIObject();

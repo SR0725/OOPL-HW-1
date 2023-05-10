@@ -27,6 +27,7 @@ GameObject::GameObject()
 
 GameObject* GameObject::Init(vector<string> _filename)
 {
+    this->filename = _filename;
     bitmap.LoadBitmapByString(_filename, RGB(255, 255, 255));
 	return this;
 }
@@ -157,6 +158,11 @@ bool GameObject::GetIsTrigger()
     return isTrigger;
 }
 
+vector<string> game_framework::GameObject::GetFilename()
+{
+    return filename;
+}
+
 bool GameObject::isCollideWith(GameObject *obj)
 {
     if (!isCollider || !obj->GetIsCollider())
@@ -199,7 +205,7 @@ bool GameObject::isTriggerWith(GameObject *obj)
 
 
 
-void GameObject::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects)
+void GameObject::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
 {
     x += motionX;
     y += motionY;
@@ -219,7 +225,6 @@ void GameObject::Render(GameObject *mainObject)
     if (isUI)
     {
         bitmap.SetTopLeft(int(x), int(y));
-        bitmap.ShowBitmap();
         return;
     }
     float renderX = 320.0f - mainObject->GetX() - mainObject->GetWidth() / 2.0f + x;

@@ -15,6 +15,12 @@
 
 using namespace game_framework;
 
+float roundTo48(float num)
+{
+	return ((int)(num / 48)) * 48.0f;
+}
+
+
 Inventory::Inventory()
 {
 	this->id = "empty";
@@ -37,12 +43,17 @@ MainCharacter* MainCharacter::Init(vector<string> filename)
 	return this;
 }
 
-void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects)
+void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
 {
-	GameObject::OnUpdate(pressedKeys, gameObjects);
+	GameObject::OnUpdate(pressedKeys, gameObjects, mouseX, mouseY);
 	OnAttack(pressedKeys, gameObjects);
 	OnMove(pressedKeys, gameObjects);
 	OnHurt(pressedKeys, gameObjects);
+
+	if (keyFind(pressedKeys, "1"))
+	{
+		OnBuild(gameObjects);
+	}
 }
 
 void MainCharacter::OnMove(string pressedKeys, vector<GameObject*>& gameObjects)
@@ -75,7 +86,9 @@ void MainCharacter::OnMove(string pressedKeys, vector<GameObject*>& gameObjects)
 
 		if (gameObjects[i]->isTriggerWith(this) && dynamic_cast<Item*>(gameObjects[i]))
 		{
-			OnGetItem(dynamic_cast<Item*>(gameObjects[i]), gameObjects);
+			Item* item = dynamic_cast<Item*>(gameObjects[i]);
+			addItemToInventory(item);
+			item->Destroy(gameObjects);
 			continue;
 		}
 
@@ -139,15 +152,6 @@ void MainCharacter::OnMove(string pressedKeys, vector<GameObject*>& gameObjects)
 	}
 }
 
-void MainCharacter::OnGetItem(Item* item, vector<GameObject*>& gameObjects)
-{
-	if (item->GetId() == "log")
-	{
-		addItemToInventory(item);
-		item->Destroy(gameObjects);
-	}
-}
-
 void MainCharacter::OnAttack(string pressedKeys, vector<GameObject*>& gameObjects)
 {
 	if (!keyFind(pressedKeys, "0"))
@@ -199,6 +203,21 @@ void MainCharacter::OnHurt(string pressedKeys, vector<GameObject*>& gameObjects)
 	}
 }
 
+void MainCharacter::OnBuild(vector<GameObject*>& gameObjects) {
+	if (terrian->IsBlock(GetX(), GetY())) {
+		return;
+	}
+	if (inventories[mainHandSelectedIndex].id == "craft_table") {
+		inventories[mainHandSelectedIndex].number -= 1;
+		if (inventories[mainHandSelectedIndex].number == 0) {
+			inventories[mainHandSelectedIndex].id = "empty";
+			inventories[mainHandSelectedIndex].textureIndex = 0;
+		}
+
+		this->terrian->SetBlock(GetX(), GetY(), 1);
+	}
+}
+
 void MainCharacter::Attack(GameObject* gameObject)
 {
 	if (dynamic_cast<Block*>(gameObject))
@@ -242,9 +261,11 @@ void MainCharacter::addItemToInventory(Item* item)
 
 	for (unsigned int i = 0; i < 24; i++)
 	{
-		if (inventories[i].id == "empty")
+		if (inventories[i].id == "empty" || inventories[i].number == 0)
+
 		{
 			inventories[i].id = item->GetId();
+			// this number is mean the texture index of item
 			inventories[i].textureIndex = itemsTable->GetInventoryItemById(item->GetId())->number; 
 			inventories[i].number = 1;
 			return;
@@ -255,4 +276,21 @@ void MainCharacter::addItemToInventory(Item* item)
 Inventory* MainCharacter::GetInventory(int i)
 {
 	return &inventories[i];
+}
+
+
+int MainCharacter::GetMainHandSelectedIndex() {
+	return mainHandSelectedIndex;
+}
+
+MainCharacter* MainCharacter::SetMainHandSelectedIndex(int newIndex) {
+	mainHandSelectedIndex = newIndex;
+
+	return this;
+}
+
+MainCharacter* MainCharacter::SetTerrian(Terrian* terrian)
+{
+	this->terrian = terrian;
+	return this;
 }

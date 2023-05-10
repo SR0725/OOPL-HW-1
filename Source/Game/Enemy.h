@@ -9,7 +9,7 @@ namespace game_framework
         Enemy* SetHp(float);
         Enemy* SetAttack(float);
         Enemy* SetDefense(float);
-        void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects);
+        void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY);
         void OnHurt(string pressedKeys, vector<GameObject*>& gameObjects);
         void OnMove(string pressedKeys, vector<GameObject*>& gameObjects);
         void OnAttack(string pressedKeys, vector<GameObject*>& gameObjects);

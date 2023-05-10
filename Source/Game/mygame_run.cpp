@@ -19,8 +19,10 @@
 #include "InventoryUI.h"
 #include "Enemy.h"
 #include "tool.h"
+#include "handSelectedUI.h"
 
 using namespace game_framework;
+
 
 CGameStateRun::CGameStateRun(CGame* g) : CGameState(g)
 {
@@ -32,6 +34,7 @@ CGameStateRun::~CGameStateRun()
 
 void CGameStateRun::OnInit()
 {
+	terrian = new Terrian(&gameObjects);
 	MountedGameObject();
 	MountedTerrian();
 	MountedUIObject();
@@ -43,7 +46,9 @@ void CGameStateRun::MountedGameObject()
 	background->Init({ "resources/terrian.bmp" })->SetActive(true);
 
 	MainCharacter* character = new MainCharacter();
-	character->Init({ "resources/player_0.bmp" })
+	character
+		->SetTerrian(terrian)
+		->Init({ "resources/player_0.bmp" })
 		->SetPosition(256, 256)
 		->SetSpeed(4.0f)
 		->SetCollider(true)
@@ -56,14 +61,14 @@ void CGameStateRun::MountedGameObject()
 	gameObjects.push_back(character);
 
 
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 0; i++) {
 		Enemy* testEnemy = new Enemy();
 		testEnemy
 			->Init({ "resources/enemy.bmp" })
 			->SetHp(100)
 			->SetAttack(10)
 			->SetDefense(10)
-			->SetPosition((float)floor(random(0, 1024)), (float)floor((int)random(0, 1024)))
+			->SetPosition(0,0)
 			->SetSpeed(1.0f)
 			->SetCollider(true)
 			->SetTrigger(true)
@@ -76,113 +81,26 @@ void CGameStateRun::MountedGameObject()
 
 void CGameStateRun::MountedTerrian()
 {
-	// 建立大樹
-	for (int i = 0; i < 24; i++)
+	for (int i = 0; i < 64; i++)
 	{
-		Block* tempTree = new Block();
-		tempTree
-			->Init({ "resources/tree_block.bmp" })
-			->SetDropItems(
-				vector<ItemTable*>({
-					new ItemTable("log", "resources/log.bmp", 1, 4),
-					})
-					)
-			->SetPosition((float)floor(random(0, 1024)), (float)floor((int)random(0, 1024)))
-			->SetCollider(true)
-			->SetId("tree_block")
-			->SetActive(true);
-		gameObjects.push_back(tempTree);
-	}
-
-	// 建立小樹
-	for (int i = 0; i < 8; i++)
-	{
-		Block* tempTree = new Block();
-		tempTree
-			->Init({ "resources/tree_apple_small_block.bmp" })
-			->SetDropItems(
-				vector<ItemTable*>({
-					new ItemTable("log", "resources/log.bmp", 1, 2),
-					})
-					)
-			->SetPosition((float)floor(random(0, 1000)), (float)floor((int)random(0, 1000)))
-			->SetCollider(true)
-			->SetId("tree_apple_small_block")
-			->SetActive(true);
-		gameObjects.push_back(tempTree);
-	}
-
-	// 建立石頭
-	for (int i = 0; i < 8; i++)
-	{
-		Block* tempTree = new Block();
-		tempTree
-			->Init({ "resources/stone_block.bmp" })
-			->SetDropItems(
-				vector<ItemTable*>({
-					new ItemTable("log", "resources/stone.bmp", 1, 4),
-					})
-					)
-			->SetPosition((float)floor(random(0, 1024)), (float)floor((int)random(0, 1024)))
-			->SetCollider(true)
-			->SetId("stone_block")
-			->SetActive(true);
-		gameObjects.push_back(tempTree);
-	}
-
-	// 建立煤炭
-	for (int i = 0; i < 4; i++)
-	{
-		Block* tempTree = new Block();
-		tempTree
-			->Init({ "resources/coal_block.bmp" })
-			->SetDropItems(
-				vector<ItemTable*>({
-					new ItemTable("log", "resources/stone.bmp", 1, 2),
-					new ItemTable("log", "resources/coal.bmp", 1, 4),
-					})
-					)
-			->SetPosition((float)floor(random(0, 1024)), (float)floor((int)random(0, 1024)))
-			->SetCollider(true)
-			->SetId("coal_block")
-			->SetActive(true);
-		gameObjects.push_back(tempTree);
-	}
-
-	// 建立鐵礦
-	for (int i = 0; i < 4; i++)
-	{
-		Block* tempTree = new Block();
-		tempTree
-			->Init({ "resources/iron_block.bmp" })
-			->SetDropItems(
-				vector<ItemTable*>({
-					new ItemTable("log", "resources/iron.bmp", 1, 4),
-					})
-					)
-			->SetPosition((float)floor(random(0, 1024)), (float)floor((int)random(0, 1024)))
-			->SetCollider(true)
-			->SetId("iron_block")
-			->SetActive(true);
-		gameObjects.push_back(tempTree);
-	}
-
-	// 建立銀礦
-	for (int i = 0; i < 2; i++)
-	{
-		Block* tempTree = new Block();
-		tempTree
-			->Init({ "resources/slive_block.bmp" })
-			->SetDropItems(
-				vector<ItemTable*>({
-					new ItemTable("log", "resources/slive.bmp", 1, 4),
-					})
-					)
-			->SetPosition((float)floor(random(0, 1024)), (float)floor((int)random(0, 1024)))
-			->SetCollider(true)
-			->SetId("slive_block")
-			->SetActive(true);
-		gameObjects.push_back(tempTree);
+		// random position
+		int x = rand() % 21;
+		int y = rand() % 21;
+		if (terrian->IsBlock(x*48.0f, y*48.0f)) {
+			i--;
+			continue;
+		}
+		// random block
+		int randValue = rand() % 100;
+		int blockType = 0;
+		if (randValue < 40) blockType = 1; // 40% 大樹
+		else if (randValue < 60) blockType = 2; // 20% 小樹
+		else if (randValue < 80) blockType = 3; // 20% 石頭
+		else if (randValue < 90) blockType = 4; // 10% 煤炭
+		else if (randValue < 95) blockType = 5; // 5% 鐵礦
+		else if (randValue < 100) blockType = 6; // 5% 銀礦
+		// create block
+		terrian->SetBlock(x * 48.0f, y * 48.0f, blockType);
 	}
 }
 
@@ -198,20 +116,29 @@ void CGameStateRun::MountedUIObject()
 		->Init({ "resources/craft_craft_table.bmp" })
 		->SetRawMaterials(
 			vector<ItemTable*>({
-				new ItemTable("log", "resources/log.bmp", 1, 10),
+				new ItemTable("log", "resources/log.bmp", 1, 6),
 				})
 				)
 		->SetProducts(
 			vector<ItemTable*>({
-				new ItemTable("test", "resources/test.bmp", 1, 1)
+				new ItemTable("craft_table", "resources/craft_table.bmp", 1, 1)
 				})
 		)
 		->SetPosition(424, 100)
 		->SetActive(true)
 		->SetUI(true);
-	uiObjects.push_back(craftItem_craftTable);
 
+
+	HandSelectedUI* handSelected = new HandSelectedUI();
+	handSelected
+		->Init({ "resources/select_ui.bmp" })
+		->SetMainCharacter(character)
+		->SetActive(true)
+		->SetUI(true);
+
+	uiObjects.push_back(craftItem_craftTable);
 	uiObjects.push_back(inventoryUI);
+	uiObjects.push_back(handSelected);
 }
 
 void CGameStateRun::OnBeginState()
@@ -222,11 +149,11 @@ void CGameStateRun::OnMove()
 {
 	for (unsigned int i = 0; i < gameObjects.size(); i++)
 	{
-		(*gameObjects[i]).OnUpdate(pressedKeys, gameObjects);
+		(*gameObjects[i]).OnUpdate(pressedKeys, gameObjects, mouseX, mouseY);
 	}
 	for (unsigned int i = 0; i < uiObjects.size(); i++)
 	{
-		(*uiObjects[i]).OnUpdate(pressedKeys, uiObjects);
+		(*uiObjects[i]).OnUpdate(pressedKeys, uiObjects, mouseX, mouseY);
 	}
 }
 
@@ -246,6 +173,10 @@ void CGameStateRun::OnShow()
 		else if (dynamic_cast<CraftItem*>(uiObjects[i]))
 		{
 			dynamic_cast<CraftItem*>(uiObjects[i])->Render(character);
+		}
+		else
+		{
+			uiObjects[i]->Render(character);
 		}
 	}
 	debug_text();
