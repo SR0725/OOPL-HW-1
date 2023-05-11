@@ -20,11 +20,11 @@ HandSelectedUI* HandSelectedUI::Init(vector<string> filename)
 	return this;
 }
 
-void HandSelectedUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
+void HandSelectedUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
 	GameObject::SetPosition(162 + (float)this->mainCharacter->GetMainHandSelectedIndex() * 52, 404.0f);
 
-	GameObject::OnUpdate(pressedKeys, gameObjects, mouseX, mouseY);
+	GameObject::OnUpdate(pressedKeys, gameObjects, uiObjects, mouseX, mouseY);
 }
 
 

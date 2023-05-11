@@ -43,16 +43,34 @@ CraftItem* CraftItem::SetProducts(vector<ItemTable*>& _products)
 	return this;
 }
 
-void CraftItem::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
+CraftItem* game_framework::CraftItem::SetOnlyTable(bool onlyTable)
 {
-	if (keyFind(pressedKeys, "E"))
+	this->onlyTable = onlyTable;
+
+	return this;
+}
+
+void CraftItem::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
+{
+	MainCharacter* character = dynamic_cast<MainCharacter*>(gameObjects[1]);
+
+	if (character->GetUseTable())
 	{
 		isOpen = true;
+		isOpenInTable = true;
 	}
-	else
-	{
-		isOpen = false;
+	else {
+		if (keyFind(pressedKeys, "E"))
+		{
+			isOpen = true;
+			isOpenInTable = false;
+		}
+		else
+		{
+			isOpen = false;
+		}
 	}
+
 }
 
 void CraftItem::Render(GameObject* mainObject)
@@ -71,6 +89,15 @@ void CraftItem::Render(GameObject* mainObject)
 }
 
 void CraftItem::OnClick(vector<GameObject*>& gameObjects) {
+	if (!isOpen)
+	{
+		return;
+	}
+	if (onlyTable && !isOpenInTable)
+	{
+		return;
+	}
+
 	MainCharacter* character = dynamic_cast<MainCharacter*>(gameObjects[1]);
 	ItemsTable* itemsTable = new ItemsTable();
 

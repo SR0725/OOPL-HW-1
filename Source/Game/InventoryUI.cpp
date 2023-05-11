@@ -39,9 +39,12 @@ void InventoryUI::showAmount()
 	CDDraw::ReleaseBackCDC();
 }
 
-void InventoryUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
+void InventoryUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
-	if (isDrag && bagOpen)
+	MainCharacter* character = dynamic_cast<MainCharacter*>(gameObjects[1]);
+
+
+	if (isDrag)
 	{
 		if (keyFind(pressedKeys, "0"))
 		{
@@ -50,37 +53,43 @@ void InventoryUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects,
 		}
 		else {
 			// 取得所有其他物品欄位 看是否有重疊
-			for (unsigned int i = 0; i < gameObjects.size(); i++)
+			for (unsigned int i = 0; i < uiObjects.size(); i++)
 			{
-				if (gameObjects[i]->GetId() != "inventory")
+				if (uiObjects[i]->GetId() != "inventory")
 				{
 					continue;
 				}
-				if (gameObjects[i] == this)
+				if (uiObjects[i] == this)
 				{
 					continue;
 				}
-				if (gameObjects[i]->GetX() < mouseX && mouseX < gameObjects[i]->GetX() + gameObjects[i]->GetWidth() &&
-					gameObjects[i]->GetY() < mouseY && mouseY < gameObjects[i]->GetY() + gameObjects[i]->GetHeight())
+				if (uiObjects[i]->GetX() < mouseX && mouseX < uiObjects[i]->GetX() + uiObjects[i]->GetWidth() &&
+					uiObjects[i]->GetY() < mouseY && mouseY < uiObjects[i]->GetY() + uiObjects[i]->GetHeight())
 				{
-					Inventory* tempInventory = dynamic_cast<InventoryUI*>(gameObjects[i])->GetInventory();
-					dynamic_cast<InventoryUI*>(gameObjects[i])->SetInventory(this->inventory);
+					Inventory* tempInventory = dynamic_cast<InventoryUI*>(uiObjects[i])->GetInventory();
+					dynamic_cast<InventoryUI*>(uiObjects[i])->SetInventory(this->inventory);
 					this->SetInventory(tempInventory);
 				}
-			}	
+			}
 			isDrag = false;
 			SetX(originX);
 			SetY(originY);
 		}
 	}
 
-	if (keyFind(pressedKeys, "E"))
+	if (character->GetUseTable())
 	{
 		bagOpen = true;
 	}
-	else
-	{
-		bagOpen = false;
+	else {
+		if (keyFind(pressedKeys, "E"))
+		{
+			bagOpen = true;
+		}
+		else
+		{
+			bagOpen = false;
+		}
 	}
 }
 
@@ -140,7 +149,7 @@ InventoryUI* InventoryUI::SetIndex(int index) {
 
 
 
-InventoriesUI* InventoriesUI::Init(MainCharacter* mainCharacter, vector<GameObject*>& gameObjects)
+InventoriesUI* InventoriesUI::Init(MainCharacter* mainCharacter, vector<GameObject*>& uiObjects)
 {
 	GameObject::Init({ "resources/empty.bmp" })->SetPosition(100, 0);
 	ItemsTable* itemsTable = new ItemsTable();
@@ -161,7 +170,7 @@ InventoriesUI* InventoriesUI::Init(MainCharacter* mainCharacter, vector<GameObje
 			->SetUI(true)
 			->SetActive(true)
 			->SetId("inventory");
-		gameObjects.push_back(inventoryUI[i]);
+		uiObjects.push_back(inventoryUI[i]);
 	}
 	// 背包
 	for (int i = 6; i < 24; i++)
@@ -173,15 +182,15 @@ InventoriesUI* InventoriesUI::Init(MainCharacter* mainCharacter, vector<GameObje
 			->SetBag(true)
 			->SetInventory(mainCharacter->GetInventory(i))
 			->Init(itemsTable->GetInventoryItemsPath())
-			->SetPosition(166 + (float)(i % 6) * 52, 168.0f + (float)(floor(i / 6) - 1) * 52)
+			->SetPosition(166 + (float)(i % 6) * 52, 212.0f + (float)(floor(i / 6) - 1) * 52)
 			->SetUI(true)
 			->SetActive(true)
 			->SetId("inventory");
-		gameObjects.push_back(inventoryUI[i]);
+		uiObjects.push_back(inventoryUI[i]);
 	}
 
 	return this;
 }
-void InventoriesUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
+void InventoriesUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
 }

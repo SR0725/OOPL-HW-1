@@ -11,7 +11,7 @@ namespace game_framework
 		bool IsBlock(float x, float y);
 		vector<GameObject*>* gameObjects = nullptr;
 		vector<GameObject*>* BlocksType = nullptr;
-		int terrians[21][21] = {};
+		int terrians[22][22] = {};
 	};
 
 	class Block : public GameObject
@@ -19,21 +19,26 @@ namespace game_framework
 	public:
 		Block();
 		Block* Init(vector<string> filename);
-		void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY) override;
 		Block* SetDropItems(vector<ItemTable*>*);
 		Block* SetTerrian(Terrian*);
 		Block* SetBlockIndex(int);
 		Block* OnDropItem(vector<GameObject*>& gameObjects);
+		Block* SetHp(float);
+		void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY) override;
+		void OnClick(vector<GameObject*>& gameObjects);
+
+		float GetHp();
 		void Destroy(vector<GameObject*>& gameObjects);
 		void OnAttacked(GameObject* gameObject);
 		vector<ItemTable*>* dropItems = new vector<ItemTable*>();
 		int BlockIndex = 0;
 
-	private:
+	protected:
 		Terrian* terrian = nullptr;
 		float onAttackedTick = 0;
 		float centerX = -9999;
 		float centerY = -9999;
 		float hp = 10;
+		int tick = 0;
 	};
 };

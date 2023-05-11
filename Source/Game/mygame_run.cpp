@@ -111,6 +111,17 @@ void CGameStateRun::MountedUIObject()
 	inventoryUI->Init(character, uiObjects);
 
 	CraftItem* craftItem_craftTable = new CraftItem();
+	CraftItem* craftItem_wood_axe = new CraftItem();
+	CraftItem* craftItem_wood_pickaxe = new CraftItem();
+	CraftItem* craftItem_wood_sword = new CraftItem();
+
+	CraftItem* craftItem_stone_axe = new CraftItem();
+	CraftItem* craftItem_stone_pickaxe = new CraftItem();
+	CraftItem* craftItem_stone_sword = new CraftItem();
+
+	CraftItem* craftItem_iron_axe = new CraftItem();
+	CraftItem* craftItem_iron_pickaxe = new CraftItem();
+	CraftItem* craftItem_iron_sword = new CraftItem();
 
 	craftItem_craftTable
 		->Init({ "resources/craft_craft_table.bmp" })
@@ -124,7 +135,177 @@ void CGameStateRun::MountedUIObject()
 				new ItemTable("craft_table", "resources/craft_table.bmp", 1, 1)
 				})
 		)
-		->SetPosition(424, 100)
+		->SetPosition(424, 148)
+		->SetActive(true)
+		->SetUI(true);
+
+	// wood tool
+	craftItem_wood_axe
+		->SetOnlyTable(true)
+		->Init({ "resources/wood_axe_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({
+				new ItemTable("log", "resources/log.bmp", 1, 5),
+				})
+				)
+		->SetProducts(
+			vector<ItemTable*>({
+				new ItemTable("wood_axe", "resources/wood_axe.bmp", 1, 1)
+				})
+		)
+		->SetPosition(164, 44)
+		->SetActive(true)
+		->SetUI(true);
+
+
+
+	craftItem_wood_pickaxe
+		->SetOnlyTable(true)
+		->Init({ "resources/wood_pickaxe_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({
+				new ItemTable("log", "resources/log.bmp", 1, 5),
+				})
+				)
+		->SetProducts(
+			vector<ItemTable*>({
+				new ItemTable("wood_pickaxe", "resources/wood_pickaxe.bmp", 1, 1)
+				})
+		)
+		->SetPosition(216, 44)
+		->SetActive(true)
+		->SetUI(true);
+
+	craftItem_wood_sword
+		->SetOnlyTable(true)
+		->Init({ "resources/wood_sword_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({
+				new ItemTable("log", "resources/log.bmp", 1, 5),
+				})
+				)
+		->SetProducts(
+			vector<ItemTable*>({
+				new ItemTable("wood_sword", "resources/wood_sword.bmp", 1, 1)
+				})
+		)
+		->SetPosition(268, 44)
+		->SetActive(true)
+		->SetUI(true);
+
+
+	// stone tool
+	craftItem_stone_axe
+		->SetOnlyTable(true)
+		->Init({ "resources/stone_axe_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({
+				new ItemTable("stone", "resources/stone.bmp", 1, 5),
+				new ItemTable("wood_axe", "resources/wood_axe.bmp", 1, 1),
+				})
+				)
+		->SetProducts(
+			vector<ItemTable*>({
+				new ItemTable("stone_axe", "resources/stone_axe.bmp", 1, 1)
+				})
+		)
+		->SetPosition(320, 44)
+		->SetActive(true)
+		->SetUI(true);
+
+
+
+	craftItem_stone_pickaxe
+		->SetOnlyTable(true)
+		->Init({ "resources/stone_pickaxe_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({
+				new ItemTable("stone", "resources/stone.bmp", 1, 5),
+				new ItemTable("wood_pickaxe", "resources/wood_pickaxe.bmp", 1, 1),
+				})
+				)
+		->SetProducts(
+			vector<ItemTable*>({
+				new ItemTable("stone_pickaxe", "resources/stone_pickaxe.bmp", 1, 1)
+				})
+		)
+		->SetPosition(372, 44)
+		->SetActive(true)
+		->SetUI(true);
+
+	craftItem_stone_sword
+		->SetOnlyTable(true)
+		->Init({ "resources/stone_sword_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({
+				new ItemTable("stone", "resources/stone.bmp", 1, 5),
+				new ItemTable("wood_sword", "resources/wood_sword.bmp", 1, 1)
+				})
+				)
+		->SetProducts(
+			vector<ItemTable*>({
+				new ItemTable("stone_sword", "resources/stone_sword.bmp", 1, 1)
+				})
+		)
+		->SetPosition(424, 44)
+		->SetActive(true)
+		->SetUI(true);
+
+
+	// iron tool
+	craftItem_iron_axe
+		->SetOnlyTable(true)
+		->Init({ "resources/iron_axe_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({
+				new ItemTable("iron", "resources/iron.bmp", 1, 5),
+				new ItemTable("stone_axe", "resources/stone_axe.bmp", 1, 1),
+				})
+				)
+		->SetProducts(
+			vector<ItemTable*>({
+				new ItemTable("iron_axe", "resources/iron_axe.bmp", 1, 1)
+				})
+		)
+		->SetPosition(164, 96)
+		->SetActive(true)
+		->SetUI(true);
+
+
+
+	craftItem_iron_pickaxe
+		->SetOnlyTable(true)
+		->Init({ "resources/iron_pickaxe_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({
+				new ItemTable("iron", "resources/iron.bmp", 1, 5),
+				new ItemTable("stone_pickaxe", "resources/stone_pickaxe.bmp", 1, 1),
+				})
+				)
+		->SetProducts(
+			vector<ItemTable*>({
+				new ItemTable("iron_pickaxe", "resources/iron_pickaxe.bmp", 1, 1)
+				})
+		)
+		->SetPosition(216, 96)
+		->SetActive(true)
+		->SetUI(true);
+
+	craftItem_iron_sword
+		->SetOnlyTable(true)
+		->Init({ "resources/iron_sword_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({
+				new ItemTable("iron", "resources/iron.bmp", 1, 5),
+				new ItemTable("stone_sword", "resources/stone_sword.bmp", 1, 1)
+				})
+		)
+		->SetProducts(
+			vector<ItemTable*>({
+				new ItemTable("iron_sword", "resources/iron_sword.bmp", 1, 1)
+				})
+		)
+		->SetPosition(268, 96)
 		->SetActive(true)
 		->SetUI(true);
 
@@ -137,6 +318,15 @@ void CGameStateRun::MountedUIObject()
 		->SetUI(true);
 
 	uiObjects.push_back(craftItem_craftTable);
+	uiObjects.push_back(craftItem_wood_axe);
+	uiObjects.push_back(craftItem_wood_pickaxe);
+	uiObjects.push_back(craftItem_wood_sword);
+	uiObjects.push_back(craftItem_stone_axe);
+	uiObjects.push_back(craftItem_stone_pickaxe);
+	uiObjects.push_back(craftItem_stone_sword);
+	uiObjects.push_back(craftItem_iron_axe);
+	uiObjects.push_back(craftItem_iron_pickaxe);
+	uiObjects.push_back(craftItem_iron_sword);
 	uiObjects.push_back(inventoryUI);
 	uiObjects.push_back(handSelected);
 }
@@ -149,11 +339,11 @@ void CGameStateRun::OnMove()
 {
 	for (unsigned int i = 0; i < gameObjects.size(); i++)
 	{
-		(*gameObjects[i]).OnUpdate(pressedKeys, gameObjects, mouseX, mouseY);
+		(*gameObjects[i]).OnUpdate(pressedKeys, gameObjects, uiObjects, mouseX, mouseY);
 	}
 	for (unsigned int i = 0; i < uiObjects.size(); i++)
 	{
-		(*uiObjects[i]).OnUpdate(pressedKeys, uiObjects, mouseX, mouseY);
+		(*uiObjects[i]).OnUpdate(pressedKeys, gameObjects, uiObjects, mouseX, mouseY);
 	}
 }
 
@@ -277,6 +467,27 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point) // �B�z�ƹ��
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point) // �B�z�ƹ����ʧ@
 {
 	pressedKeys.append("1");
+	MainCharacter* character = dynamic_cast<MainCharacter*>(gameObjects[1]);
+	int relativeMouseX = mouseX + (int)character->GetX() - 320;
+	int relativeMouseY = mouseY + (int)character->GetY() - 240;
+	for (unsigned int i = 0; i < gameObjects.size(); i++)
+	{
+		GameObject* obj = gameObjects[i];
+		if (obj->GetX() + obj->GetWidth() - 24.0f < relativeMouseX || obj->GetX() - 24.0f > relativeMouseX)
+		{
+			continue;
+		}
+
+		if (obj->GetY() + obj->GetHeight() - 24.0f < relativeMouseY || obj->GetY() - 24.0f > relativeMouseY)
+		{
+			continue;
+		}
+
+		if (dynamic_cast<Block*>(obj))
+		{
+			dynamic_cast<Block*>(obj)->OnClick(gameObjects);
+		}
+	}
 }
 
 void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point) // �B�z�ƹ����ʧ@

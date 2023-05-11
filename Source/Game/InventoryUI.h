@@ -14,7 +14,7 @@ namespace game_framework
         InventoryUI* SetMainCharacter(MainCharacter*);
         InventoryUI* SetIndex(int);
         void showAmount();
-        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, int mouseX, int mouseY);
+        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY);
         void Render(GameObject *mainObject);
         void OnClick(vector<GameObject*>& gameObjects);
         Inventory* GetInventory();
@@ -34,7 +34,7 @@ namespace game_framework
     {
     public:
         InventoriesUI* Init(MainCharacter *mainCharacter, vector<GameObject *> &gameObjects);
-        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, int mouseX, int mouseY);
+        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY);
 
     private:
         MainCharacter *mainCharacter;

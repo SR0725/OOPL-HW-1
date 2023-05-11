@@ -31,6 +31,7 @@ Inventory::Inventory()
 
 MainCharacter::MainCharacter()
 {
+	useTable = false;
 	for (unsigned int i = 0; i < 24; i++)
 	{
 		inventories[i] = Inventory();
@@ -43,9 +44,9 @@ MainCharacter* MainCharacter::Init(vector<string> filename)
 	return this;
 }
 
-void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
+void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
-	GameObject::OnUpdate(pressedKeys, gameObjects, mouseX, mouseY);
+	GameObject::OnUpdate(pressedKeys, gameObjects, uiObjects, mouseX, mouseY);
 	OnAttack(pressedKeys, gameObjects);
 	OnMove(pressedKeys, gameObjects);
 	OnHurt(pressedKeys, gameObjects);
@@ -53,6 +54,11 @@ void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject*>& gameObject
 	if (keyFind(pressedKeys, "1"))
 	{
 		OnBuild(gameObjects);
+	}
+
+	if (keyFind(pressedKeys, "E"))
+	{
+		SetUseTable(false);
 	}
 }
 
@@ -150,11 +156,29 @@ void MainCharacter::OnMove(string pressedKeys, vector<GameObject*>& gameObjects)
 	{
 		GoRight();
 	}
+
+	if (GetX() + motionX < 0)
+	{
+		motionX = 1;
+	}
+	if (GetX() + motionX > 976)
+	{
+		motionX = -1;
+	}
+	if (GetY() + motionY < 0)
+	{
+		motionY = 1;
+	}
+	if (GetY() + motionY > 976)
+	{
+		motionY = -1;
+	}
+
 }
 
 void MainCharacter::OnAttack(string pressedKeys, vector<GameObject*>& gameObjects)
 {
-	if (!keyFind(pressedKeys, "0"))
+	if (useTable || keyFind(pressedKeys, "E") || !keyFind(pressedKeys, "0"))
 	{
 		return;
 	}
@@ -207,14 +231,20 @@ void MainCharacter::OnBuild(vector<GameObject*>& gameObjects) {
 	if (terrian->IsBlock(GetX(), GetY())) {
 		return;
 	}
-	if (inventories[mainHandSelectedIndex].id == "craft_table") {
-		inventories[mainHandSelectedIndex].number -= 1;
-		if (inventories[mainHandSelectedIndex].number == 0) {
-			inventories[mainHandSelectedIndex].id = "empty";
-			inventories[mainHandSelectedIndex].textureIndex = 0;
-		}
 
-		this->terrian->SetBlock(GetX(), GetY(), 1);
+	if (inventories[mainHandSelectedIndex].id == "craft_table") {
+		this->terrian->SetBlock(GetX(), GetY(), 7);
+	}
+
+	if (inventories[mainHandSelectedIndex].id == "sapling") {
+		this->terrian->SetBlock(GetX(), GetY(), 2);
+	}
+
+
+	inventories[mainHandSelectedIndex].number -= 1;
+	if (inventories[mainHandSelectedIndex].number == 0) {
+		inventories[mainHandSelectedIndex].id = "empty";
+		inventories[mainHandSelectedIndex].textureIndex = 0;
 	}
 }
 
@@ -293,4 +323,15 @@ MainCharacter* MainCharacter::SetTerrian(Terrian* terrian)
 {
 	this->terrian = terrian;
 	return this;
+}
+
+MainCharacter* game_framework::MainCharacter::SetUseTable(bool _useTable)
+{
+	useTable = _useTable;
+	return this;
+}
+
+bool game_framework::MainCharacter::GetUseTable()
+{
+	return useTable;
 }

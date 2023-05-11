@@ -41,9 +41,9 @@ Enemy* Enemy::SetDefense(float _defence)
 	return this;
 }
 
-void Enemy::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
+void Enemy::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
-	GameObject::OnUpdate(pressedKeys, gameObjects, mouseX, mouseY);
+	GameObject::OnUpdate(pressedKeys, gameObjects, uiObjects, mouseX, mouseY);
 	OnMove(pressedKeys, gameObjects);
 	OnAttack(pressedKeys, gameObjects);
 	OnHurt(pressedKeys, gameObjects);

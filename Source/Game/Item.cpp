@@ -34,6 +34,15 @@ ItemsTable::ItemsTable()
 		new ItemTable("apple_sapling", "resources/apple_sapling.bmp", 0, 7),
 		new ItemTable("sapling", "resources/sapling.bmp", 0, 8),
 		new ItemTable("craft_table", "resources/craft_table.bmp", 0, 9),
+		new ItemTable("wood_axe", "resources/wood_axe.bmp", 0, 10),
+		new ItemTable("wood_pickaxe", "resources/wood_pickaxe.bmp", 0, 11),
+		new ItemTable("wood_sword", "resources/wood_sword.bmp", 0, 12),
+		new ItemTable("stone_axe", "resources/stone_axe.bmp", 0, 13),
+		new ItemTable("stone_pickaxe", "resources/stone_pickaxe.bmp", 0, 14),
+		new ItemTable("stone_sword", "resources/stone_sword.bmp", 0, 15),
+		new ItemTable("iron_axe", "resources/iron_axe.bmp", 0, 16),
+		new ItemTable("iron_pickaxe", "resources/iron_pickaxe.bmp", 0, 17),
+		new ItemTable("iron_sword", "resources/iron_sword.bmp", 0, 18),
 		});
 	this->inventoryItems = new vector<ItemTable*>({
 		new ItemTable("empty", "resources/empty_inventory.bmp", 0, 0),
@@ -46,6 +55,15 @@ ItemsTable::ItemsTable()
 		new ItemTable("apple_sapling", "resources/apple_sapling_inventory.bmp", 0, 7),
 		new ItemTable("sapling", "resources/sapling_inventory.bmp", 0, 8),
 		new ItemTable("craft_table", "resources/craft_table_inventory.bmp", 0, 9),
+		new ItemTable("wood_axe", "resources/wood_axe_inventory.bmp", 0, 10),
+		new ItemTable("wood_pickaxe", "resources/wood_pickaxe_inventory.bmp", 0, 11),
+		new ItemTable("wood_sword", "resources/wood_sword_inventory.bmp", 0, 12),
+		new ItemTable("stone_axe", "resources/stone_axe_inventory.bmp", 0, 13),
+		new ItemTable("stone_pickaxe", "resources/stone_pickaxe_inventory.bmp", 0, 14),
+		new ItemTable("stone_sword", "resources/stone_sword_inventory.bmp", 0, 15),
+		new ItemTable("iron_axe", "resources/iron_axe_inventory.bmp", 0, 16),
+		new ItemTable("iron_pickaxe", "resources/iron_pickaxe_inventory.bmp", 0, 17),
+		new ItemTable("iron_sword", "resources/iron_sword_inventory.bmp", 0, 18),
 		});
 
 	if (this->items->size() != this->inventoryItems->size())
@@ -102,7 +120,7 @@ Item::Item()
 {
 }
 
-void Item::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
+void Item::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
 
 	if (centerX == -9999 || centerY == -9999)

@@ -31,7 +31,7 @@ namespace game_framework
         void GoBottom();
         void GoRight();
         void GoLeft();
-        virtual void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY);
+        virtual void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY);
         virtual void OnClick(vector<GameObject*>& gameObjects);
 
     protected:

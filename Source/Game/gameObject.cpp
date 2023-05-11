@@ -205,7 +205,7 @@ bool GameObject::isTriggerWith(GameObject *obj)
 
 
 
-void GameObject::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, int mouseX, int mouseY)
+void GameObject::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
     x += motionX;
     y += motionY;

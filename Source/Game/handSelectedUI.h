@@ -11,7 +11,7 @@ namespace game_framework
     public:
         HandSelectedUI* Init(vector<string> filename);
         HandSelectedUI* SetMainCharacter(MainCharacter*);
-        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, int mouseX, int mouseY);
+        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY);
 
     private:
         MainCharacter* mainCharacter;

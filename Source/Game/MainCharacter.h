@@ -22,7 +22,9 @@ namespace game_framework
         int GetMainHandSelectedIndex();
         MainCharacter* SetMainHandSelectedIndex(int);
         MainCharacter* SetTerrian(Terrian*);
-        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, int mouseX, int mouseY);
+        MainCharacter* SetUseTable(bool);
+        bool GetUseTable();
+        void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY);
         void OnMove(string pressedKeys, vector<GameObject *> &gameObjects);
         void OnHurt(string pressedKeys, vector<GameObject *> &gameObjects);
         void OnAttack(string pressedKeys, vector<GameObject *> &gameObjects);
@@ -32,7 +34,9 @@ namespace game_framework
         float GetHp();
         Inventory * GetInventory(int);
 
+
     private:
+        bool useTable = false;
         Terrian* terrian;
         Inventory inventories[24];
         int mainHandSelectedIndex = 0;
