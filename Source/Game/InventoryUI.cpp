@@ -10,25 +10,19 @@
 #include "MainCharacter.h"
 #include <string>
 #include "tool.h"
+#include "config.h"
 
 using namespace game_framework;
 
-InventoryUI* InventoryUI::SetInventory(Inventory* inventory)
-{
-	this->inventory = inventory;
-
-	return this;
-}
-
-
 Inventory* InventoryUI::GetInventory()
 {
-	return inventory;
+	return mainCharacter->GetInventory(index);
 }
 
 
 void InventoryUI::showAmount()
 {
+	Inventory* inventory = mainCharacter->GetInventory(index);
 	if (!inventory || inventory->number == 0 || inventory->id == "empty")
 	{
 		return;
@@ -41,8 +35,7 @@ void InventoryUI::showAmount()
 
 void InventoryUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
-	MainCharacter* character = dynamic_cast<MainCharacter*>(gameObjects[1]);
-
+	Inventory* inventory = mainCharacter->GetInventory(index);
 
 	if (isDrag)
 	{
@@ -66,9 +59,9 @@ void InventoryUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects,
 				if (uiObjects[i]->GetX() < mouseX && mouseX < uiObjects[i]->GetX() + uiObjects[i]->GetWidth() &&
 					uiObjects[i]->GetY() < mouseY && mouseY < uiObjects[i]->GetY() + uiObjects[i]->GetHeight())
 				{
-					Inventory* tempInventory = dynamic_cast<InventoryUI*>(uiObjects[i])->GetInventory();
-					dynamic_cast<InventoryUI*>(uiObjects[i])->SetInventory(this->inventory);
-					this->SetInventory(tempInventory);
+					Inventory* tempInventory = mainCharacter->GetInventory(i);
+					mainCharacter->SetInventory(i, inventory);
+					mainCharacter->SetInventory(this->index, tempInventory);
 				}
 			}
 			isDrag = false;
@@ -77,7 +70,7 @@ void InventoryUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects,
 		}
 	}
 
-	if (character->GetUseTable())
+	if (mainCharacter->GetUseTable())
 	{
 		bagOpen = true;
 	}
@@ -95,6 +88,8 @@ void InventoryUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects,
 
 void InventoryUI::Render(GameObject* mainObject)
 {
+	Inventory* inventory = mainCharacter->GetInventory(index);
+
 	if (isBag && !bagOpen)
 	{
 		return;
@@ -116,7 +111,10 @@ void InventoryUI::Render(GameObject* mainObject)
 
 void InventoryUI::OnClick(vector<GameObject*>& gameObjects)
 {
-	isDrag = true;
+	if (bagOpen)
+	{
+		isDrag = true;
+	}
 	originX = x;
 	originY = y;
 
@@ -154,17 +152,24 @@ InventoriesUI* InventoriesUI::Init(MainCharacter* mainCharacter, vector<GameObje
 	GameObject::Init({ "resources/empty.bmp" })->SetPosition(100, 0);
 	ItemsTable* itemsTable = new ItemsTable();
 
+	inventory_background
+		->Init({ "resources/inventory_bg_ui.bmp" })
+		->SetPosition((SIZE_X / 2.0f) - (52 * 3.5f) - 16.0f, SIZE_Y - 386.0f)
+		->SetActive(true)
+		->SetUI(true);
+	uiObjects.push_back(inventory_background);
+
 	this->mainCharacter = mainCharacter;
 	// 快捷欄
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		inventoryUI[i] = new InventoryUI();
 		inventoryUI[i]
 			->SetMainCharacter(mainCharacter)
 			->SetIndex(i)
 			->SetBag(false)
-			->SetInventory(mainCharacter->GetInventory(i))->Init(itemsTable->GetInventoryItemsPath())
-			->SetPosition(166 + (float)i * 52, 408.0f)
+			->Init(itemsTable->GetInventoryItemsPath())
+			->SetPosition((SIZE_X / 2.0f) - (52 * 3.5f) + (float)i * 52, SIZE_Y - 72.0f)
 			->SetUI(true)
 			->SetActive(true)
 			->SetUI(true)
@@ -173,16 +178,15 @@ InventoriesUI* InventoriesUI::Init(MainCharacter* mainCharacter, vector<GameObje
 		uiObjects.push_back(inventoryUI[i]);
 	}
 	// 背包
-	for (int i = 6; i < 24; i++)
+	for (int i = 7; i < 28; i++)
 	{
 		inventoryUI[i] = new InventoryUI();
 		inventoryUI[i]
 			->SetMainCharacter(mainCharacter)
 			->SetIndex(i)
 			->SetBag(true)
-			->SetInventory(mainCharacter->GetInventory(i))
 			->Init(itemsTable->GetInventoryItemsPath())
-			->SetPosition(166 + (float)(i % 6) * 52, 212.0f + (float)(floor(i / 6) - 1) * 52)
+			->SetPosition((SIZE_X / 2.0f) - (52 * 3.5f) + (float)(i % 7) * 52, SIZE_Y - 358.0f +(float)(floor(i / 7) - 1) * 52)
 			->SetUI(true)
 			->SetActive(true)
 			->SetId("inventory");
@@ -193,4 +197,67 @@ InventoriesUI* InventoriesUI::Init(MainCharacter* mainCharacter, vector<GameObje
 }
 void InventoriesUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
+	MainCharacter* character = dynamic_cast<MainCharacter*>(gameObjects[1]);
+
+	if (character->GetUseTable())
+	{
+		isBagOpen = true;
+		inventory_background->SetActive(true);
+
+	}
+	else
+	{
+		if (keyFind(pressedKeys, "E"))
+		{
+			isBagOpen = true;
+			inventory_background->SetActive(true);
+		}
+		else
+		{
+			isBagOpen = false;
+			inventory_background->SetActive(false);
+		}
+	}
+
+	if (isBagOpen)
+	{
+		for (unsigned int i = 0; i < 28; i++)
+		{
+			InventoryUI* inventory = inventoryUI[i];
+			int x = (int)inventory->GetX();
+			int y = (int)inventory->GetY();
+			int width = (int)inventory->GetWidth();
+			int height = (int)inventory->GetHeight();
+			// 判斷滑鼠是否在物品上
+			if (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height)
+			{
+				if (inventory->GetInventory()->id == "empty") {
+					showInventoryTitle = "";
+				}
+				else {
+					showInventoryTitle = inventory->GetInventory()->id;
+				}
+				break;
+			}
+			showInventoryTitle = "";
+		}
+	}
+}
+
+void InventoriesUI::Render(GameObject* mainObject)
+{
+	if (isBagOpen)
+	{
+		ShowInventoryInfo();
+	}
+
+	GameObject::Render(mainObject);
+}
+
+void InventoriesUI::ShowInventoryInfo()
+{
+	CDC* pDC = CDDraw::GetBackCDC();
+	CTextDraw::ChangeFontLog(pDC, 16, "Arial Black", RGB(160, 105, 49));
+	CTextDraw::Print(pDC, SIZE_X / 2 - 182, SIZE_Y - 386, showInventoryTitle);
+	CDDraw::ReleaseBackCDC();
 }

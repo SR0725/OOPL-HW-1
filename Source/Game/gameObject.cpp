@@ -8,6 +8,7 @@
 #include "mygame.h"
 #include "gameObject.h"
 #include <string>
+#include "config.h"
 
 using namespace game_framework;
 
@@ -227,8 +228,8 @@ void GameObject::Render(GameObject *mainObject)
         bitmap.SetTopLeft(int(x), int(y));
         return;
     }
-    float renderX = 320.0f - mainObject->GetX() - mainObject->GetWidth() / 2.0f + x;
-    float renderY = 240.0f - mainObject->GetY() - mainObject->GetHeight() / 2.0f + y;
+    float renderX = SIZE_X / 2.0f - mainObject->GetX() - mainObject->GetWidth() / 2.0f + x;
+    float renderY = SIZE_Y / 2.0f - mainObject->GetY() - mainObject->GetHeight() / 2.0f + y;
     bitmap.SetTopLeft(int(renderX), int(renderY));
 }
 

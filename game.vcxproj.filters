@@ -75,17 +75,20 @@
     <ClCompile Include="Source\Game\MainCharacter.cpp">
       <Filter>MyGame\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\tool.cpp">
-      <Filter>MyGame\utils</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Block.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\InventoryUI.cpp">
       <Filter>MyGame\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\craftItem.cpp">
+    <ClCompile Include="Source\Game\craftTable.cpp">
       <Filter>MyGame\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\handSelectedUI.cpp">
+      <Filter>MyGame\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\tool.cpp">
+      <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,17 +140,20 @@
     <ClInclude Include="Source\Game\MainCharacter.h">
       <Filter>MyGame\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\tool.h">
-      <Filter>MyGame\utils</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Block.h">
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\InventoryUI.h">
       <Filter>MyGame\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\craftItem.h">
+    <ClInclude Include="Source\Game\craftTable.h">
       <Filter>MyGame\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\handSelectedUI.h">
+      <Filter>MyGame\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\tool.h">
+      <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

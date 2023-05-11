@@ -251,7 +251,7 @@
     <ClCompile Include="Source\Game\Item.cpp" />
     <ClCompile Include="Source\Game\BackGround.cpp" />
     <ClCompile Include="Source\Game\Enemy.cpp" />
-    <ClCompile Include="Source\Game\craftItem.cpp" />
+    <ClCompile Include="Source\Game\craftTable.cpp" />
     <ClCompile Include="Source\Game\InventoryUI.cpp" />
     <ClCompile Include="Source\Game\MainCharacter.cpp" />
     <ClCompile Include="Source\Game\Block.cpp" />
@@ -276,7 +276,7 @@
     <ClInclude Include="Source\Game\Item.h" />
     <ClInclude Include="Source\Game\BackGround.h" />
     <ClInclude Include="Source\Game\Enemy.h" />
-    <ClInclude Include="Source\Game\craftItem.h" />
+    <ClInclude Include="Source\Game\craftTable.h" />
     <ClInclude Include="Source\Game\InventoryUI.h" />
     <ClInclude Include="Source\Game\MainCharacter.h" />
     <ClInclude Include="Source\Game\Block.h" />

@@ -9,7 +9,7 @@ namespace game_framework
     class InventoryUI : public GameObject
     {
     public:
-        InventoryUI* SetInventory(Inventory *inventory);
+        Inventory* GetInventory();
         InventoryUI* SetBag(bool);
         InventoryUI* SetMainCharacter(MainCharacter*);
         InventoryUI* SetIndex(int);
@@ -17,10 +17,8 @@ namespace game_framework
         void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY);
         void Render(GameObject *mainObject);
         void OnClick(vector<GameObject*>& gameObjects);
-        Inventory* GetInventory();
 
     private:
-        Inventory *inventory;
         MainCharacter* mainCharacter;
         int index = 0;
         bool bagOpen;
@@ -35,9 +33,14 @@ namespace game_framework
     public:
         InventoriesUI* Init(MainCharacter *mainCharacter, vector<GameObject *> &gameObjects);
         void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY);
+        void Render(GameObject* mainObject);
+        void ShowInventoryInfo();
 
     private:
         MainCharacter *mainCharacter;
-        InventoryUI *inventoryUI[24];
+        InventoryUI *inventoryUI[28];
+        GameObject* inventory_background = new GameObject();
+        bool isBagOpen;
+        string showInventoryTitle = "";
     };
 };

@@ -10,6 +10,7 @@
 #include "MainCharacter.h"
 #include <string>
 #include "tool.h"
+#include "config.h"
 
 using namespace game_framework;
 
@@ -22,7 +23,7 @@ HandSelectedUI* HandSelectedUI::Init(vector<string> filename)
 
 void HandSelectedUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
-	GameObject::SetPosition(162 + (float)this->mainCharacter->GetMainHandSelectedIndex() * 52, 404.0f);
+	GameObject::SetPosition((SIZE_X / 2.0f) - (52 * 3.5f) + (float)this->mainCharacter->GetMainHandSelectedIndex() * 52 - 4.0f, SIZE_Y - 76.0f);
 
 	GameObject::OnUpdate(pressedKeys, gameObjects, uiObjects, mouseX, mouseY);
 }

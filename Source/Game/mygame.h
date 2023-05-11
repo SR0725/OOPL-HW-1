@@ -40,6 +40,7 @@
 #include "gameObject.h"
 #include "Item.h"
 #include "Block.h"
+#include <time.h> 
 
 namespace game_framework
 {
@@ -99,6 +100,8 @@ namespace game_framework
 	private:
 		string pressedKeys;
 		int mouseX, mouseY;
+		float time = 0;
+		clock_t lastTimeClock;
 		vector<GameObject *>
 				gameObjects;
 		vector<GameObject *>

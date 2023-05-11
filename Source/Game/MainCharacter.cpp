@@ -20,7 +20,6 @@ float roundTo48(float num)
 	return ((int)(num / 48)) * 48.0f;
 }
 
-
 Inventory::Inventory()
 {
 	this->id = "empty";
@@ -28,23 +27,30 @@ Inventory::Inventory()
 	this->number = 0;
 }
 
-
 MainCharacter::MainCharacter()
 {
 	useTable = false;
-	for (unsigned int i = 0; i < 24; i++)
+	for (unsigned int i = 0; i < 28; i++)
 	{
-		inventories[i] = Inventory();
+		inventories[i] = new Inventory();
 	}
 }
 
-MainCharacter* MainCharacter::Init(vector<string> filename)
+MainCharacter *MainCharacter::Init(vector<string> filename)
 {
 	GameObject::Init(filename);
+
+	for (unsigned int i = 0; i < 28; i++)
+	{
+		inventories[i] = new Inventory();
+		inventories[i]->id = "empty";
+		inventories[i]->textureIndex = 0;
+		inventories[i]->number = 0;
+	}
 	return this;
 }
 
-void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
+void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, vector<GameObject *> &uiObjects, int mouseX, int mouseY)
 {
 	GameObject::OnUpdate(pressedKeys, gameObjects, uiObjects, mouseX, mouseY);
 	OnAttack(pressedKeys, gameObjects);
@@ -62,7 +68,7 @@ void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject*>& gameObject
 	}
 }
 
-void MainCharacter::OnMove(string pressedKeys, vector<GameObject*>& gameObjects)
+void MainCharacter::OnMove(string pressedKeys, vector<GameObject *> &gameObjects)
 {
 	if (motionX > 0.01f || motionX < -0.01f)
 	{
@@ -90,9 +96,9 @@ void MainCharacter::OnMove(string pressedKeys, vector<GameObject*>& gameObjects)
 			continue;
 		}
 
-		if (gameObjects[i]->isTriggerWith(this) && dynamic_cast<Item*>(gameObjects[i]))
+		if (gameObjects[i]->isTriggerWith(this) && dynamic_cast<Item *>(gameObjects[i]))
 		{
-			Item* item = dynamic_cast<Item*>(gameObjects[i]);
+			Item *item = dynamic_cast<Item *>(gameObjects[i]);
 			addItemToInventory(item);
 			item->Destroy(gameObjects);
 			continue;
@@ -173,10 +179,9 @@ void MainCharacter::OnMove(string pressedKeys, vector<GameObject*>& gameObjects)
 	{
 		motionY = -1;
 	}
-
 }
 
-void MainCharacter::OnAttack(string pressedKeys, vector<GameObject*>& gameObjects)
+void MainCharacter::OnAttack(string pressedKeys, vector<GameObject *> &gameObjects)
 {
 	if (useTable || keyFind(pressedKeys, "E") || !keyFind(pressedKeys, "0"))
 	{
@@ -211,7 +216,7 @@ void MainCharacter::OnAttack(string pressedKeys, vector<GameObject*>& gameObject
 	}
 }
 
-void MainCharacter::OnHurt(string pressedKeys, vector<GameObject*>& gameObjects)
+void MainCharacter::OnHurt(string pressedKeys, vector<GameObject *> &gameObjects)
 {
 	if (onAttackedTick > 0)
 	{
@@ -227,40 +232,44 @@ void MainCharacter::OnHurt(string pressedKeys, vector<GameObject*>& gameObjects)
 	}
 }
 
-void MainCharacter::OnBuild(vector<GameObject*>& gameObjects) {
-	if (terrian->IsBlock(GetX(), GetY())) {
+void MainCharacter::OnBuild(vector<GameObject *> &gameObjects)
+{
+	if (terrian->IsBlock(GetX(), GetY()))
+	{
 		return;
 	}
 
-	if (inventories[mainHandSelectedIndex].id == "craft_table") {
+	if (inventories[mainHandSelectedIndex]->id == "craft_table")
+	{
 		this->terrian->SetBlock(GetX(), GetY(), 7);
 	}
 
-	if (inventories[mainHandSelectedIndex].id == "sapling") {
+	if (inventories[mainHandSelectedIndex]->id == "sapling")
+	{
 		this->terrian->SetBlock(GetX(), GetY(), 2);
 	}
 
-
-	inventories[mainHandSelectedIndex].number -= 1;
-	if (inventories[mainHandSelectedIndex].number == 0) {
-		inventories[mainHandSelectedIndex].id = "empty";
-		inventories[mainHandSelectedIndex].textureIndex = 0;
+	inventories[mainHandSelectedIndex]->number -= 1;
+	if (inventories[mainHandSelectedIndex]->number == 0)
+	{
+		inventories[mainHandSelectedIndex]->id = "empty";
+		inventories[mainHandSelectedIndex]->textureIndex = 0;
 	}
 }
 
-void MainCharacter::Attack(GameObject* gameObject)
+void MainCharacter::Attack(GameObject *gameObject)
 {
-	if (dynamic_cast<Block*>(gameObject))
+	if (dynamic_cast<Block *>(gameObject))
 	{
-		dynamic_cast<Block*>(gameObject)->OnAttacked(this);
+		dynamic_cast<Block *>(gameObject)->OnAttacked(this);
 	}
-	else if (dynamic_cast<Enemy*>(gameObject))
+	else if (dynamic_cast<Enemy *>(gameObject))
 	{
-		dynamic_cast<Enemy*>(gameObject)->OnAttacked(this);
+		dynamic_cast<Enemy *>(gameObject)->OnAttacked(this);
 	}
 }
 
-void MainCharacter::OnAttacked(GameObject* gameObject)
+void MainCharacter::OnAttacked(GameObject *gameObject)
 {
 
 	if (onAttackedTick <= 0)
@@ -277,55 +286,61 @@ float MainCharacter::GetHp()
 	return hp;
 }
 
-void MainCharacter::addItemToInventory(Item* item)
+void MainCharacter::addItemToInventory(Item *item)
 {
-	ItemsTable* itemsTable = new ItemsTable();
-	for (unsigned int i = 0; i < 24; i++)
+	ItemsTable *itemsTable = new ItemsTable();
+	for (unsigned int i = 0; i < 28; i++)
 	{
-		if (inventories[i].id == item->GetId() && inventories[i].number < 99)
+		if (inventories[i]->id == item->GetId() && inventories[i]->number < 99)
 		{
-			inventories[i].number++;
+			inventories[i]->number++;
 			return;
 		}
 	}
 
-	for (unsigned int i = 0; i < 24; i++)
+	for (unsigned int i = 0; i < 28; i++)
 	{
-		if (inventories[i].id == "empty" || inventories[i].number == 0)
+		if (inventories[i]->id == "empty" || inventories[i]->number == 0)
 
 		{
-			inventories[i].id = item->GetId();
+			inventories[i]->id = item->GetId();
 			// this number is mean the texture index of item
-			inventories[i].textureIndex = itemsTable->GetInventoryItemById(item->GetId())->number; 
-			inventories[i].number = 1;
+			inventories[i]->textureIndex = itemsTable->GetInventoryItemById(item->GetId())->number;
+			inventories[i]->number = 1;
 			return;
 		}
 	}
 }
 
-Inventory* MainCharacter::GetInventory(int i)
-{
-	return &inventories[i];
+MainCharacter* MainCharacter::SetInventory(int index, Inventory* _inventory) {
+	inventories[index] = _inventory;
+	return this;
 }
 
+Inventory *MainCharacter::GetInventory(int i)
+{
+	return inventories[i];
+}
 
-int MainCharacter::GetMainHandSelectedIndex() {
+int MainCharacter::GetMainHandSelectedIndex()
+{
 	return mainHandSelectedIndex;
 }
 
-MainCharacter* MainCharacter::SetMainHandSelectedIndex(int newIndex) {
+MainCharacter *MainCharacter::SetMainHandSelectedIndex(int newIndex)
+{
 	mainHandSelectedIndex = newIndex;
 
 	return this;
 }
 
-MainCharacter* MainCharacter::SetTerrian(Terrian* terrian)
+MainCharacter *MainCharacter::SetTerrian(Terrian *terrian)
 {
 	this->terrian = terrian;
 	return this;
 }
 
-MainCharacter* game_framework::MainCharacter::SetUseTable(bool _useTable)
+MainCharacter *game_framework::MainCharacter::SetUseTable(bool _useTable)
 {
 	useTable = _useTable;
 	return this;

@@ -26,15 +26,15 @@ Terrian::Terrian(vector<GameObject*>* gameObjects)
 
 	Block* tree = new Block();
 	tree
-		->SetHp(24)
+		->SetHp(1)
 		->Init({ "resources/tree_block.bmp" })
 		->SetDropItems(
 			new vector<ItemTable*>({
-					new ItemTable("log", "resources/log.bmp", 1, 4),
+					new ItemTable("log", "resources/log.bmp", 1, 40),
 					new ItemTable("sapling", "resources/sapling.bmp", 1, 1),
 					new ItemTable("sapling", "resources/sapling.bmp", 0.5, 1),
-				}))
-				->SetId("tree_block");
+		}))
+		->SetId("tree_block");
 
 	Block* tree_small = new Block();
 	tree_small
