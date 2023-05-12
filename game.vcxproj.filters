@@ -90,6 +90,15 @@
     <ClCompile Include="Source\Game\tool.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\nightUI.cpp">
+      <Filter>MyGame\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\healthUI.cpp">
+      <Filter>MyGame\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\clockUI.cpp">
+      <Filter>MyGame\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -154,6 +163,15 @@
     </ClInclude>
     <ClInclude Include="Source\Game\tool.h">
       <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\nightUI.h">
+      <Filter>MyGame\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\healthUI.h">
+      <Filter>MyGame\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\clockUI.h">
+      <Filter>MyGame\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

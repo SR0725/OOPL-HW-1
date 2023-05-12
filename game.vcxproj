@@ -243,6 +243,8 @@
     <ClCompile Include="Source\Core\StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\Game\clockUI.cpp" />
+    <ClCompile Include="Source\Game\healthUI.cpp" />
     <ClCompile Include="Source\Game\handSelectedUI.cpp" />
     <ClCompile Include="Source\Game\mygame_initialize.cpp" />
     <ClCompile Include="Source\Game\mygame_over.cpp" />
@@ -255,6 +257,7 @@
     <ClCompile Include="Source\Game\InventoryUI.cpp" />
     <ClCompile Include="Source\Game\MainCharacter.cpp" />
     <ClCompile Include="Source\Game\Block.cpp" />
+    <ClCompile Include="Source\Game\nightUI.cpp" />
     <ClCompile Include="Source\Library\audio.cpp" />
     <ClCompile Include="Source\Library\gamecore.cpp" />
     <ClCompile Include="Source\Library\gameutil.cpp">
@@ -269,6 +272,8 @@
     <ClInclude Include="Source\Core\MainFrm.h" />
     <ClInclude Include="Source\Core\Resource.h" />
     <ClInclude Include="Source\Core\StdAfx.h" />
+    <ClInclude Include="Source\Game\clockUI.h" />
+    <ClInclude Include="Source\Game\healthUI.h" />
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\handSelectedUI.h" />
     <ClInclude Include="Source\Game\mygame.h" />
@@ -280,6 +285,7 @@
     <ClInclude Include="Source\Game\InventoryUI.h" />
     <ClInclude Include="Source\Game\MainCharacter.h" />
     <ClInclude Include="Source\Game\Block.h" />
+    <ClInclude Include="Source\Game\nightUI.h" />
     <ClInclude Include="Source\Game\tool.h" />
     <ClInclude Include="Source\Library\audio.h" />
     <ClInclude Include="Source\Library\gamecore.h" />

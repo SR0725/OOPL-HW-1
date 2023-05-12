@@ -21,6 +21,9 @@
 #include "tool.h"
 #include "handSelectedUI.h"
 #include "config.h"
+#include "nightUI.h"
+#include "healthUI.h"
+#include "clockUI.h"
 
 using namespace game_framework;
 
@@ -51,8 +54,9 @@ void CGameStateRun::MountedGameObject()
 	character
 			->SetTerrian(terrian)
 			->Init({"resources/player_0.bmp"})
+			->SetHp(100)
 			->SetPosition(256, 256)
-			->SetSpeed(4.0f)
+			->SetSpeed(1.5f)
 			->SetCollider(true)
 			->SetTrigger(true)
 			->SetActive(true)
@@ -60,23 +64,6 @@ void CGameStateRun::MountedGameObject()
 
 	gameObjects.push_back(background);
 	gameObjects.push_back(character);
-
-	for (int i = 0; i < 0; i++)
-	{
-		Enemy *testEnemy = new Enemy();
-		testEnemy
-				->Init({"resources/enemy.bmp"})
-				->SetHp(100)
-				->SetAttack(10)
-				->SetDefense(10)
-				->SetPosition((float)(rand() % 1000), (float)(rand() % 1000))
-				->SetSpeed(1.0f)
-				->SetCollider(true)
-				->SetTrigger(true)
-				->SetActive(true)
-				->SetId("Enemy");
-		gameObjects.push_back(testEnemy);
-	}
 }
 
 void CGameStateRun::MountedTerrian()
@@ -115,22 +102,91 @@ void CGameStateRun::MountedUIObject()
 {
 	MainCharacter *character = dynamic_cast<MainCharacter *>(gameObjects[1]);
 
-	InventoriesUI *inventoryUI = new InventoriesUI();
+
+
+	NightUI* nightUI = new NightUI();
+	nightUI
+		->Init()
+		->SetMainCharacter(character)
+		->SetPosition(0, 0)
+		->SetActive(true)
+		->SetUI(true);
+	uiObjects.push_back(nightUI);
+
+
+	InventoriesUI* inventoryUI = new InventoriesUI();
 	inventoryUI->Init(character, uiObjects);
 
-	CraftTable *craftTable = new CraftTable();
+	CraftTable* craftTable = new CraftTable();
 	craftTable->Init(uiObjects);
 
-	HandSelectedUI *handSelected = new HandSelectedUI();
+	HandSelectedUI* handSelected = new HandSelectedUI();
 	handSelected
-			->Init({"resources/select_ui.bmp"})
-			->SetMainCharacter(character)
-			->SetActive(true)
-			->SetUI(true);
+		->Init({ "resources/select_ui.bmp" })
+		->SetMainCharacter(character)
+		->SetActive(true)
+		->SetUI(true);
+
+
+	HealthUI* healthUI = new HealthUI();
+	healthUI
+		->Init()
+		->SetMainCharacter(character)
+		->SetPosition(SIZE_X / 2 - 64, 0)
+		->SetActive(true)
+		->SetUI(true);
+
+	ClockUI* clockUI = new ClockUI();
+	clockUI
+		->Init()
+		->SetMainCharacter(character)
+		->SetPosition(SIZE_X / 2 - 64, 0)
+		->SetActive(true)
+		->SetUI(true);
+
 
 	uiObjects.push_back(inventoryUI);
 	uiObjects.push_back(craftTable);
 	uiObjects.push_back(handSelected);
+	uiObjects.push_back(healthUI);
+	uiObjects.push_back(clockUI);
+}
+
+void CGameStateRun::NightGenaratedMonster()
+{
+	float dayTime = time - ((int)(time / DAY_TIME)) * DAY_TIME;
+
+	if (dayTime > DAY_TIME / 3 * 2) {
+		float nightTime = dayTime - DAY_TIME / 3 * 2;
+
+		for (int i = 0; i < 6; i++)
+		{
+
+			if (nightTime > i * 12 && monsterState == i) {
+				for (int i = 0; i < 6; i++)
+				{
+					Enemy* testEnemy = new Enemy();
+					testEnemy
+						->Init({ "resources/enemy.bmp" })
+						->SetHp(10)
+						->SetAttack(10)
+						->SetDefense(10)
+						->SetPosition((float)(rand() % 1000), (float)(rand() % 1000))
+						->SetSpeed(1.0f)
+						->SetCollider(true)
+						->SetTrigger(true)
+						->SetActive(true)
+						->SetId("Enemy");
+					gameObjects.push_back(testEnemy);
+				}
+				monsterState = i + 1;
+			}
+		}
+	}
+	else {
+		monsterState = 0;
+	}
+
 }
 
 void CGameStateRun::OnBeginState()
@@ -151,6 +207,8 @@ void CGameStateRun::OnMove()
 	{
 		(*uiObjects[i]).OnUpdate(pressedKeys, gameObjects, uiObjects, mouseX, mouseY);
 	}
+
+	NightGenaratedMonster();
 }
 
 void CGameStateRun::OnShow()
@@ -177,6 +235,18 @@ void CGameStateRun::OnShow()
 		else if (dynamic_cast<InventoriesUI*>(uiObjects[i]))
 		{
 			dynamic_cast<InventoriesUI*>(uiObjects[i])->Render(character);
+		}
+		else if (dynamic_cast<NightUI*>(uiObjects[i]))
+		{
+			dynamic_cast<NightUI*>(uiObjects[i])->Render(character, time);
+		}
+		else if (dynamic_cast<HealthUI*>(uiObjects[i]))
+		{
+			dynamic_cast<HealthUI*>(uiObjects[i])->Render(character);
+		}
+		else if (dynamic_cast<ClockUI*>(uiObjects[i]))
+		{
+			dynamic_cast<ClockUI*>(uiObjects[i])->Render(character, time);
 		}
 		else
 		{
@@ -322,6 +392,7 @@ void CGameStateRun::debug_text()
 	CTextDraw::Print(pDC, 2, 66, "mouseX: " + std::to_string(mouseX));
 	CTextDraw::Print(pDC, 2, 82, "mouseY: " + std::to_string(mouseY));
 	CTextDraw::Print(pDC, 2, 98, "time: " + std::to_string(time));
+	CTextDraw::Print(pDC, 2, 114, "hp: " + std::to_string(dynamic_cast<MainCharacter*>(gameObjects[1])->GetHp()));
 
 	CDDraw::ReleaseBackCDC();
 }

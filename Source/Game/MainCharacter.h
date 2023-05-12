@@ -24,6 +24,7 @@ namespace game_framework
         MainCharacter *SetTerrian(Terrian *);
         MainCharacter* SetUseTable(bool);
         MainCharacter* SetInventory(int, Inventory*);
+        MainCharacter* SetHp(float);
         bool GetUseTable();
         void OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, vector<GameObject *> &uiObjects, int mouseX, int mouseY);
         void OnMove(string pressedKeys, vector<GameObject *> &gameObjects);
@@ -44,7 +45,7 @@ namespace game_framework
         float onAttackedTick = 0;
         float centerX = -9999;
         float centerY = -9999;
-        float hp = 10;
+        float hp = 100;
     };
 
 };

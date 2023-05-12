@@ -207,14 +207,33 @@ void Enemy::Attack(GameObject* gameObject)
 
 void Enemy::OnAttacked(GameObject* gameObject)
 {
-	if (onAttackedTick <= 0)
+	if (onAttackedTick > 0)
 	{
-		hp -= 4;
-		onAttackedTick = 8.0f; // 0.3 second
-
-		motionY = -((gameObject->GetY() + gameObject->GetHeight() / 2) - (GetY() + GetHeight() / 2)) / (gameObject->GetHeight() + 32.0f) * 6.0f;
-		motionX = -((gameObject->GetX() + gameObject->GetWidth() / 2) - (GetX() + GetWidth() / 2)) / (gameObject->GetWidth() + 32.0f) * 6.0f;
+		return;
 	}
+	float damage = 1.0;
+	if (dynamic_cast<MainCharacter*>(gameObject))
+	{
+		MainCharacter* player = dynamic_cast<MainCharacter*>(gameObject);
+		string useTool = player->GetInventory(player->GetMainHandSelectedIndex())->id;
+
+		if (useTool == "wood_sword") {
+			damage = 2;
+		}
+
+		if (useTool == "stone_sword") {
+			damage = 3;
+		}
+
+		if (useTool == "iron_sword") {
+			damage = 4;
+		}
+	}
+	hp -= damage;
+	onAttackedTick = 8.0f; // 0.3 second
+	motionY = -((gameObject->GetY() + gameObject->GetHeight() / 2) - (GetY() + GetHeight() / 2)) / (gameObject->GetHeight() + 32.0f) * 6.0f;
+	motionX = -((gameObject->GetX() + gameObject->GetWidth() / 2) - (GetX() + GetWidth() / 2)) / (gameObject->GetWidth() + 32.0f) * 6.0f;
+
 }
 
 float Enemy::GetHp()

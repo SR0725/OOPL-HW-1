@@ -434,14 +434,15 @@ void CraftTable::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, 
 	}
 	else
 	{
-		craft_background->SetActive(false);
 		isTableOpen = false;
 		if (keyFind(pressedKeys, "E"))
 		{
+			craft_background->SetActive(true);
 			isBagOpen = true;
 		}
 		else
 		{
+			craft_background->SetActive(false);
 			isBagOpen = false;
 		}
 	}

@@ -26,11 +26,11 @@ Terrian::Terrian(vector<GameObject*>* gameObjects)
 
 	Block* tree = new Block();
 	tree
-		->SetHp(1)
+		->SetHp(24)
 		->Init({ "resources/tree_block.bmp" })
 		->SetDropItems(
 			new vector<ItemTable*>({
-					new ItemTable("log", "resources/log.bmp", 1, 40),
+					new ItemTable("log", "resources/log.bmp", 1, 4),
 					new ItemTable("sapling", "resources/sapling.bmp", 1, 1),
 					new ItemTable("sapling", "resources/sapling.bmp", 0.5, 1),
 		}))
@@ -259,6 +259,9 @@ void Block::OnAttacked(GameObject* gameObject)
 			if (useTool == "iron_pickaxe") {
 				damage = 4;
 			}
+		}
+		if (useTool == "wood_sword" || useTool == "stone_sword" || useTool == "iron_sword") {
+			return;
 		}
 	}
 	hp -= damage;

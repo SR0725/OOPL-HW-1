@@ -59,8 +59,8 @@ void InventoryUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects,
 				if (uiObjects[i]->GetX() < mouseX && mouseX < uiObjects[i]->GetX() + uiObjects[i]->GetWidth() &&
 					uiObjects[i]->GetY() < mouseY && mouseY < uiObjects[i]->GetY() + uiObjects[i]->GetHeight())
 				{
-					Inventory* tempInventory = mainCharacter->GetInventory(i);
-					mainCharacter->SetInventory(i, inventory);
+					Inventory* tempInventory = mainCharacter->GetInventory(dynamic_cast<InventoryUI*>(uiObjects[i])->index);
+					mainCharacter->SetInventory(dynamic_cast<InventoryUI*>(uiObjects[i])->index, inventory);
 					mainCharacter->SetInventory(this->index, tempInventory);
 				}
 			}

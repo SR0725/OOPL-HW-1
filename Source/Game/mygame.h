@@ -74,7 +74,6 @@ namespace game_framework
 
 	private:
 		void load_background();
-		void draw_text();
 		CMovingBitmap background;
 	};
 
@@ -101,6 +100,8 @@ namespace game_framework
 		string pressedKeys;
 		int mouseX, mouseY;
 		float time = 0;
+		int day = 0;
+		int monsterState = 0;
 		clock_t lastTimeClock;
 		vector<GameObject *>
 				gameObjects;
@@ -110,6 +111,7 @@ namespace game_framework
 		void MountedGameObject();
 		void MountedTerrian();
 		void MountedUIObject();
+		void NightGenaratedMonster();
 		void debug_text();
 	};
 

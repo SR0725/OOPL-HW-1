@@ -20,9 +20,9 @@ namespace game_framework
         float GetDefense();
 
     private:
-        float hp;
-        float attack;
-        float defense;
+        float hp = 10;
+        float attack = 2;
+        float defense = 2;
         float onAttackedTick = 0;
     };
 

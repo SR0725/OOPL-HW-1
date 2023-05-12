@@ -239,21 +239,26 @@ void MainCharacter::OnBuild(vector<GameObject *> &gameObjects)
 		return;
 	}
 
+	bool isPutBlock = false;
 	if (inventories[mainHandSelectedIndex]->id == "craft_table")
 	{
 		this->terrian->SetBlock(GetX(), GetY(), 7);
+		isPutBlock = true;
 	}
 
 	if (inventories[mainHandSelectedIndex]->id == "sapling")
 	{
 		this->terrian->SetBlock(GetX(), GetY(), 2);
+		isPutBlock = true;
 	}
 
-	inventories[mainHandSelectedIndex]->number -= 1;
-	if (inventories[mainHandSelectedIndex]->number == 0)
-	{
-		inventories[mainHandSelectedIndex]->id = "empty";
-		inventories[mainHandSelectedIndex]->textureIndex = 0;
+	if (isPutBlock) {
+		inventories[mainHandSelectedIndex]->number -= 1;
+		if (inventories[mainHandSelectedIndex]->number == 0)
+		{
+			inventories[mainHandSelectedIndex]->id = "empty";
+			inventories[mainHandSelectedIndex]->textureIndex = 0;
+		}
 	}
 }
 
@@ -274,7 +279,7 @@ void MainCharacter::OnAttacked(GameObject *gameObject)
 
 	if (onAttackedTick <= 0)
 	{
-		hp -= 5;
+		hp -= 6 + rand() % 12;
 		onAttackedTick = 15.0f; // 0.25 second
 		centerX = this->GetX();
 		centerY = this->GetY();
@@ -314,6 +319,12 @@ void MainCharacter::addItemToInventory(Item *item)
 
 MainCharacter* MainCharacter::SetInventory(int index, Inventory* _inventory) {
 	inventories[index] = _inventory;
+	return this;
+}
+
+MainCharacter* game_framework::MainCharacter::SetHp(float _hp)
+{
+	hp = _hp;
 	return this;
 }
 
