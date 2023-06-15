@@ -17,7 +17,17 @@ using namespace game_framework;
 HealthUI* HealthUI::Init()
 {
 	GameObject::Init({
-		"resources/health_ui.bmp" ,
+		"resources/health_0_ui.bmp" ,
+		"resources/health_1_ui.bmp" ,
+		"resources/health_2_ui.bmp" ,
+		"resources/health_3_ui.bmp" ,
+		"resources/health_4_ui.bmp" ,
+		"resources/health_5_ui.bmp" ,
+		"resources/health_6_ui.bmp" ,
+		"resources/health_7_ui.bmp" ,
+		"resources/health_8_ui.bmp" ,
+		"resources/health_9_ui.bmp" ,
+		"resources/health_10_ui.bmp"
 		});
 
 	return this;
@@ -25,6 +35,14 @@ HealthUI* HealthUI::Init()
 
 void HealthUI::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
+	int hpRate = (int)(mainCharacter->GetHp() / 10.0f) + 1;
+	if (hpRate > 10) {
+		hpRate = 10;
+	}
+	else if (hpRate < 0) {
+		hpRate = 0;
+	}
+	bitmap.SetFrameIndexOfBitmap(hpRate);
 }
 
 void HealthUI::Render(GameObject* mainObject)

@@ -17,22 +17,22 @@ CGameStateOver::CGameStateOver(CGame *g): CGameState(g)
 {
 }
 
-void CGameStateOver::OnMove()
-{
-	GotoGameState(GAME_STATE_INIT);
-}
-
 void CGameStateOver::OnBeginState()
 {
 }
 
 void CGameStateOver::OnInit()
 {
-	ShowInitProgress(66, "Initialize...");	
-	ShowInitProgress(100, "OK!");
+	load_background();
 }
 
 void CGameStateOver::OnShow()
 {
+	background.ShowBitmap();
+}
 
+void CGameStateOver::load_background()
+{
+	background.LoadBitmapByString({ "resources/game_end_background.bmp" });
+	background.SetTopLeft(0, 0);
 }

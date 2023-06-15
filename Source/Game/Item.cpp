@@ -43,6 +43,14 @@ ItemsTable::ItemsTable()
 		new ItemTable("iron_axe", "resources/iron_axe.bmp", 0, 16),
 		new ItemTable("iron_pickaxe", "resources/iron_pickaxe.bmp", 0, 17),
 		new ItemTable("iron_sword", "resources/iron_sword.bmp", 0, 18),
+		new ItemTable("sand", "resources/sand.bmp", 0, 19),
+		new ItemTable("empty_bottle", "resources/empty_bottle.bmp", 0, 20),
+		new ItemTable("dirty_water_bottle", "resources/dirty_water_bottle.bmp", 0, 21),
+		new ItemTable("clean_water_bottle", "resources/clean_water_bottle.bmp", 0, 22),
+		new ItemTable("water_purifier", "resources/water_purifier.bmp", 0, 23),
+		new ItemTable("raw_meat", "resources/raw_meat.bmp", 0, 24),
+		new ItemTable("cooked_meat", "resources/cooked_meat.bmp", 0, 25),
+		new ItemTable("campfire", "resources/campfire.bmp", 0, 26),
 		});
 	this->inventoryItems = new vector<ItemTable*>({
 		new ItemTable("empty", "resources/empty_inventory.bmp", 0, 0),
@@ -64,6 +72,14 @@ ItemsTable::ItemsTable()
 		new ItemTable("iron_axe", "resources/iron_axe_inventory.bmp", 0, 16),
 		new ItemTable("iron_pickaxe", "resources/iron_pickaxe_inventory.bmp", 0, 17),
 		new ItemTable("iron_sword", "resources/iron_sword_inventory.bmp", 0, 18),
+		new ItemTable("sand", "resources/sand_inventory.bmp", 0, 19),
+		new ItemTable("empty_bottle", "resources/empty_bottle_inventory.bmp", 0, 20),
+		new ItemTable("dirty_water_bottle", "resources/dirty_water_bottle_inventory.bmp", 0, 21),
+		new ItemTable("clean_water_bottle", "resources/clean_water_bottle_inventory.bmp", 0, 22),
+		new ItemTable("water_purifier", "resources/water_purifier_inventory.bmp", 0, 23),
+		new ItemTable("raw_meat", "resources/raw_meat_inventory.bmp", 0, 24),
+		new ItemTable("cooked_meat", "resources/cooked_meat_inventory.bmp", 0, 25),
+		new ItemTable("campfire", "resources/campfire_inventory.bmp", 0, 26),
 		});
 
 	if (this->items->size() != this->inventoryItems->size())

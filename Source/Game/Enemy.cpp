@@ -8,6 +8,8 @@
 #include "gameObject.h"
 #include "Enemy.h"
 #include "MainCharacter.h"
+#include "Item.h"
+#include "Block.h"
 #include <string>
 #include "tool.h"
 
@@ -53,6 +55,7 @@ void Enemy::OnHurt(string pressedKeys, vector<GameObject*>& gameObjects)
 {
 	if (hp <= 0)
 	{
+		this->OnDropItem(gameObjects);
 		this->Destroy(gameObjects);
 		return;
 	}
@@ -64,6 +67,20 @@ void Enemy::OnHurt(string pressedKeys, vector<GameObject*>& gameObjects)
 
 void Enemy::OnMove(string pressedKeys, vector<GameObject*>& gameObjects)
 {
+
+	bool frame = moveAnimTick < 20;
+	moveAnimTick ++;
+	if (moveAnimTick > 40) {
+		moveAnimTick = 0;
+	}
+	if (motionX >= 0) {
+		bitmap.SetFrameIndexOfBitmap(frame ? 1 : 0);
+	}
+	else {
+		bitmap.SetFrameIndexOfBitmap(frame ? 3 : 2);
+	}
+
+
 	if (onAttackedTick > 0)
 	{
 		return;
@@ -175,26 +192,33 @@ void Enemy::OnAttack(string pressedKeys, vector<GameObject*>& gameObjects)
 		return;
 	}
 
-	MainCharacter* mainCharacter;
-
 	for (unsigned int i = 0; i < gameObjects.size(); i++)
 	{
-		if (gameObjects[i]->GetId() == "MainCharacter")
+		if (gameObjects[i] == this)
 		{
-			mainCharacter = (MainCharacter*)gameObjects[i];
-			break;
+			continue;
 		}
-	}
-	if (mainCharacter->GetX() + mainCharacter->GetWidth() < GetX() || mainCharacter->GetX() > GetX() + GetWidth())
-	{
-		return;
-	}
 
-	if (mainCharacter->GetY() + mainCharacter->GetHeight() < GetY() || mainCharacter->GetY() > GetY() + GetHeight())
-	{
-		return;
+		const float x = this->GetX() - 16;
+		const float y = this->GetY() - 16;
+		const float width = this->GetWidth() + 32;
+		const float height = this->GetHeight() + 32;
+		const float objX = (*gameObjects[i]).GetX();
+		const float objY = (*gameObjects[i]).GetY();
+		const float objWidth = (*gameObjects[i]).GetWidth();
+		const float objHeight = (*gameObjects[i]).GetHeight();
+
+		if (x + width < objX || x > objX + objWidth)
+		{
+			continue;
+		}
+
+		if (y + height < objY || y > objY + objHeight)
+		{
+			continue;
+		}
+		Attack(gameObjects[i]);
 	}
-	Attack(mainCharacter);
 }
 
 void Enemy::Attack(GameObject* gameObject)
@@ -202,6 +226,14 @@ void Enemy::Attack(GameObject* gameObject)
 	if (dynamic_cast<MainCharacter*>(gameObject))
 	{
 		dynamic_cast<MainCharacter*>(gameObject)->OnAttacked(this);
+	}
+	else if (dynamic_cast<Block*>(gameObject))
+	{
+		Block* block = dynamic_cast<Block*>(gameObject);
+		if (block->GetId() != "tree_block" && block->GetId() != "tree_small_block" && block->GetId() != "craft_table" && block->GetId() != "water_purifier_block" && block->GetId() != "campfire_block") {
+			return;
+		}
+		dynamic_cast<Block*>(gameObject)->OnAttacked(this);
 	}
 }
 
@@ -217,16 +249,22 @@ void Enemy::OnAttacked(GameObject* gameObject)
 		MainCharacter* player = dynamic_cast<MainCharacter*>(gameObject);
 		string useTool = player->GetInventory(player->GetMainHandSelectedIndex())->id;
 
+		damage = player->attack;
+
 		if (useTool == "wood_sword") {
-			damage = 2;
+			CAudio::Instance()->Play(1012, false);
+			damage = 2 * player->attack;
 		}
-
-		if (useTool == "stone_sword") {
-			damage = 3;
+		else if (useTool == "stone_sword") {
+			CAudio::Instance()->Play(1013, false);
+			damage = 3 * player->attack;
 		}
-
-		if (useTool == "iron_sword") {
-			damage = 4;
+		else if (useTool == "iron_sword") {
+			CAudio::Instance()->Play(1014, false);
+			damage = 4 * player->attack;
+		}
+		else {
+			CAudio::Instance()->Play(1015, false);
 		}
 	}
 	hp -= damage;
@@ -239,4 +277,38 @@ void Enemy::OnAttacked(GameObject* gameObject)
 float Enemy::GetHp()
 {
 	return hp;
+}
+
+
+Enemy* Enemy::SetDropItems(vector<ItemTable*>* _dropItems)
+{
+	dropItems = _dropItems;
+
+	return this;
+}
+
+
+Enemy* Enemy::OnDropItem(vector<GameObject*>& gameObjects)
+{
+	for (unsigned int i = 0; i < dropItems->size(); i++)
+	{
+		ItemTable* itemTable = dropItems->at(i);
+
+		if (itemTable->rate * 10000 < random(0.0f, 9999.0f))
+		{
+			continue;
+		}
+
+		for (int j = 0; j < itemTable->number; j++)
+		{
+			Item* item = new Item();
+			item->Init({ itemTable->path })
+				->SetPosition(this->GetX() + random(-16.0f, 16.0f), this->GetY() + random(-16.0f, 16.0f))
+				->SetTrigger(true)
+				->SetId(itemTable->id)
+				->SetActive(true);
+			gameObjects.push_back(item);
+		}
+	}
+	return this;
 }

@@ -51,6 +51,13 @@ CraftItem* CraftItem::SetOnlyTable(bool onlyTable)
 	return this;
 }
 
+CraftItem* CraftItem::SetOnlyWaterPurifier(bool onlyWaterPurifier)
+{
+	this->onlyWaterPurifier = onlyWaterPurifier;
+
+	return this;
+}
+
 CraftItem* CraftItem::SetProductTitle(string _productTitle)
 {
 	this->productTitle = _productTitle;
@@ -71,6 +78,13 @@ void CraftItem::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, v
 	{
 		isOpen = true;
 		isOpenInTable = true;
+		isOpenInWaterPurifier = false;
+	}
+	else if (character->GetUseWaterPurifier())
+	{
+		isOpen = true;
+		isOpenInTable = false;
+		isOpenInWaterPurifier = true;
 	}
 	else
 	{
@@ -78,6 +92,7 @@ void CraftItem::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, v
 		{
 			isOpen = true;
 			isOpenInTable = false;
+			isOpenInWaterPurifier = false;
 		}
 		else
 		{
@@ -96,6 +111,10 @@ void CraftItem::Render(GameObject* mainObject)
 	{
 		return;
 	}
+	if ((!onlyWaterPurifier && isOpenInWaterPurifier) || (onlyWaterPurifier && !isOpenInWaterPurifier))
+	{
+		return;
+	}
 
 	GameObject::Render(mainObject);
 	bitmap.ShowBitmap();
@@ -108,6 +127,10 @@ void CraftItem::OnClick(vector<GameObject*>& gameObjects)
 		return;
 	}
 	if (onlyTable && !isOpenInTable)
+	{
+		return;
+	}
+	if ((!onlyWaterPurifier && isOpenInWaterPurifier) || (onlyWaterPurifier && !isOpenInWaterPurifier))
 	{
 		return;
 	}
@@ -164,6 +187,7 @@ void CraftItem::OnClick(vector<GameObject*>& gameObjects)
 			}
 		}
 	}
+	CAudio::Instance()->Play(2001, false);
 
 	// add products
 	for (unsigned int i = 0; i < products.size(); i++)
@@ -215,13 +239,15 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 	GameObject::Init({ "resources/empty.bmp" })->SetPosition(100, 0);
 
 	craft_background
-		->Init({ "resources/craft_ui.bmp" })
+		->Init({ "resources/craft_ui.bmp", "resources/water_purifier_ui.bmp" })
 		->SetPosition((SIZE_X / 2.0f) - (52 * 3.5f) - 72.0f, SIZE_Y - 618.0f)
 		->SetActive(true)
 		->SetUI(true);
 
-	// create a craft table
+	// craft table
 	CraftItem* craftItem_craftTable = new CraftItem();
+	CraftItem* craftItem_campfire = new CraftItem();
+
 	CraftItem* craftItem_wood_axe = new CraftItem();
 	CraftItem* craftItem_wood_pickaxe = new CraftItem();
 	CraftItem* craftItem_wood_sword = new CraftItem();
@@ -233,6 +259,13 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 	CraftItem* craftItem_iron_axe = new CraftItem();
 	CraftItem* craftItem_iron_pickaxe = new CraftItem();
 	CraftItem* craftItem_iron_sword = new CraftItem();
+
+
+	CraftItem* craftItem_bottle = new CraftItem();
+	CraftItem* craftItem_water_purifier = new CraftItem();
+
+	// water_purifier
+	CraftItem* craftItem_clean_water_bottle = new CraftItem();
 
 	int index = 0;
 	craftItem_craftTable
@@ -247,8 +280,64 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 		->SetActive(true)
 		->SetUI(true);
 
-	// wood tool
+	craftItem_clean_water_bottle
+		->SetOnlyWaterPurifier(true)
+		->Init({ "resources/clean_water_bottle_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({ new ItemTable("dirty_water_bottle", "resources/dirty_water_bottle.bmp", 1, 1), }))
+		->SetProducts(
+			vector<ItemTable*>({ new ItemTable("clean_water_bottle", "resources/clean_water_bottle.bmp", 1, 1) }))
+		->SetProductTitle("Bottle with Clean Water")
+		->SetRawMaterialTitle("Dirty water Bottle")
+		->SetPosition((SIZE_X / 2.0f) - (52 * 3.5f) + (float)(index % 7) * 52, SIZE_Y - 508.0f + (float)(floor(index / 7) - 1) * 52)
+		->SetActive(true)
+		->SetUI(true);
+
+
 	index = 1;
+	craftItem_campfire
+		->Init({ "resources/campfire_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({ new ItemTable("log", "resources/log.bmp", 1, 4), new ItemTable("coal", "resources/coal.bmp", 1, 4) }))
+		->SetProducts(
+			vector<ItemTable*>({ new ItemTable("campfire", "resources/campfire.bmp", 1, 1), }))
+		->SetProductTitle("Campfire")
+		->SetRawMaterialTitle("Log 4, Coal 4")
+		->SetPosition((SIZE_X / 2.0f) - (52 * 3.5f) + (float)(index % 7) * 52, SIZE_Y - 508.0f + (float)(floor(index / 7) - 1) * 52)
+		->SetActive(true)
+		->SetUI(true);
+
+	index = 2;
+	craftItem_bottle
+		->SetOnlyTable(true)
+		->Init({ "resources/empty_bottle_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({ new ItemTable("sand", "resources/sand.bmp", 1, 5), }))
+		->SetProducts(
+			vector<ItemTable*>({ new ItemTable("empty_bottle", "resources/empty_bottle.bmp", 1, 1) }))
+		->SetProductTitle("Bottle")
+		->SetRawMaterialTitle("Sand 5")
+		->SetPosition((SIZE_X / 2.0f) - (52 * 3.5f) + (float)(index % 7) * 52, SIZE_Y - 508.0f + (float)(floor(index / 7) - 1) * 52)
+		->SetActive(true)
+		->SetUI(true);
+
+	index = 3;
+	craftItem_water_purifier
+		->SetOnlyTable(true)
+		->Init({ "resources/water_purifier_craft.bmp" })
+		->SetRawMaterials(
+			vector<ItemTable*>({ new ItemTable("log", "resources/log.bmp", 1, 4), }))
+		->SetProducts(
+			vector<ItemTable*>({ new ItemTable("water_purifier", "resources/water_purifier.bmp", 1, 1) }))
+		->SetProductTitle("Water Purifier")
+		->SetRawMaterialTitle("Log 4")
+		->SetPosition((SIZE_X / 2.0f) - (52 * 3.5f) + (float)(index % 7) * 52, SIZE_Y - 508.0f + (float)(floor(index / 7) - 1) * 52)
+		->SetActive(true)
+		->SetUI(true);
+
+
+	// wood tool
+	index = 4;
 	craftItem_wood_axe
 		->SetOnlyTable(true)
 		->Init({ "resources/wood_axe_craft.bmp" })
@@ -262,7 +351,7 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 		->SetActive(true)
 		->SetUI(true);
 
-	index = 2;
+	index = 5;
 	craftItem_wood_pickaxe
 		->SetOnlyTable(true)
 		->Init({ "resources/wood_pickaxe_craft.bmp" })
@@ -276,7 +365,7 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 		->SetActive(true)
 		->SetUI(true);
 
-	index = 3;
+	index = 6;
 	craftItem_wood_sword
 		->SetOnlyTable(true)
 		->Init({ "resources/wood_sword_craft.bmp" })
@@ -291,7 +380,7 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 		->SetUI(true);
 
 	// stone tool
-	index = 4;
+	index = 7;
 	craftItem_stone_axe
 		->SetOnlyTable(true)
 		->Init({ "resources/stone_axe_craft.bmp" })
@@ -308,7 +397,7 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 		->SetActive(true)
 		->SetUI(true);
 
-	index = 5;
+	index = 8;
 	craftItem_stone_pickaxe
 		->SetOnlyTable(true)
 		->Init({ "resources/stone_pickaxe_craft.bmp" })
@@ -325,7 +414,7 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 		->SetActive(true)
 		->SetUI(true);
 
-	index = 6;
+	index = 9;
 	craftItem_stone_sword
 		->SetOnlyTable(true)
 		->Init({ "resources/stone_sword_craft.bmp" })
@@ -341,7 +430,7 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 		->SetUI(true);
 
 	// iron tool
-	index = 7;
+	index = 10;
 	craftItem_iron_axe
 		->SetOnlyTable(true)
 		->Init({ "resources/iron_axe_craft.bmp" })
@@ -358,7 +447,7 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 		->SetActive(true)
 		->SetUI(true);
 
-	index = 8;
+	index = 11;
 	craftItem_iron_pickaxe
 		->SetOnlyTable(true)
 		->Init({ "resources/iron_pickaxe_craft.bmp" })
@@ -375,7 +464,7 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 		->SetActive(true)
 		->SetUI(true);
 
-	index = 9;
+	index = 12;
 	craftItem_iron_sword
 		->SetOnlyTable(true)
 		->Init({ "resources/iron_sword_craft.bmp" })
@@ -390,9 +479,14 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 		->SetActive(true)
 		->SetUI(true);
 
+
 	uiObjects.push_back(craft_background);
 
 	uiObjects.push_back(craftItem_craftTable);
+	uiObjects.push_back(craftItem_clean_water_bottle);
+	uiObjects.push_back(craftItem_campfire);
+	uiObjects.push_back(craftItem_water_purifier);
+	uiObjects.push_back(craftItem_bottle);
 	uiObjects.push_back(craftItem_wood_axe);
 	uiObjects.push_back(craftItem_wood_pickaxe);
 	uiObjects.push_back(craftItem_wood_sword);
@@ -414,7 +508,11 @@ CraftTable* CraftTable::Init(vector<GameObject*>& uiObjects)
 		craftItem_stone_sword,
 		craftItem_iron_axe,
 		craftItem_iron_pickaxe,
-		craftItem_iron_sword
+		craftItem_iron_sword,
+		craftItem_bottle,
+		craftItem_water_purifier,
+		craftItem_clean_water_bottle,
+		craftItem_campfire
 		});
 
 
@@ -428,15 +526,26 @@ void CraftTable::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, 
 	if (character->GetUseTable())
 	{
 		craft_background->SetActive(true);
+		craft_background->bitmap.SetFrameIndexOfBitmap(0);
 		isBagOpen = true;
 		isTableOpen = true;
-
+		isWaterPurifier = false;
+	}
+	else if (character->GetUseWaterPurifier())
+	{
+		craft_background->SetActive(true);
+		craft_background->bitmap.SetFrameIndexOfBitmap(1);
+		isBagOpen = true;
+		isTableOpen = false;
+		isWaterPurifier = true;
 	}
 	else
 	{
 		isTableOpen = false;
+		isWaterPurifier = false;
 		if (keyFind(pressedKeys, "E"))
 		{
+			craft_background->bitmap.SetFrameIndexOfBitmap(0);
 			craft_background->SetActive(true);
 			isBagOpen = true;
 		}
@@ -455,6 +564,11 @@ void CraftTable::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, 
 			if (!isTableOpen && item->onlyTable) {
 				continue;
 			}
+			if ((!item->onlyWaterPurifier && isWaterPurifier) || (item->onlyWaterPurifier && !isWaterPurifier)) {
+
+				continue;
+			}
+
 			int x = (int)item->GetX();
 			int y = (int)item->GetY();
 			int width = (int)item->GetWidth();

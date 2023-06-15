@@ -15,6 +15,7 @@ namespace game_framework
 		CraftItem* SetRawMaterials(vector<ItemTable*>&);
 		CraftItem* SetProducts(vector<ItemTable*>&);
 		CraftItem* SetOnlyTable(bool onlyTable);
+		CraftItem* SetOnlyWaterPurifier(bool onlyWaterPurifier);
 		CraftItem* SetProductTitle(string);
 		CraftItem* SetRawMaterialTitle(string);
 		void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY);
@@ -23,7 +24,9 @@ namespace game_framework
 
 		bool isOpen;
 		bool isOpenInTable;
-		bool onlyTable;
+		bool isOpenInWaterPurifier;
+		bool onlyTable = false;
+		bool onlyWaterPurifier = false;
 		string productTitle;
 		string rawMaterialsTitle;
 	private:
@@ -45,6 +48,7 @@ namespace game_framework
 		GameObject* craft_background = new GameObject();
 		bool isBagOpen;
 		bool isTableOpen;
+		bool isWaterPurifier;
 		string showProductTitle = "";
 		string showRawMaterialsTitle = "";
 	};

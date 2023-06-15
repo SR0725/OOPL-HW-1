@@ -33,6 +33,7 @@ namespace game_framework
         void GoLeft();
         virtual void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY);
         virtual void OnClick(vector<GameObject*>& gameObjects);
+        CMovingBitmap bitmap;
 
     protected:
         vector<string> filename;
@@ -47,7 +48,6 @@ namespace game_framework
         bool isUI = false;
         string id;
         string pressedKeys;
-        CMovingBitmap bitmap;
     };
 
 };

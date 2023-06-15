@@ -36,7 +36,7 @@ MainCharacter::MainCharacter()
 	}
 }
 
-MainCharacter *MainCharacter::Init(vector<string> filename)
+MainCharacter* MainCharacter::Init(vector<string> filename)
 {
 	GameObject::Init(filename);
 
@@ -50,7 +50,7 @@ MainCharacter *MainCharacter::Init(vector<string> filename)
 	return this;
 }
 
-void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject *> &gameObjects, vector<GameObject *> &uiObjects, int mouseX, int mouseY)
+void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY)
 {
 	GameObject::OnUpdate(pressedKeys, gameObjects, uiObjects, mouseX, mouseY);
 	OnAttack(pressedKeys, gameObjects);
@@ -60,16 +60,40 @@ void MainCharacter::OnUpdate(string pressedKeys, vector<GameObject *> &gameObjec
 	if (keyFind(pressedKeys, "1"))
 	{
 		OnBuild(gameObjects);
+		OnFillWater(gameObjects);
+		OnDrink(gameObjects);
+		OnEat(gameObjects);
 	}
 
 	if (keyFind(pressedKeys, "E"))
 	{
 		SetUseTable(false);
 	}
+
+	// every 7200 frame romve 100f
+	SetThirsty(GetThirsty() - 0.01851851851f);
+	// every 7200 frame romve 100f
+	SetHungry(GetHungry() - 0.01851851851f);
+
+	if (GetThirsty() <= 0 || GetHungry() <= 0)
+	{
+		SetHp(GetHp() - 0.1f);
+	}
+
+	if (GetThirsty() >= 95.0f || GetHungry() >= 95.0f && GetHp() < 100.0f)
+	{
+		SetHp(GetHp() + 0.01388888888f);
+	}
 }
 
-void MainCharacter::OnMove(string pressedKeys, vector<GameObject *> &gameObjects)
+void MainCharacter::OnMove(string pressedKeys, vector<GameObject*>& gameObjects)
 {
+
+	if (moveSoundTick > 0) {
+		moveSoundTick--;
+	}
+
+
 	if (motionX > 0.01f || motionX < -0.01f)
 	{
 		motionX *= 0.8f;
@@ -96,9 +120,11 @@ void MainCharacter::OnMove(string pressedKeys, vector<GameObject *> &gameObjects
 			continue;
 		}
 
-		if (gameObjects[i]->isTriggerWith(this) && dynamic_cast<Item *>(gameObjects[i]))
+		if (gameObjects[i]->isTriggerWith(this) && dynamic_cast<Item*>(gameObjects[i]))
 		{
-			Item *item = dynamic_cast<Item *>(gameObjects[i]);
+			Item* item = dynamic_cast<Item*>(gameObjects[i]);
+			CAudio::Instance()->Play(2001, false);
+
 			addItemToInventory(item);
 			item->Destroy(gameObjects);
 			continue;
@@ -149,18 +175,23 @@ void MainCharacter::OnMove(string pressedKeys, vector<GameObject *> &gameObjects
 	if (keyFind(pressedKeys, "W"))
 	{
 		GoTop();
+		OnMoveSound();
 	}
 	else if (keyFind(pressedKeys, "S"))
 	{
 		GoBottom();
+		OnMoveSound();
 	}
+
 	if (keyFind(pressedKeys, "A"))
 	{
 		GoLeft();
+		OnMoveSound();
 	}
 	else if (keyFind(pressedKeys, "D"))
 	{
 		GoRight();
+		OnMoveSound();
 	}
 
 	if (GetX() + motionX < 0)
@@ -181,9 +212,43 @@ void MainCharacter::OnMove(string pressedKeys, vector<GameObject *> &gameObjects
 	}
 }
 
-void MainCharacter::OnAttack(string pressedKeys, vector<GameObject *> &gameObjects)
+
+void MainCharacter::OnMoveSound() {
+	if (moveSoundTick <= 0) {
+		moveSoundTick = 40;
+		int randNum = rand() % 3;
+
+		switch (randNum) {
+		case 0:
+			CAudio::Instance()->Play(1001, false);
+			break;
+		case 1:
+			CAudio::Instance()->Play(1002, false);
+			break;
+		case 2:
+			CAudio::Instance()->Play(1003, false);
+			break;
+		}
+	}
+
+
+
+	bool frame = moveAnimTick < 10;
+	moveAnimTick++;
+	if (moveAnimTick > 20) {
+		moveAnimTick = 0;
+	}
+	if (motionX >= 0) {
+		bitmap.SetFrameIndexOfBitmap(frame ? 1 : 0);
+	}
+	else {
+		bitmap.SetFrameIndexOfBitmap(frame ? 3 : 2);
+	}
+}
+
+void MainCharacter::OnAttack(string pressedKeys, vector<GameObject*>& gameObjects)
 {
-	if (useTable || keyFind(pressedKeys, "E") || !keyFind(pressedKeys, "0"))
+	if (useTable || useWaterPurifier || keyFind(pressedKeys, "E") || !keyFind(pressedKeys, "0"))
 	{
 		return;
 	}
@@ -216,7 +281,7 @@ void MainCharacter::OnAttack(string pressedKeys, vector<GameObject *> &gameObjec
 	}
 }
 
-void MainCharacter::OnHurt(string pressedKeys, vector<GameObject *> &gameObjects)
+void MainCharacter::OnHurt(string pressedKeys, vector<GameObject*>& gameObjects)
 {
 	if (onAttackedTick > 0)
 	{
@@ -232,7 +297,7 @@ void MainCharacter::OnHurt(string pressedKeys, vector<GameObject *> &gameObjects
 	}
 }
 
-void MainCharacter::OnBuild(vector<GameObject *> &gameObjects)
+void MainCharacter::OnBuild(vector<GameObject*>& gameObjects)
 {
 	if (terrian->IsBlock(GetX(), GetY()))
 	{
@@ -246,13 +311,28 @@ void MainCharacter::OnBuild(vector<GameObject *> &gameObjects)
 		isPutBlock = true;
 	}
 
+
+	if (inventories[mainHandSelectedIndex]->id == "water_purifier")
+	{
+		this->terrian->SetBlock(GetX(), GetY(), 10);
+		isPutBlock = true;
+	}
+
 	if (inventories[mainHandSelectedIndex]->id == "sapling")
 	{
 		this->terrian->SetBlock(GetX(), GetY(), 2);
 		isPutBlock = true;
 	}
 
+	if (inventories[mainHandSelectedIndex]->id == "campfire")
+	{
+		this->terrian->SetBlock(GetX(), GetY(), 11);
+		isPutBlock = true;
+	}
+
+
 	if (isPutBlock) {
+		CAudio::Instance()->Play(1011, false);
 		inventories[mainHandSelectedIndex]->number -= 1;
 		if (inventories[mainHandSelectedIndex]->number == 0)
 		{
@@ -262,23 +342,139 @@ void MainCharacter::OnBuild(vector<GameObject *> &gameObjects)
 	}
 }
 
-void MainCharacter::Attack(GameObject *gameObject)
+void MainCharacter::OnFillWater(vector<GameObject*>& gameObjects)
 {
-	if (dynamic_cast<Block *>(gameObject))
+	if (inventories[mainHandSelectedIndex]->id != "empty_bottle")
 	{
-		dynamic_cast<Block *>(gameObject)->OnAttacked(this);
+		return;
 	}
-	else if (dynamic_cast<Enemy *>(gameObject))
+
+	if (!terrian->IsBehindWater(GetX(), GetY()))
 	{
-		dynamic_cast<Enemy *>(gameObject)->OnAttacked(this);
+		return;
+	}
+
+
+	inventories[mainHandSelectedIndex]->number -= 1;
+	if (inventories[mainHandSelectedIndex]->number == 0)
+	{
+		inventories[mainHandSelectedIndex]->id = "empty";
+		inventories[mainHandSelectedIndex]->textureIndex = 0;
+	}
+	CAudio::Instance()->Play(2001, false);
+
+	ItemTable* itemTable = new ItemTable("dirty_water_bottle", "resources/dirty_water_bottle.bmp", 1, 1);
+	Item* item = new Item();
+	item->Init({ itemTable->path })
+		->SetId(itemTable->id)
+		->SetActive(true);
+
+	addItemToInventory(item);
+
+}
+
+void MainCharacter::OnBarbecue(vector<GameObject*>& gameObjects)
+{
+	if (inventories[mainHandSelectedIndex]->id != "raw_meat")
+	{
+		return;
+	}
+
+	inventories[mainHandSelectedIndex]->number -= 1;
+	if (inventories[mainHandSelectedIndex]->number == 0)
+	{
+		inventories[mainHandSelectedIndex]->id = "empty";
+		inventories[mainHandSelectedIndex]->textureIndex = 0;
+	}
+	CAudio::Instance()->Play(2001, false);
+
+	ItemTable* itemTable = new ItemTable("cooked_meat", "resources/cooked_meat.bmp", 1, 1);
+	Item* item = new Item();
+	item->Init({ itemTable->path })
+		->SetId(itemTable->id)
+		->SetActive(true);
+
+	addItemToInventory(item);
+
+}
+
+void MainCharacter::OnDrink(vector<GameObject*>& gameObjects)
+{
+	if (inventories[mainHandSelectedIndex]->id == "clean_water_bottle")
+	{
+		inventories[mainHandSelectedIndex]->number -= 1;
+		if (inventories[mainHandSelectedIndex]->number == 0)
+		{
+			inventories[mainHandSelectedIndex]->id = "empty";
+			inventories[mainHandSelectedIndex]->textureIndex = 0;
+		}
+
+		const float newThirsty = GetThirsty() + 10.0f;
+		SetThirsty(newThirsty > 100.0f ? 100.0f : newThirsty);
+
+
+		ItemTable* itemTable = new ItemTable("empty_bottle", "resources/empty_bottle.bmp", 1, 1);
+		Item* item = new Item();
+		item->Init({ itemTable->path })
+			->SetId(itemTable->id)
+			->SetActive(true);
+
+		addItemToInventory(item);
 	}
 }
 
-void MainCharacter::OnAttacked(GameObject *gameObject)
+void MainCharacter::OnEat(vector<GameObject*>& gameObjects)
+{
+	if (inventories[mainHandSelectedIndex]->id == "apple")
+	{
+		inventories[mainHandSelectedIndex]->number -= 1;
+		if (inventories[mainHandSelectedIndex]->number == 0)
+		{
+			inventories[mainHandSelectedIndex]->id = "empty";
+			inventories[mainHandSelectedIndex]->textureIndex = 0;
+		}
+
+		const float newThirsty = GetThirsty() + 5.0f;
+		SetThirsty(newThirsty > 100.0f ? 100.0f : newThirsty);
+
+		const float newHungry = GetHungry() + 10.0f;
+		SetHungry(newHungry > 100.0f ? 100.0f : newHungry);
+	}
+
+
+	if (inventories[mainHandSelectedIndex]->id == "cooked_meat")
+	{
+		inventories[mainHandSelectedIndex]->number -= 1;
+		if (inventories[mainHandSelectedIndex]->number == 0)
+		{
+			inventories[mainHandSelectedIndex]->id = "empty";
+			inventories[mainHandSelectedIndex]->textureIndex = 0;
+		}
+
+		const float newHungry = GetHungry() + 20.0f;
+		SetHungry(newHungry > 100.0f ? 100.0f : newHungry);
+	}
+}
+
+void MainCharacter::Attack(GameObject* gameObject)
+{
+	if (dynamic_cast<Block*>(gameObject))
+	{
+		dynamic_cast<Block*>(gameObject)->OnAttacked(this);
+	}
+	else if (dynamic_cast<Enemy*>(gameObject))
+	{
+		dynamic_cast<Enemy*>(gameObject)->OnAttacked(this);
+	}
+}
+
+void MainCharacter::OnAttacked(GameObject* gameObject)
 {
 
 	if (onAttackedTick <= 0)
 	{
+		CAudio::Instance()->Play(2003, false);
+
 		hp -= 6 + rand() % 12;
 		onAttackedTick = 15.0f; // 0.25 second
 		centerX = this->GetX();
@@ -290,10 +486,18 @@ float MainCharacter::GetHp()
 {
 	return hp;
 }
-
-void MainCharacter::addItemToInventory(Item *item)
+float MainCharacter::GetHungry()
 {
-	ItemsTable *itemsTable = new ItemsTable();
+	return hungry;
+}
+float MainCharacter::GetThirsty()
+{
+	return thirsty;
+}
+
+void MainCharacter::addItemToInventory(Item* item)
+{
+	ItemsTable* itemsTable = new ItemsTable();
 	for (unsigned int i = 0; i < 28; i++)
 	{
 		if (inventories[i]->id == item->GetId() && inventories[i]->number < 99)
@@ -328,7 +532,19 @@ MainCharacter* game_framework::MainCharacter::SetHp(float _hp)
 	return this;
 }
 
-Inventory *MainCharacter::GetInventory(int i)
+MainCharacter* game_framework::MainCharacter::SetHungry(float _hungry)
+{
+	hungry = _hungry;
+	return this;
+}
+
+MainCharacter* game_framework::MainCharacter::SetThirsty(float _thirsty)
+{
+	thirsty = _thirsty;
+	return this;
+}
+
+Inventory* MainCharacter::GetInventory(int i)
 {
 	return inventories[i];
 }
@@ -338,26 +554,40 @@ int MainCharacter::GetMainHandSelectedIndex()
 	return mainHandSelectedIndex;
 }
 
-MainCharacter *MainCharacter::SetMainHandSelectedIndex(int newIndex)
+MainCharacter* MainCharacter::SetMainHandSelectedIndex(int newIndex)
 {
 	mainHandSelectedIndex = newIndex;
 
 	return this;
 }
 
-MainCharacter *MainCharacter::SetTerrian(Terrian *terrian)
+MainCharacter* MainCharacter::SetTerrian(Terrian* terrian)
 {
 	this->terrian = terrian;
 	return this;
 }
 
-MainCharacter *game_framework::MainCharacter::SetUseTable(bool _useTable)
+MainCharacter* game_framework::MainCharacter::SetUseTable(bool _useTable)
 {
+	useWaterPurifier = false;
 	useTable = _useTable;
+	return this;
+}
+
+
+MainCharacter* game_framework::MainCharacter::SetUseWaterPurifier(bool _useWaterPurifier)
+{
+	useTable = false;
+	useWaterPurifier = _useWaterPurifier;
 	return this;
 }
 
 bool game_framework::MainCharacter::GetUseTable()
 {
 	return useTable;
+}
+
+bool game_framework::MainCharacter::GetUseWaterPurifier()
+{
+	return useWaterPurifier;
 }

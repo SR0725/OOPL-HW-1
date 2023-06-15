@@ -99,6 +99,15 @@
     <ClCompile Include="Source\Game\clockUI.cpp">
       <Filter>MyGame\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\hungryUI.cpp">
+      <Filter>MyGame\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\thirstyUI.cpp">
+      <Filter>MyGame\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\gameOverUI.cpp">
+      <Filter>MyGame\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -171,6 +180,15 @@
       <Filter>MyGame\UI</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\clockUI.h">
+      <Filter>MyGame\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\hungryUI.h">
+      <Filter>MyGame\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\thirstyUI.h">
+      <Filter>MyGame\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\gameOverUI.h">
       <Filter>MyGame\UI</Filter>
     </ClInclude>
   </ItemGroup>

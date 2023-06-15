@@ -91,6 +91,7 @@ namespace game_framework
 		void OnMouseMove(UINT nFlags, CPoint point);
 		void OnRButtonDown(UINT nFlags, CPoint point);
 		void OnRButtonUp(UINT nFlags, CPoint point);
+		bool invincible = false;
 
 	protected:
 		void OnMove();
@@ -102,6 +103,7 @@ namespace game_framework
 		float time = 0;
 		int day = 0;
 		int monsterState = 0;
+		bool gameover = false;
 		clock_t lastTimeClock;
 		vector<GameObject *>
 				gameObjects;
@@ -128,10 +130,10 @@ namespace game_framework
 		void OnInit();
 
 	protected:
-		void OnMove(); // 移動遊戲元素
 		void OnShow(); // 顯示這個狀態的遊戲畫面
 	private:
-		int counter; // 倒數之計數器
+		void load_background();
+		CMovingBitmap background;
 	};
 
 }
