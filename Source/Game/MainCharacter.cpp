@@ -370,7 +370,8 @@ void MainCharacter::OnFillWater(vector<GameObject*>& gameObjects)
 		->SetActive(true);
 
 	addItemToInventory(item);
-
+	delete itemTable;
+	delete item;
 }
 
 void MainCharacter::OnBarbecue(vector<GameObject*>& gameObjects)
@@ -396,6 +397,10 @@ void MainCharacter::OnBarbecue(vector<GameObject*>& gameObjects)
 
 	addItemToInventory(item);
 
+
+	delete itemTable;
+	delete item;
+
 }
 
 void MainCharacter::OnDrink(vector<GameObject*>& gameObjects)
@@ -420,6 +425,9 @@ void MainCharacter::OnDrink(vector<GameObject*>& gameObjects)
 			->SetActive(true);
 
 		addItemToInventory(item);
+
+		delete itemTable;
+		delete item;
 	}
 }
 

@@ -1,314 +1,114 @@
-# Leistungsstarkes Game Framework
-
-LGF (Leistungsstarkes Game Framework) 是一款基於陳偉凱老師的 Game Framework 加上些許功能的 Powerful Game Framework。
-
-專案不保證長期維護，有任何問題或者任何其他想要的 feature，請丟 issue，祝使用愉快 :D
-
-
-
-## Installation
-
-1. 將此專案 clone 下來
-2. 替換原有的 Game Framework / 直接使用這個 Game Framework.
-
-（基本上是相容於舊框架的，因為是基於舊框架新增更多的 feature 以及修正 bug）
-
-
-
-## Feature
-
-### 2022-03-06
-
-- 修正了 `CInteger` 的 Bug，現在可以正常呈現。
-- **半修正**了 `CMovingBitmap.showBitmap(double factor)` 的 Bug，當 `factor` 等於 `0` 時視為隱藏圖片。
-- 可以隱藏 `CMovingBitmap` 的圖片。
-- 可以讀入多個 `CMovingBitmap` 的圖片，並且選擇欲呈現的圖片。
-- 可以讀入多個 `CMovingBitmap` 的圖片，並且利用 `SetAnimation(int delay, bool once)` 來製作動畫。
-- 廢棄 `CAnimation` 的作法。
-
-### 2022-03-11
-
-- 讓 `CInteger` 可以自由顯示是否要顯示前導零。
-
-
-
-### 2022-06-17
-
-- 【New Feature】修正了全螢幕時的黑邊問題，並且會將遊戲視窗絕對置中。
-- 【New Feature】將動畫每幀的延遲加上精準時間。
-- 【New Feature】支援以 `vector<string>` 讀取每幀的畫面。
-- 【New Feature】新增了 `CTextDraw` 類別，**畫上文字時請使用這個類別的函式，全螢幕的字位移才會正確**
-- 【Bug】修正了 CMovngBitmap 在執行動畫時會出現的小 bug。
-
-
-
-### 2023-02-22
-
-- 創立了純淨版（Purified）的 Leistungsstarkes Game Framework 專案，可直接建置方案並執行。
-- 修改了檔案架構，從原先將所有的 `.cpp` 放入 `Source` 資料夾，改為在 `Source` 建立一個資料夾架構來存放 `.cpp` 檔案。
-- 修改了檔案架構，將 `/RES` 重新命名為 `Resources` 來釐清名稱。
-- 創立 `GAME_TITLE` 的定義（`#define`），使框架使用者能夠變更遊戲標題。
-- 將 `mygame.cpp` 分割成三個不同的檔案，分別實作 `GameStateInit`、`GameStateRun` 與 `GameStateOver` 的類別。
-- 重構了部分的 code 使得重複的 code 出現的次數減少。
-- 抽離遊戲設定參數至 `config.cpp`，讓使用者不須也不應更改 `/Library` 與 `/Core` 的程式碼。
-
-
-
-## Documents
-
-### void CMovingBitmap::LoadBitmap(char* , COLORREF)
-
-讀取一張圖片。
-
-```c++
-CMovingBitmap bitmap;
-bitmap.LoadBitmap("RES/bitmap.bmp", RGB(255, 255, 255));
-bitmap.SetLeftRight(0, 0);
-
-# -- on show --
-
-bitmap.ShowBitmap();
-```
-
-
-
-### void  CMovingBitmap::LoadBitmap(vector<char*>, COLORREF = CLR_INVALID);
-
-讀取多張圖片，索引值從 `0` 開始。
-
-```cpp
-CMovingBitmap bitmap;
-bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"}, RGB(255, 255, 255));
-bitmap.SetLeftRight(0, 0);
-
-# -- on show --
-
-bitmap.ShowBitmap(); // 預設呈現第一張 (index = 0)。
-```
-
-
-
-### void CMovingBitmap::UnshowBitmap()
-
-隱藏當前的 `CMovingBitmap`。
-
-```cpp
-CMovingBitmap bitmap;
-bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
-bitmap.setLeftRight(0, 0);
-
-# -- on show --
-bitmap.showBitmap(); // 預設呈現第一張 (index = 0)。
-
-/* Do something... */
-
-bitmap.UnShowBitmap(); // 隱藏圖片。
-```
-
-
-
-### void  CMovingBitmap::SelectShowBitmap(int select)
-
-選擇要呈現的 `CMovingBitmap`。
-
-```cpp
-CMovingBitmap bitmap;
-bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
-bitmap.SetLeftRight(0, 0);
-bitmap.SelectShowBitmap(1); // 設定呈現第二張圖片
-
-# -- on show --
-
-bitmap.showBitmap(); // 呈現第二張圖片
-```
-
-
-
-### void CMovingBitmap::SetAnimation(int delay, bool once)
-
-設定當前的 `CMovingBitmap` 為一個動畫。
-
-```cpp
-CMovingBitmap bitmap;
-bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
-bitmap.SetLeftRight(0, 0);
-bitmap.SelectShowBitmap(1); // 設定呈現第二張圖片
-bitmap.SetAnimation(5, false); // 無限循環呈現
-
-# -- on show --
-
-bitmap.showBitmap(); // 呈現第二張圖片
-```
-
-
-
-### void CInteger::ShowBitmap(bool leadingZero)
-
-顯示 `CInteger` 是否出現前導零。
-
-```cpp
-CInteger health = CInteger(4); //設定最大長度為 4，預設為 5。
-health.SetInteger(1000);
-health.SetTopLeft(312, 373);
-
-# -- on show --
-health.showBitmap(false); // 不顯示前導零
-```
-
-
-
-### void CMovingBitmap::LoadBitmapByString(vector\<string> filename, COLORREF color)
-
-利用 `vector<string>` 讀取多張圖片，索引值從 `0` 開始。
-
-```cpp
-CMovingBitmap bitmap;
-bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
-bitmap.setLeftRight(0, 0);
-
-# -- on show --
-bitmap.showBitmap(); // 預設呈現第一張 (index = 0)。
-
-/* Do something... */
-
-bitmap.UnShowBitmap(); // 隱藏圖片。
-```
-
-
-
-### int CMovingBitmap::GetSelectShowBitmap()
-
-獲得目前呈現的圖片索引值。
-
-
-
-### bool CMovingBitmap::IsAnimationDone()
-
-確認動畫是否正在執行，僅限於動畫正在執行 `ToggleAnimation()`。
-
-
-
-### void  CMovingBitmap::ToggleAnimation()
-
-運行動畫一次，並且使得 `IsAnimationDone()` 可用。
-
-
-
-### int CMovingBitmap::GetMovingBitmapFrame()
-
-確認這個 `CMovingBitmap` 物件有多少幀動畫。
-
-
-
-### void CTextDraw::ChangeFontLog(CDC *pDC, int size, string fontName, int weight)
-
-更改文字的樣式、文字與粗體。
-
-```cpp
-CDC *pDC = CDDraw::GetBackCDC();
-CFont *fp;
-
-pDC->SetBkMode(TRANSPARENT);
-pDC->SetTextColor(RGB(255, 255, 255));
-
-/* 變更字體，weight = 800 為粗體，500 為一般 */
-CTextDraw::ChangeFontLog(pDC, fp, 40, "Noto Sans TC", 800);
-CTextDraw::Print(pDC, 50, 50, "Hello World!");
-```
-
-
-
-### void CTextDraw::Print(CDC *pDC, int x, int y, string str)
-
-將文字呈現在指定的座標上。
-
-```cpp
-CDC *pDC = CDDraw::GetBackCDC();
-CFont *fp;
-
-pDC->SetBkMode(TRANSPARENT);
-pDC->SetTextColor(RGB(255, 255, 255));
-
-/* 變更字體 */
-CTextDraw::ChangeFontLog(pDC, fp, 40, "Noto Sans TC");
-CTextDraw::Print(pDC, 50, 50, "Hello World!");
-```
-
-
-
-
-
-
-
-## Example
-
-### 讓一個物件不停的動畫循環
-
-```cpp
-CMovingBitmap bitmap;
-
-# -- onInit --
-bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
-bitmap.SetTopLeft(0, 0);
-bitmap.SetAnimation(5, false);
-
-# -- onShow --
-
-bitmap.showBitmap();
-```
-
-
-
-### 碰到一個物件之後執行動畫
-
-```cpp
-CMovingBitmap bitmap;
-
-# -- onInit --
-
-bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
-bitmap.SetTopLeft(0, 0);
-bitmap.SetAnimation(200, false);
-
-# -- onEvent --
-bitmap.ToggleAnimation(1);
-
-# -- onShow --
-
-if(bitmap.IsAnimationDone()){
-    if (hidden_code[current_stage][i][j] == 0) {
-		bitmap.showBitmap();
-    }
-}else{
-    bitmap.showBitmap();
-}
-```
-
-
-
-### 同一個物件呈現不同圖片
-
-```cpp
-CMovingBitmap bitmap;
-
-# -- onInit --
-
-bitmap.LoadBitmap({"RES/bitmap1.bmp", "RES/bitmap2.bmp"});
-bitmap.SetTopLeft(0, 0);
-
-# -- onMove --
-bitmap.SelectShowBitmap(1)
-
-# -- onShow --
-bitmap.showBitmap();
-```
-
-
-
-
-
-## 銘謝
-
-謝謝 國立臺北科技大學 陳偉凱教授 開發了這個遊戲框架
-
-並且謝謝 國立臺北科技大學 陳碩漢教授 同意這個框架能夠公開使用。
+# Mine Survial
+## 遊戲簡介
+遊戲是平面生存類型遊戲，主要玩法與 Minecraft 極度類似，收
+集資源、合成系統、擊殺敵人並且收集食物避免餓死，尋找乾淨水資
+源避免渴死，甚至可以在這末世建立一個避難所。
+
+## 關卡設計
+遊戲設計上每 180 秒為一天，且一天為一關，白天佔 120 秒，
+晚上佔 60 秒。在晚上時每十秒會生成一波敵人，隨著天數愈大，每
+一波敵人的數量也會有明顯的提升。
+
+## 遊戲操作：
+1. W S A D 或方向鍵可以進行 前 後 左 右 移動
+2. 點擊物品欄可以選擇**手持物品**，綠色框框表示手持物品
+3. 滑鼠**左鍵**可以攻擊敵人或者破壞方塊
+4. 滑鼠**右鍵**可以吃東西或者喝水以及建築方塊
+5. 滑鼠**右鍵**點擊建築出來的合成台能開啟高級合成介面
+6. 滑鼠**右鍵**點擊建築出來的濾水器能開啟淨水合成介面
+7. 拿著生肉滑鼠**右鍵**點擊建築出來的營火能將生肉轉成熟肉
+8. 拿著空瓶子並且站在水源旁邊滑鼠**右鍵** 能裝水
+10. 拿著樹苗滑鼠**右鍵**點擊可以種樹
+11. 按住 **Ｅ** 可以打開背包
+12. 在背包中拖動物品可以調換物品位置
+13. **I** 開啟無敵外掛模式
+14. **O** 生成更多資源方塊
+15. **P** 擊殺所有敵意生物
+
+## 注意事項
+1. 遊戲中合成台的開啟，濾水器的開啟，裝水，燒肉，等等行為都必須靠近建築，否則不會有反應
+
+2. 晚上的敵人到白天不會消失（原著就是這樣設計的）
+3. 敵人會拆木頭、拆建築物
+4. 要注意一定要拿著物品(綠色框框被放在該物品欄位上)才能右鍵使用他
+
+## 遊戲方塊
+### 自然資源
+- 樹
+  - 特色：可再生資源，敵人可以攻擊破壞，能用斧頭來加入破壞
+  - 掉落物：木頭，機率掉落樹苗、機率掉落蘋果
+- 小樹
+  - 特色：會在 60 秒後轉為樹
+    可再生資源，敵人可以攻擊破壞，能用斧頭來加入破壞
+  - 掉落物：少量木頭
+- 石頭
+  - 掉落物：石頭
+- 煤炭
+  - 掉落物：少量石頭、煤炭
+- 鐵
+  - 掉落物：鐵碇
+- 水
+  - 特色：不可破壞
+- 沙子
+  - 特色：不可破壞
+
+### 人造建築
+- 合成台
+  - 掉落物：合成台
+- 營火
+  - 掉落物：營火
+- 濾水器
+  - 掉落物：濾水器
+
+## 遊戲物品
+### 自然資源
+- 木頭
+  - 獲得方法：破壞樹
+- 石頭
+  - 獲得方法：破壞石頭
+- 煤炭
+  - 獲得方法：破壞煤炭
+- 鐵碇
+  - 獲得方法：破壞鐵
+- 蘋果
+  - 獲得方法：破壞樹機率獲得
+- 樹苗
+  - 獲得方法：破壞樹機率獲得
+- 沙子
+  - 獲得方法：破壞沙子
+- 生肉
+  - 獲得方法：擊殺敵人機率獲得
+
+### 人造資源
+- 合成台
+  - 獲得方法：合成
+- 空瓶子
+  - 獲得方法：在合成台合成
+- 髒水瓶
+  - 獲得方法：手持 空瓶子 在水旁邊點右鍵
+- 淨水瓶
+  - 獲得方法：使用髒水瓶在濾水器過濾得到
+- 濾水器
+  - 獲得方法：在合成台合成
+- 營火
+  - 獲得方法：合成
+- 熟肉
+  - 獲得方法：手持 生肉 在營火旁邊點右鍵
+- 木斧
+  - 獲得方法：在合成台合成
+- 木槁
+  - 獲得方法：在合成台合成
+- 木劍
+  - 獲得方法：在合成台合成
+- 石斧
+  - 獲得方法：在合成台合成
+- 石槁
+  - 獲得方法：在合成台合成
+- 石劍
+  - 獲得方法：在合成台合成
+- 鐵斧
+  - 獲得方法：在合成台合成
+- 鐵槁
+  - 獲得方法：在合成台合成
+- 鐵劍
+  - 獲得方法：在合成台合成

@@ -26,6 +26,11 @@ GameObject::GameObject()
     id = "";
 }
 
+GameObject::~GameObject()
+{
+
+}
+
 GameObject* GameObject::Init(vector<string> _filename)
 {
     this->filename = _filename;
@@ -36,13 +41,7 @@ GameObject* GameObject::Init(vector<string> _filename)
 void GameObject::Destroy(vector<GameObject *> &gameObjects)
 {
     bitmap.UnshowBitmap();
-    for (unsigned int i = 0; i < gameObjects.size(); i++)
-    {
-        if (gameObjects[i] == this)
-        {
-            gameObjects.erase(gameObjects.begin() + i);
-        }
-    }
+    needBeDestroyed = true;
 }
 
 GameObject* GameObject::SetUI(bool _isUI)

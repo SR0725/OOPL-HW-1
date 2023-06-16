@@ -36,16 +36,22 @@ CGameStateRun::CGameStateRun(CGame* g) : CGameState(g)
 
 CGameStateRun::~CGameStateRun()
 {
+	for (unsigned int i = 0; i < gameObjects.size(); i++)
+	{
+		delete gameObjects[i];
+		gameObjects.erase(gameObjects.begin() + i);
+	}
+	for (unsigned int i = 0; i < uiObjects.size(); i++)
+	{
+		delete uiObjects[i];
+		uiObjects.erase(uiObjects.begin() + i);
+	}
+	terrian->~Terrian();
+
 }
 
 void CGameStateRun::OnInit()
 {
-	lastTimeClock = clock();
-	time = 0;
-	terrian = new Terrian(&gameObjects);
-	MountedGameObject();
-	MountedTerrian();
-	MountedUIObject();
 
 }
 
@@ -242,10 +248,16 @@ void CGameStateRun::NightGenaratedMonster()
 
 void CGameStateRun::OnBeginState()
 {
+	lastTimeClock = clock();
+	time = 0;
+	terrian = new Terrian(&gameObjects);
+	MountedGameObject();
+	MountedTerrian();
+	MountedUIObject();
 }
 
 void CGameStateRun::OnMove()
-{
+{	
 	clock_t newTimeClock = clock();
 	time += (float)(newTimeClock - lastTimeClock) / CLOCKS_PER_SEC;
 	lastTimeClock = newTimeClock;
@@ -254,10 +266,22 @@ void CGameStateRun::OnMove()
 
 	for (unsigned int i = 0; i < gameObjects.size(); i++)
 	{
+		if ((*gameObjects[i]).needBeDestroyed)
+		{
+			delete gameObjects[i];
+			gameObjects.erase(gameObjects.begin() + i);
+			continue;
+		}
 		(*gameObjects[i]).OnUpdate(pressedKeys, gameObjects, uiObjects, mouseX, mouseY);
 	}
 	for (unsigned int i = 0; i < uiObjects.size(); i++)
 	{
+		if ((*uiObjects[i]).needBeDestroyed)
+		{
+			delete uiObjects[i];
+			uiObjects.erase(uiObjects.begin() + i);
+			continue;
+		}
 		(*uiObjects[i]).OnUpdate(pressedKeys, gameObjects, uiObjects, mouseX, mouseY);
 	}
 

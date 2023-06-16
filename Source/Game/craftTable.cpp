@@ -25,6 +25,17 @@ CraftItem::CraftItem()
 	this->products = vector<ItemTable*>();
 }
 
+CraftItem::~CraftItem()
+{
+	for (auto item : this->rawMaterials) {
+		delete item;
+	}
+	for (auto item : this->products) {
+		delete item;
+	}
+}
+
+
 CraftItem* CraftItem::Init(vector<string> filename)
 {
 	GameObject::Init(filename);
@@ -230,6 +241,12 @@ void CraftItem::OnClick(vector<GameObject*>& gameObjects)
 
 
 CraftTable::CraftTable()
+{
+
+}
+
+
+CraftTable::~CraftTable()
 {
 
 }

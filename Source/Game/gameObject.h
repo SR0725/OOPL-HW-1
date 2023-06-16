@@ -5,6 +5,7 @@ namespace game_framework
     {
     public:
         GameObject();
+        ~GameObject();
 		GameObject* Init(vector<string> filename);
         void Destroy(vector<GameObject *> &gameObjects);
         GameObject* SetUI(bool);
@@ -34,6 +35,7 @@ namespace game_framework
         virtual void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY);
         virtual void OnClick(vector<GameObject*>& gameObjects);
         CMovingBitmap bitmap;
+        bool needBeDestroyed = false;
 
     protected:
         vector<string> filename;

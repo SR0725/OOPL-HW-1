@@ -20,6 +20,17 @@ ItemTable::ItemTable(string _id, string _path, float _rate, int _number) {
 	number = _number;
 }
 
+ItemsTable::~ItemsTable() {
+	for (auto item : *this->items) {
+		delete item;
+	}
+	delete this->items;
+
+	for (auto item : *this->inventoryItems) {
+		delete item;
+	}
+	delete this->inventoryItems;
+}
 
 ItemsTable::ItemsTable()
 {

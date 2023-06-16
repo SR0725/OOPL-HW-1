@@ -179,6 +179,14 @@ Terrian::Terrian(vector<GameObject*>* gameObjects)
 	}
 }
 
+Terrian::~Terrian() {
+
+	for (auto item : *this->BlocksType) {
+		delete item;
+	}
+	delete this->BlocksType;
+}
+
 bool Terrian::IsBlock(float x, float y)
 {
 	if (this->terrians[(int)(x / 48.0f)][(int)(y / 48.0f)] != 0)
@@ -504,12 +512,12 @@ Block* Block::OnDropItem(vector<GameObject*>& gameObjects)
 
 void Block::Destroy(vector<GameObject*>& gameObjects)
 {
-	GameObject::Destroy(gameObjects);
-
 	int x = (int)(this->GetX() / 48.0f);
 	int y = (int)(this->GetY() / 48.0f);
 
 	this->terrian->terrians[x][y] = 0;
+
+	GameObject::Destroy(gameObjects);
 }
 
 

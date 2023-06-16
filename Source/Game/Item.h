@@ -17,7 +17,7 @@ namespace game_framework
         vector<ItemTable*>* items = new vector<ItemTable*>();
         vector<ItemTable*>* inventoryItems = new vector<ItemTable*>();
         ItemsTable();
-
+        ~ItemsTable();
         ItemTable* GetItemById(string id);
         ItemTable* GetInventoryItemById(string id);
         vector<string> GetInventoryItemsPath();

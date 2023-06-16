@@ -7,6 +7,7 @@ namespace game_framework
 	class Terrian {
 	public:
 		Terrian(vector<GameObject*>* gameObjects);
+		~Terrian();
 		void SetBlock(float x, float y, int blockIndex);
 		bool IsBlock(float x, float y);
 		bool IsBehindWater(float x, float y);

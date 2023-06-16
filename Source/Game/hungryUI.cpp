@@ -14,6 +14,7 @@
 
 using namespace game_framework;
 
+
 HungryUI* HungryUI::Init()
 {
 	GameObject::Init({

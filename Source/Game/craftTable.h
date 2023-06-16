@@ -11,6 +11,7 @@ namespace game_framework
 	{
 	public:
 		CraftItem();
+		~CraftItem();
 		CraftItem* Init(vector<string> filename);
 		CraftItem* SetRawMaterials(vector<ItemTable*>&);
 		CraftItem* SetProducts(vector<ItemTable*>&);
@@ -39,6 +40,7 @@ namespace game_framework
 	{
 	public:
 		CraftTable();
+		~CraftTable();
 		CraftTable* Init(vector<GameObject*>& uiObjects);
 		void OnUpdate(string pressedKeys, vector<GameObject*>& gameObjects, vector<GameObject*>& uiObjects, int mouseX, int mouseY);
 		void Render(GameObject* mainObject);
